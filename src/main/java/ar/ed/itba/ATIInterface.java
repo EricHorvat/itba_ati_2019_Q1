@@ -15,6 +15,7 @@ public class ATIInterface {
 	private JLabel detailTitle;
 	private JLabel paramTitle;
 	private JPanel mainPanel;
+	private JLabel imageLabel;
 	
 	JPanel getMainPanel(){
 		return mainPanel;
@@ -30,4 +31,5 @@ public class ATIInterface {
 		fileButton.addActionListener(new FileListener(mainPanel, detailPanel));
 		filterButton.addActionListener(new FiltersListener(mainPanel, detailPanel));
 	}
+	
 }
