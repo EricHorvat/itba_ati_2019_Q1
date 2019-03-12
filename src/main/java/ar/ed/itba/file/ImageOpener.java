@@ -1,16 +1,16 @@
 package ar.ed.itba.file;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public /*abstract*/ class ImageOpener {
-	private final String filePath = "./resources/BARCO.RAW";
-	private final String infoFilePath = "./resources/BARCO.txt";
+	private final String filePath = "./resources/LENAX.RAW";
+	private final String infoFilePath = "./resources/LENA.txt";
 	
 	public BufferedImage open(){
 		try {
@@ -20,23 +20,19 @@ public /*abstract*/ class ImageOpener {
 			String[] st = br.readLine().split(",");
 			int width = Integer.parseInt(st[0]);
 			int height = Integer.parseInt(st[1]);
-			byte[][] imageMatrix = transform(imageArray,width);
+			BufferedImage image = byte2Buffered(imageArray, width,height);
 			int a = 5;
+			return image;
 		} catch (IOException e){
 			int b = 10;
 		}
 		return null;
 	}
 	
-	private static byte[][] transform(byte[] arr, int N) {
-		int M = (arr.length + N - 1) / N;
-		byte[][] mat = new byte[M][];
-		int start = 0;
-		for (int r = 0; r < M; r++) {
-			int L = Math.min(N, arr.length - start);
-			mat[r] = java.util.Arrays.copyOfRange(arr, start, start + L);
-			start += L;
-		}
-		return mat;
+	private static BufferedImage byte2Buffered(byte[] pixels, int width, int height) throws IllegalArgumentException {
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		byte[] imgData = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
+		System.arraycopy(pixels, 0, imgData, 0, pixels.length);
+		return image;
 	}
 }

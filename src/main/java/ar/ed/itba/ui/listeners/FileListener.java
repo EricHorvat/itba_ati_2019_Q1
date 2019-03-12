@@ -1,6 +1,8 @@
 package ar.ed.itba.ui.listeners;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,12 @@ public class FileListener extends ATIListener {
 		JButton button = new JButton("Open file");
 		button.addActionListener(actionEvent -> {
 			ImageOpener imageOpener = new ImageOpener();
-			imageOpener.open();
+			BufferedImage image = imageOpener.open();
+			JFrame frame = new JFrame("Image");
+			frame.getContentPane().setLayout(new FlowLayout());
+			frame.getContentPane().add(new JLabel(new ImageIcon(image)));
+			frame.pack();
+			frame.setVisible(true);
 		});
 		return button;
 	}
