@@ -21,10 +21,9 @@ public /*abstract*/ class ImageOpener {
 			int width = Integer.parseInt(st[0]);
 			int height = Integer.parseInt(st[1]);
 			BufferedImage image = byte2Buffered(imageArray, width,height);
-			int a = 5;
 			return image;
 		} catch (IOException e){
-			int b = 10;
+			/*TODO*/
 		}
 		return null;
 	}

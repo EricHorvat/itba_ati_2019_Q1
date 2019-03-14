@@ -83,3 +83,5 @@ target/generated-test-sources/
 target/
 .idea/
 *.iml
+
+assignment_doc/

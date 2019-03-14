@@ -1,11 +1,11 @@
-package ar.ed.itba;
+package ar.ed.itba.ui.frames.interfaces;
 
-import ar.ed.itba.ui.listeners.FileListener;
-import ar.ed.itba.ui.listeners.FiltersListener;
+import ar.ed.itba.ui.listeners.button.menu.FileMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.menu.FiltersMenuButtonListener;
 
 import javax.swing.*;
 
-public class ATIInterface {
+public class MainInterface {
 	private JButton fileButton;
 	private JButton basicOptionsButton;
 	private JButton filterButton;
@@ -17,19 +17,19 @@ public class ATIInterface {
 	private JPanel mainPanel;
 	private JLabel imageLabel;
 	
-	JPanel getMainPanel(){
+	public JPanel getMainPanel(){
 		return mainPanel;
 	}
 	
-	public ATIInterface(){
+	public MainInterface(){
 		setListeners();
 		detailPanel.setVisible(false);
 		paramPanel.setVisible(false);
 	}
 	
 	private void setListeners(){
-		fileButton.addActionListener(new FileListener(mainPanel, detailPanel));
-		filterButton.addActionListener(new FiltersListener(mainPanel, detailPanel));
+		fileButton.addActionListener(new FileMenuButtonListener(mainPanel, detailPanel));
+		filterButton.addActionListener(new FiltersMenuButtonListener(mainPanel, detailPanel));
 	}
 	
 }

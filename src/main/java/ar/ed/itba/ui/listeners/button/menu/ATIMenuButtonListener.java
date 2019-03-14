@@ -1,6 +1,6 @@
-package ar.ed.itba.ui.listeners;
+package ar.ed.itba.ui.listeners.button.menu;
 
-import ar.ed.itba.App;
+import ar.ed.itba.ui.frames.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,13 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public abstract class ATIListener implements ActionListener {
+public abstract class ATIMenuButtonListener implements ActionListener {
 	/*package */ abstract List<? extends JComponent> getOptions();
-	private JPanel mainPanel;
+	private JPanel originPanel;
 	private JPanel targetPanel;
 	
-	ATIListener(JPanel mainPanel, JPanel targetPanel){
-		this.mainPanel = mainPanel;
+	public ATIMenuButtonListener(JPanel originPanel, JPanel targetPanel){
+		this.originPanel = originPanel;
 		this.targetPanel = targetPanel;
 	}
 	
@@ -26,7 +26,7 @@ public abstract class ATIListener implements ActionListener {
 		getOptions().forEach(o -> targetPanel.add(o));
 		targetPanel.revalidate();
 		targetPanel.repaint();
-		App.pack();
+		MainFrame.instance().pack();
 	
 	}
 }

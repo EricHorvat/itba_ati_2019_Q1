@@ -1,12 +1,12 @@
-package ar.ed.itba.ui.listeners;
+package ar.ed.itba.ui.listeners.button.menu;
+
+import ar.ed.itba.ui.listeners.button.menu.ATIMenuButtonListener;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiltersListener extends ATIListener {
+public class FiltersMenuButtonListener extends ATIMenuButtonListener {
 	
 	private final List<JButton> options = new ArrayList<>();
 	
@@ -15,7 +15,7 @@ public class FiltersListener extends ATIListener {
 		return options;
 	}
 	
-	public FiltersListener(JPanel mainPanel, JPanel targetPanel) {
+	public FiltersMenuButtonListener(JPanel mainPanel, JPanel targetPanel) {
 		super(mainPanel, targetPanel);
 		options.add(aButton("Filter a"));
 		options.add(aButton("Filter b"));
