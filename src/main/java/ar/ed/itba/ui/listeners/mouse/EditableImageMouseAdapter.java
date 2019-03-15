@@ -1,6 +1,6 @@
 package ar.ed.itba.ui.listeners.mouse;
 
-import ar.ed.itba.ui.frames.InputImageFrame;
+import ar.ed.itba.ui.frames.EditableImageFrame;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,7 +18,7 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 		super.mouseClicked(e);
 		originX = e.getX();
 		originY = e.getY();
-		InputImageFrame.instance().showPixelInfo(originX,originY);
+		EditableImageFrame.instance().showPixelInfo(originX,originY);
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 		targetX = e.getX();
 		targetY = e.getY();
 		
-		InputImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
+		EditableImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
 		
 	}
 	
@@ -43,7 +43,7 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 		super.mouseDragged(e);
 		targetX = e.getX();
 		targetY = e.getY();
-		InputImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
+		EditableImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
 	}
 	
 	

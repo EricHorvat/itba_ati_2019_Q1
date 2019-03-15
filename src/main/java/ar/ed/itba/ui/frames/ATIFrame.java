@@ -19,5 +19,10 @@ public abstract class ATIFrame extends JFrame {
 		setVisible(true);
 	}
 	
+	public void buildAndShow(){
+		build();
+		makeShow();
+	}
+	
 	/*package*/ abstract JPanel getMainPanel();
 }

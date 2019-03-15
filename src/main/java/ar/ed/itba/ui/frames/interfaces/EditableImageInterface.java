@@ -5,10 +5,11 @@ import ar.ed.itba.ui.listeners.mouse.EditableImageMouseAdapter;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 
-public class InputImageInterface {
+public class EditableImageInterface extends ImageInterface {
 	private JLabel imageLabel;
 	private JPanel mainPanel;
 	private JLabel infoLabel;
+	private JLabel extraDataLabel;
 	
 	public JPanel getMainPanel(){
 		return mainPanel;
@@ -18,7 +19,7 @@ public class InputImageInterface {
 		return imageLabel;
 	}
 	
-	public InputImageInterface(){
+	public EditableImageInterface(){
 		setListeners();
 	}
 	
