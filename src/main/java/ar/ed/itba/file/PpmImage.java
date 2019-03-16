@@ -36,6 +36,36 @@ public class PpmImage extends PortableImage {
                 getImage()[(i * getWidth() + j) * 3 + 2]);
     }
 
+    public byte[] getRedRange() {
+        final byte[] aux = new byte[getWidth() * getHeight()];
+        final byte[] image = getImage();
+        for (int i = 0; i < getWidth() ; i++) {
+            for (int j = 0 ; j < getHeight() ; j++)
+                 aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3];
+        }
+        return aux;
+    }
+
+    public byte[] getGreenRange() {
+        final byte[] aux = new byte[getWidth() * getHeight()];
+        final byte[] image = getImage();
+        for (int i = 0; i < getWidth() ; i++) {
+            for (int j = 0 ; j < getHeight() ; j++)
+                aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 1];
+        }
+        return aux;
+    }
+
+    public byte[] getBlueRange() {
+        final byte[] aux = new byte[getWidth() * getHeight()];
+        final byte[] image = getImage();
+        for (int i = 0; i < getWidth() ; i++) {
+            for (int j = 0 ; j < getHeight() ; j++)
+                aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 2];
+        }
+        return aux;
+    }
+
     @Override
     public void setPixel(final int i, final int j, final Pixel pixel) {
         getImage()[(i * getWidth() + j) * 3] = ((RGBPixel) pixel).getRed();
