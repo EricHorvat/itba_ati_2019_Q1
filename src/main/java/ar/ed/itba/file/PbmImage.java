@@ -75,18 +75,58 @@ public class PbmImage extends PortableImage {
     }
 
     public static PbmImage createWhiteCircle(final int radius) {
+        int width = 200;
+        int height = 200;
+        int xCentered = width / 2;
+        int yCentered = height / 2;
 
-        byte[] image = new byte[200 * 200];
+        byte[] image = new byte[width * height];
 
         //image black
-        for (int i = 0 ; i < 200 ; i++) {
-            for (int j = 0 ; j < 200 ; j++)
-                image[i * 200 + j] = 1;
+        for (int i = 0 ; i < width ; i++) {
+            for (int j = 0 ; j < height ; j++)
+                image[i * width + j] = 1;
         }
-        bresenhamAlgorithm(image, 200, 100, 100, radius);
+        bresenhamAlgorithm(image, width, xCentered, yCentered, radius);
         image = compress(image);
-        return new PbmImage(image, 200, 200);
+        return new PbmImage(image, width, height);
     }
+
+    //side must be pair
+    public static PbmImage createWhiteSquare(final int side) {
+        int width = 200;
+        int height = 200;
+        int xCentered = width / 2;
+        int yCentered = height / 2;
+
+        byte[] image = new byte[width * height];
+
+        //image black
+        for (int i = 0 ; i < width ; i++) {
+            for (int j = 0 ; j < height ; j++)
+                image[i * width + j] = 1;
+        }
+
+        int x1 = xCentered + side/2;
+        for (int i = yCentered - side/2 ; i < yCentered + side/2 ; i++)
+             image[x1 * width + i] = 0;
+
+        int x2 = xCentered - side/2;
+        for (int i = yCentered - side/2 ; i < yCentered + side/2 ; i++)
+            image[x2 * width + i] = 0;
+
+        int y1 = yCentered + side/2;
+        for (int i = xCentered - side/2 ; i <= xCentered + side/2 ; i++)
+            image[i * width + y1] = 0;
+
+        int y2 = yCentered - side/2;
+        for (int i = xCentered - side/2 ; i < xCentered + side/2 ; i++)
+            image[i * width + y2] = 0;
+
+        image = compress(image);
+        return new PbmImage(image, width, height);
+    }
+
 
     private static void bresenhamAlgorithm(final byte[] image, final int width,
                                     final int x0, final int y0, final int radius) {
