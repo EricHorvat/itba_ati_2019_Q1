@@ -9,6 +9,10 @@ public class PpmImage extends PortableImage {
         super(filePath);
     }
 
+    public PpmImage(final byte[] image, final int width, final int height) {
+        super(image, width, height, BufferedImage.TYPE_3BYTE_BGR);
+    }
+
     public BufferedImage open(final String filePath) {
         return super.open(filePath, BufferedImage.TYPE_3BYTE_BGR);
     }
@@ -81,4 +85,35 @@ public class PpmImage extends PortableImage {
             array[j] = aux;
         }
     }
+
+    public static PpmImage createColorDowngrade(final RGBPixel color1, final RGBPixel color2,
+                                                final int width, final int height) {
+        final byte[] image = new byte[width * height * 3];
+        for (int i = 0 ; i < width ; i++) {
+            for (int j = 0 ; j < height ; j++) {
+                final RGBPixel aux = colorBetween(color1, color2, (double) (i * width + j) / (width * height) * 100.0);
+                image[(i * width + j) * 3] = aux.getRed();
+                image[(i * width + j) * 3 + 1] = aux.getGreen();
+                image[(i * width + j) * 3 + 2] = aux.getBlue();
+            }
+        }
+        return new PpmImage(image, width, height);
+    }
+
+    private static RGBPixel colorBetween(final RGBPixel color1, final RGBPixel color2, double percent) {
+        return new RGBPixel(
+                transitionColor(color1.getRed(), color2.getRed(), percent),
+                transitionColor(color1.getGreen(), color2.getGreen(), percent),
+                transitionColor(color1.getBlue(), color2.getBlue(), percent));
+    }
+
+    private static byte transitionColor(final byte color1, final byte color2, double percent) {
+        int unsignedC1 = (int) (color1) & 0xFF;
+        int unsignedC2 = (int) (color2) & 0xFF;
+        int c1 = (int) (unsignedC1 * percent);
+        int c2 = (int) (unsignedC2 * (100 - percent));
+        double ans =  (c1 + c2)/100.0;
+        return (byte) ((int) Math.round(ans));
+    }
+
 }
