@@ -41,6 +41,7 @@ public class Header {
     public String toString() {
         try {
             final StringBuilder sb = new StringBuilder();
+            //only binary output is supported
             sb.append(MagicNumber.getBinaryMagicNumber(magicNumber).getMagicNumber()).append("\n")
               .append(width).append("\t").append(height).append("\n");
             if (maxColors.isPresent())

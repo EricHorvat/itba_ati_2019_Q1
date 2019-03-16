@@ -31,6 +31,10 @@ public abstract class PortableImage {
         bufferedImage = open(filePath);
     }
 
+    public PortableImage(final byte[] image, final int width, final int height, final int imgType) {
+        bufferedImage = byte2Buffered(image, width, height, imgType);
+    }
+
     protected abstract BufferedImage open(final String filePath) throws IOException;
 
     protected BufferedImage open(final String filePath, final int imageType) {
