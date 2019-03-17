@@ -47,15 +47,20 @@ public class PgmImage extends PortableImage {
     public static PgmImage createGrayDowngrade(final int width, final int height) {
         final byte[] image = new byte[width * height];
         final int colors = 256;
-        final int cols = (int) Math.ceil((float) width / colors);
+        final int cols = (int) Math.ceil((float) height / colors);
         int currentColor = 255;
 
-        for (int i = 0 ; i < width ; i++) {
-            for (int j = 0 ; j < height ; j++)
+        for (int i = 0 ; i < height ; i++) {
+            for (int j = 0 ; j < width ; j++)
                 image[i * width + j] = (byte) currentColor;
             if (i % cols == 0 && i != 0)
                 currentColor--;
         }
         return new PgmImage(image, width, height);
+    }
+
+    @Override
+    protected Header generateHeader() throws Exception {
+        return new Header(MagicNumber.P5.getMagicNumber() , getWidth(), getHeight(), 255);
     }
 }

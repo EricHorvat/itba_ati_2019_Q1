@@ -31,6 +31,11 @@ public class PbmImage extends PortableImage {
     }
 
     @Override
+    protected Header generateHeader() throws Exception {
+        return new Header(MagicNumber.P4.getMagicNumber(), getWidth(), getHeight());
+    }
+
+    @Override
     public BufferedImage view() {
         negateImage(getImage());
         return getBufferedImage();
@@ -77,14 +82,14 @@ public class PbmImage extends PortableImage {
     public static PbmImage createWhiteCircle(final int radius) {
         int width = 200;
         int height = 200;
-        int xCentered = width / 2;
-        int yCentered = height / 2;
+        int yCentered = width / 2;
+        int xCentered = height / 2;
 
         byte[] image = new byte[width * height];
 
         //image black
-        for (int i = 0 ; i < width ; i++) {
-            for (int j = 0 ; j < height ; j++)
+        for (int i = 0 ; i < height ; i++) {
+            for (int j = 0 ; j < width ; j++)
                 image[i * width + j] = 1;
         }
         bresenhamAlgorithm(image, width, xCentered, yCentered, radius);
@@ -96,30 +101,30 @@ public class PbmImage extends PortableImage {
     public static PbmImage createWhiteSquare(final int side) {
         int width = 200;
         int height = 200;
-        int xCentered = width / 2;
-        int yCentered = height / 2;
+        int yCentered = width / 2;
+        int xCentered = height / 2;
 
         byte[] image = new byte[width * height];
 
         //image black
-        for (int i = 0 ; i < width ; i++) {
-            for (int j = 0 ; j < height ; j++)
+        for (int i = 0 ; i < height ; i++) {
+            for (int j = 0 ; j < width ; j++)
                 image[i * width + j] = 1;
         }
 
-        int x1 = xCentered + side/2;
+        final int x1 = xCentered + side/2;
         for (int i = yCentered - side/2 ; i < yCentered + side/2 ; i++)
-             image[x1 * width + i] = 0;
+            image[x1 * width + i] = 0;
 
-        int x2 = xCentered - side/2;
+        final int x2 = xCentered - side/2;
         for (int i = yCentered - side/2 ; i < yCentered + side/2 ; i++)
             image[x2 * width + i] = 0;
 
-        int y1 = yCentered + side/2;
+        final int y1 = yCentered + side/2;
         for (int i = xCentered - side/2 ; i <= xCentered + side/2 ; i++)
             image[i * width + y1] = 0;
 
-        int y2 = yCentered - side/2;
+        final int y2 = yCentered - side/2;
         for (int i = xCentered - side/2 ; i < xCentered + side/2 ; i++)
             image[i * width + y2] = 0;
 
@@ -129,7 +134,7 @@ public class PbmImage extends PortableImage {
 
 
     private static void bresenhamAlgorithm(final byte[] image, final int width,
-                                    final int x0, final int y0, final int radius) {
+                                           final int x0, final int y0, final int radius) {
         int x = radius-1;
         int y = 0;
         int dx = 1;
@@ -165,3 +170,4 @@ public class PbmImage extends PortableImage {
         }
     }
 }
+

@@ -5,6 +5,7 @@ import java.awt.image.DataBufferByte;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
@@ -24,11 +25,15 @@ public abstract class PortableImage {
     protected static final int RGB = 3;
 
     private final BufferedImage bufferedImage;
-    private Header header;
+    private Optional<Header> header;
     private int byteCount = 0;
 
     public PortableImage(final String filePath) throws IOException {
         bufferedImage = open(filePath);
+    }
+
+    public PortableImage(final int width, final int height, final int imgType) {
+        bufferedImage = new BufferedImage(width, height, imgType);
     }
 
     public PortableImage(final byte[] image, final int width, final int height, final int imgType) {
@@ -40,9 +45,10 @@ public abstract class PortableImage {
     protected BufferedImage open(final String filePath, final int imageType) {
         try (DataInputStream ds = new DataInputStream(new FileInputStream(filePath))) {
             if (imageType == BufferedImage.TYPE_BYTE_BINARY)
-                header = readHeader(ds, HEADERS_BITMAP);
+                header = Optional.of(readHeader(ds, HEADERS_BITMAP));
             else
-                header = readHeader(ds, HEADERS_MAX);
+                header = Optional.of(readHeader(ds, HEADERS_MAX));
+            Header header = this.header.get();
             return byte2Buffered(header.getMagicNumber().isBinary()? parseBinary(filePath):parseAscii(filePath, header),
                     header.getWidth(), header.getHeight(), imageType);
         } catch (FileNotFoundException e) {
@@ -144,10 +150,12 @@ public abstract class PortableImage {
         return bufferedImage.getHeight();
     }
 
-    public void save(final String fileName) {
+    public void save(final String fileName) throws Exception {
+        if (!header.isPresent())
+            this.header = Optional.of(generateHeader());
         try (FileOutputStream fs = new FileOutputStream(directoryOutput + fileName +
-                header.getMagicNumber().getExtension())) {
-            fs.write(header.toString().getBytes());
+                header.get().getMagicNumber().getExtension())) {
+            fs.write(header.get().toString().getBytes());
             fs.write(getImage());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -158,10 +166,11 @@ public abstract class PortableImage {
         }
     }
 
+    protected abstract Header generateHeader() throws Exception;
+
     public abstract BufferedImage view();
 
     public abstract Pixel getPixel(final int i, final int j);
 
     public abstract void setPixel(final int i, final int j, final Pixel pixel);
 }
-

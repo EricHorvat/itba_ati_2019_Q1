@@ -9,8 +9,8 @@ public class PpmImage extends PortableImage {
         super(filePath);
     }
 
-    public PpmImage(final byte[] image, final int width, final int height) {
-        super(image, width, height, BufferedImage.TYPE_3BYTE_BGR);
+    public PpmImage(final int width, final int height) {
+        super(width, height, BufferedImage.TYPE_3BYTE_BGR);
     }
 
     public BufferedImage open(final String filePath) {
@@ -43,9 +43,9 @@ public class PpmImage extends PortableImage {
     public PgmImage getRedChannel() {
         final byte[] aux = new byte[getWidth() * getHeight()];
         final byte[] image = getImage();
-        for (int i = 0; i < getWidth() ; i++) {
-            for (int j = 0 ; j < getHeight() ; j++)
-                 aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3];
+        for (int i = 0; i < getHeight() ; i++) {
+            for (int j = 0 ; j < getWidth() ; j++)
+                aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3];
         }
         return new PgmImage(aux, getWidth(), getHeight());
     }
@@ -53,8 +53,8 @@ public class PpmImage extends PortableImage {
     public PgmImage getGreenChannel() {
         final byte[] aux = new byte[getWidth() * getHeight()];
         final byte[] image = getImage();
-        for (int i = 0; i < getWidth() ; i++) {
-            for (int j = 0 ; j < getHeight() ; j++)
+        for (int i = 0; i < getHeight() ; i++) {
+            for (int j = 0 ; j < getWidth() ; j++)
                 aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 1];
         }
         return new PgmImage(aux, getWidth(), getHeight());
@@ -63,18 +63,63 @@ public class PpmImage extends PortableImage {
     public PgmImage getBlueChannel() {
         final byte[] aux = new byte[getWidth() * getHeight()];
         final byte[] image = getImage();
-        for (int i = 0; i < getWidth() ; i++) {
-            for (int j = 0 ; j < getHeight() ; j++)
+        for (int i = 0; i < getHeight() ; i++) {
+            for (int j = 0 ; j < getWidth() ; j++)
                 aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 2];
         }
         return new PgmImage(aux, getWidth(), getHeight());
     }
 
+    public PgmImage[] toHSV() {
+        final PpmImage hsv = new PpmImage(getWidth(), getHeight());
+        for (int i = 0 ; i < getHeight() ; i++) {
+            for (int j = 0 ; j < getWidth() ; j++) {
+                final RGBPixel rgbPixel = toHSV((RGBPixel) getPixel(i, j));
+                hsv.setPixel(i, j, rgbPixel);
+            }
+        }
+        return new PgmImage[] {hsv.getRedChannel(), hsv.getGreenChannel(), hsv.getBlueChannel()};
+    }
+
+    private RGBPixel toHSV(final RGBPixel rgbPixel) {
+        final int h_max = 360;
+        final int s_max = 100;
+        final int v_max = 100;
+
+        final int r = rgbPixel.getRed() & 0xFF;
+        final int g = rgbPixel.getGreen() & 0xFF;
+        final int b = rgbPixel.getBlue() & 0xFF;
+        double h;
+        double s;
+        double v;
+
+        int max = Math.max(Math.max(r,g),b);
+        int min = Math.min(Math.max(r,g),b);
+        v = max;
+        double delta = max-min;
+        s = (max != 0) ? (delta/max) : 0.0;
+        if(s == 0)
+            h = 0;
+        else {
+            if (r == max)
+                h = (g-b) / delta;
+            else if (g == max)
+                h = 2.0 + (b-r) / delta;
+            else
+                h = 4.0 + (r-g) / delta;
+            h = h * 60.0;
+            if (h < 0.0)
+                h = h + 360.0;
+        }
+        return new RGBPixel((byte) ((int)  (h / h_max * 255)), (byte) ((int) (s / s_max * 255)),
+                (byte) ((int) (v / v_max * 255)));
+    }
+
     @Override
     public void setPixel(final int i, final int j, final Pixel pixel) {
         getImage()[(i * getWidth() + j) * 3] = ((RGBPixel) pixel).getRed();
-        getImage()[(i * getWidth() + j) * 3 + 1] = ((RGBPixel) pixel).getBlue();
-        getImage()[(i * getWidth() + j) * 3 + 2] = ((RGBPixel) pixel).getGreen();
+        getImage()[(i * getWidth() + j) * 3 + 1] = ((RGBPixel) pixel).getGreen();
+        getImage()[(i * getWidth() + j) * 3 + 2] = ((RGBPixel) pixel).getBlue();
     }
 
     private void swapRB(final byte[] array) {
@@ -88,16 +133,14 @@ public class PpmImage extends PortableImage {
 
     public static PpmImage createColorDowngrade(final RGBPixel color1, final RGBPixel color2,
                                                 final int width, final int height) {
-        final byte[] image = new byte[width * height * 3];
-        for (int i = 0 ; i < width ; i++) {
-            for (int j = 0 ; j < height ; j++) {
+        final PpmImage image = new PpmImage(width, height);
+        for (int i = 0 ; i < height ; i++) {
+            for (int j = 0 ; j < width ; j++) {
                 final RGBPixel aux = colorBetween(color1, color2, (double) (i * width + j) / (width * height) * 100.0);
-                image[(i * width + j) * 3] = aux.getRed();
-                image[(i * width + j) * 3 + 1] = aux.getGreen();
-                image[(i * width + j) * 3 + 2] = aux.getBlue();
+                image.setPixel(i, j, aux);
             }
         }
-        return new PpmImage(image, width, height);
+        return image;
     }
 
     private static RGBPixel colorBetween(final RGBPixel color1, final RGBPixel color2, double percent) {
@@ -108,12 +151,17 @@ public class PpmImage extends PortableImage {
     }
 
     private static byte transitionColor(final byte color1, final byte color2, double percent) {
-        int unsignedC1 = (int) (color1) & 0xFF;
-        int unsignedC2 = (int) (color2) & 0xFF;
+        int unsignedC1 = color1 & 0xFF;
+        int unsignedC2 = color2 & 0xFF;
         int c1 = (int) (unsignedC1 * percent);
         int c2 = (int) (unsignedC2 * (100 - percent));
         double ans =  (c1 + c2)/100.0;
         return (byte) ((int) Math.round(ans));
+    }
+
+    @Override
+    protected Header generateHeader() throws Exception {
+        return new Header(MagicNumber.P6.getMagicNumber(), getWidth(), getHeight(), 255);
     }
 
 }
