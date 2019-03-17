@@ -40,34 +40,34 @@ public class PpmImage extends PortableImage {
                 getImage()[(i * getWidth() + j) * 3 + 2]);
     }
 
-    public byte[] getRedRange() {
+    public PgmImage getRedChannel() {
         final byte[] aux = new byte[getWidth() * getHeight()];
         final byte[] image = getImage();
         for (int i = 0; i < getWidth() ; i++) {
             for (int j = 0 ; j < getHeight() ; j++)
                  aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3];
         }
-        return aux;
+        return new PgmImage(aux, getWidth(), getHeight());
     }
 
-    public byte[] getGreenRange() {
+    public PgmImage getGreenChannel() {
         final byte[] aux = new byte[getWidth() * getHeight()];
         final byte[] image = getImage();
         for (int i = 0; i < getWidth() ; i++) {
             for (int j = 0 ; j < getHeight() ; j++)
                 aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 1];
         }
-        return aux;
+        return new PgmImage(aux, getWidth(), getHeight());
     }
 
-    public byte[] getBlueRange() {
+    public PgmImage getBlueChannel() {
         final byte[] aux = new byte[getWidth() * getHeight()];
         final byte[] image = getImage();
         for (int i = 0; i < getWidth() ; i++) {
             for (int j = 0 ; j < getHeight() ; j++)
                 aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 2];
         }
-        return aux;
+        return new PgmImage(aux, getWidth(), getHeight());
     }
 
     @Override
