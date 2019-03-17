@@ -1,13 +1,14 @@
 package ar.ed.itba.ui.frames.interfaces;
 
-import ar.ed.itba.ui.listeners.button.menu.FileMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.menu.FiltersMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.menu.main.FileMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.menu.main.FiltersMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.menu.main.GenerateMenuButtonListener;
 
 import javax.swing.*;
 
 public class MainInterface {
 	private JButton fileButton;
-	private JButton basicOptionsButton;
+	private JButton generateOptionsButton;
 	private JButton filterButton;
 	private JPanel menuPanel;
 	private JPanel detailPanel;
@@ -22,14 +23,25 @@ public class MainInterface {
 	}
 	
 	public MainInterface(){
-		setListeners();
 		detailPanel.setVisible(false);
 		paramPanel.setVisible(false);
 	}
 	
-	private void setListeners(){
-		fileButton.addActionListener(new FileMenuButtonListener(mainPanel, detailPanel));
-		filterButton.addActionListener(new FiltersMenuButtonListener(mainPanel, detailPanel));
+	public void setListeners(){
+		fileButton.addActionListener(new FileMenuButtonListener(detailPanel));
+		generateOptionsButton.addActionListener(new GenerateMenuButtonListener(detailPanel));
+		filterButton.addActionListener(new FiltersMenuButtonListener(detailPanel));
 	}
 	
+	public JPanel getMenuPanel() {
+		return menuPanel;
+	}
+	
+	public JPanel getDetailPanel() {
+		return detailPanel;
+	}
+	
+	public JPanel getParamPanel() {
+		return paramPanel;
+	}
 }

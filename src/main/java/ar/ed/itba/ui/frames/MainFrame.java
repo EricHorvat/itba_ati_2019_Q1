@@ -15,6 +15,7 @@ public class MainFrame extends ATIFrame {
 	public static MainFrame instance() {
 		if (instance == null) {
 			instance = new MainFrame();
+			instance.anInterface.setListeners();
 		}
 		return instance;
 	}
@@ -22,5 +23,13 @@ public class MainFrame extends ATIFrame {
 	@Override
 	JPanel getMainPanel() {
 		return anInterface.getMainPanel();
+	}
+	
+	public JPanel getDetailPanel(){
+		return anInterface.getDetailPanel();
+	}
+	
+	public JPanel getParamPanel(){
+		return anInterface.getParamPanel();
 	}
 }

@@ -9,12 +9,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public abstract class ATIMenuButtonListener implements ActionListener {
-	/*package */ abstract List<? extends JComponent> getOptions();
-	private JPanel originPanel;
 	private JPanel targetPanel;
 	
-	public ATIMenuButtonListener(JPanel originPanel, JPanel targetPanel){
-		this.originPanel = originPanel;
+	public abstract List<? extends JComponent> getOptions();
+	
+	public ATIMenuButtonListener(JPanel targetPanel){
 		this.targetPanel = targetPanel;
 	}
 	

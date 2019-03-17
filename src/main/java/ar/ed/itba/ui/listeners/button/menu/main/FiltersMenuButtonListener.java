@@ -1,4 +1,4 @@
-package ar.ed.itba.ui.listeners.button.menu;
+package ar.ed.itba.ui.listeners.button.menu.main;
 
 import ar.ed.itba.ui.frames.FrameFactory;
 import ar.ed.itba.ui.frames.ImageFrame;
@@ -16,12 +16,12 @@ public class FiltersMenuButtonListener extends ATIMenuButtonListener {
 	private final List<JButton> options = new ArrayList<>();
 	
 	@Override
-	List<JButton> getOptions() {
+	public List<JButton> getOptions() {
 		return options;
 	}
 	
-	public FiltersMenuButtonListener(JPanel mainPanel, JPanel targetPanel) {
-		super(mainPanel, targetPanel);
+	public FiltersMenuButtonListener(JPanel targetPanel) {
+		super(targetPanel);
 		options.add(aButton("Filter a"));
 		options.add(aButton("Filter b"));
 	}

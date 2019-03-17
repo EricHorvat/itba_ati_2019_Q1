@@ -1,5 +1,7 @@
 package ar.ed.itba.ui.components;
 
+import ar.ed.itba.ui.listeners.button.GenerateCircleButtonListener;
+import ar.ed.itba.ui.listeners.button.GenerateSquareButtonListener;
 import ar.ed.itba.ui.listeners.button.OpenFileButtonListener;
 
 import javax.swing.*;
@@ -13,4 +15,17 @@ public class ButtonFactory {
 		button.addActionListener(new OpenFileButtonListener());
 		return button;
 	}
+	
+	public static JButton generateCircleButton(JTextField radiusField){
+		JButton button = new JButton("Generate Circle");
+		button.addActionListener(new GenerateCircleButtonListener(radiusField));
+		return button;
+	}
+	
+	public static JButton generateSquareButton(JTextField sideField){
+		JButton button = new JButton("Generate Square");
+		button.addActionListener(new GenerateSquareButtonListener(sideField));
+		return button;
+	}
+	
 }

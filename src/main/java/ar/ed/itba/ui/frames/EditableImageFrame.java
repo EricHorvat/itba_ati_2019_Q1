@@ -15,6 +15,7 @@ public class EditableImageFrame extends ImageFrame {
 	public static EditableImageFrame instance() {
 		if (instance == null) {
 			instance = new EditableImageFrame();
+			/*instance.setListeners()*/
 		}
 		return instance;
 	}
