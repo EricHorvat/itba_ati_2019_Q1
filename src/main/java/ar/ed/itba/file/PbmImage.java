@@ -37,8 +37,7 @@ public class PbmImage extends PortableImage {
 
     @Override
     public BufferedImage view() {
-        negateImage(getImage());
-        return getBufferedImage();
+        return new PbmImage(negateImage(getImage()), getWidth(), getHeight()).getBufferedImage();
     }
 
     @Override
@@ -62,9 +61,11 @@ public class PbmImage extends PortableImage {
             getImage()[arrayPosition] = (byte) (pixelByte & ~(1 << offset));
     }
 
-    private void negateImage(final byte[] aux) {
+    private byte[] negateImage(final byte[] image) {
+        final byte[] aux = new byte[image.length];
         for (int i = 0 ; i < aux.length ; i++)
-            aux[i] = (byte) ~aux[i];
+            aux[i] = (byte) ~image[i];
+        return aux;
     }
 
     private static byte[] compress(final byte[] bytes) {
@@ -141,8 +142,7 @@ public class PbmImage extends PortableImage {
         int dy = 1;
         int err = dx - (radius << 1);
 
-        while (x >= y)
-        {
+        while (x >= y) {
             image[(x0 + x) * width + y0 + y] = 0;
             image[(x0 + y) * width + y0 + x] = 0;
             image[(x0 - y) * width + y0 + x] = 0;
@@ -153,16 +153,12 @@ public class PbmImage extends PortableImage {
             image[(x0 + y) * width + y0 - x] = 0;
             image[(x0 + x) * width + y0 - y] = 0;
 
-
-            if (err <= 0)
-            {
+            if (err <= 0) {
                 y++;
                 err += dy;
                 dy += 2;
             }
-
-            else if (err > 0)
-            {
+            else if (err > 0) {
                 x--;
                 dx += 2;
                 err += dx - (radius << 1);

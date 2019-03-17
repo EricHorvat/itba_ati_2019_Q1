@@ -13,6 +13,10 @@ public class PpmImage extends PortableImage {
         super(width, height, BufferedImage.TYPE_3BYTE_BGR);
     }
 
+    public PpmImage(byte[] image, int width, int height) {
+        super(image, width, height, BufferedImage.TYPE_3BYTE_BGR);
+    }
+
     public BufferedImage open(final String filePath) {
         return super.open(filePath, BufferedImage.TYPE_3BYTE_BGR);
     }
@@ -30,8 +34,7 @@ public class PpmImage extends PortableImage {
 
     @Override
     public BufferedImage view() {
-        swapRB(getImage());
-        return getBufferedImage();
+        return new PpmImage(swapRB(getImage()), getWidth(), getHeight()).getBufferedImage();
     }
 
     @Override
@@ -122,13 +125,16 @@ public class PpmImage extends PortableImage {
         getImage()[(i * getWidth() + j) * 3 + 2] = ((RGBPixel) pixel).getBlue();
     }
 
-    private void swapRB(final byte[] array) {
+    private byte[] swapRB(final byte[] image) {
         //swap red coordinate with blue
-        for (int i = 0, j = 2 ; j < array.length ; i += 3, j = i + 2) {
-            byte aux = array[i];
-            array[i] = array[j];
-            array[j] = aux;
+        final byte[] aux = new byte[image.length];
+        for (int i = 0, j = 2 ; j < image.length ; i += 3, j = i + 2) {
+            byte aux2 = image[i];
+            aux[i] = image[j];
+            aux[i+1] = image[i+1];
+            aux[j] = aux2;
         }
+        return aux;
     }
 
     public static PpmImage createColorDowngrade(final RGBPixel color1, final RGBPixel color2,
