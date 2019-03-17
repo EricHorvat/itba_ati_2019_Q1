@@ -1,9 +1,7 @@
 package ar.ed.itba.file;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
