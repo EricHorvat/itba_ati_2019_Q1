@@ -24,11 +24,7 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		super.mouseReleased(e);
-		targetX = e.getX();
-		targetY = e.getY();
-		
-		EditableImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
-		
+		showRegionInfo(e);
 	}
 	
 	@Override
@@ -41,10 +37,15 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		super.mouseDragged(e);
-		targetX = e.getX();
-		targetY = e.getY();
-		EditableImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
+		showRegionInfo(e);
 	}
 	
+	private void showRegionInfo(MouseEvent e) {
+		targetX = e.getX();
+		targetY = e.getY();
+		if (originY != targetY && originX != targetX){
+			EditableImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
+		}
+	}
 	
 }

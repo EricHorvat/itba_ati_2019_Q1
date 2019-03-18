@@ -1,7 +1,6 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.image;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.Optional;
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 
-public abstract class PortableImage {
+public abstract class PortableImage extends ATIImage {
     private static final int HEADERS_MAX = 4;
     private static final int HEADERS_BITMAP = 3;
     private static final int MAGIC_NUMBER_INDEX = 0;
@@ -24,24 +23,21 @@ public abstract class PortableImage {
     protected static final int BIN = 1;
     protected static final int RGB = 3;
 
-    private final BufferedImage bufferedImage;
     private Optional<Header> header;
     private int byteCount = 0;
 
     public PortableImage(final String filePath) throws IOException {
-        bufferedImage = open(filePath);
+        super(filePath);
     }
 
     public PortableImage(final int width, final int height, final int imgType) {
-        bufferedImage = new BufferedImage(width, height, imgType);
+        super(new BufferedImage(width, height, imgType));
     }
 
     public PortableImage(final byte[] image, final int width, final int height, final int imgType) {
-        bufferedImage = byte2Buffered(image, width, height, imgType);
+        super(byte2Buffered(image, width, height, imgType));
     }
-
-    protected abstract BufferedImage open(final String filePath) throws IOException;
-
+    
     protected BufferedImage open(final String filePath, final int imageType) {
         try (DataInputStream ds = new DataInputStream(new FileInputStream(filePath))) {
             if (imageType == BufferedImage.TYPE_BYTE_BINARY)
@@ -95,13 +91,6 @@ public abstract class PortableImage {
         return byteCount;
     }
 
-    protected static BufferedImage byte2Buffered(byte[] pixels, int width, int height, final int imageType) throws IllegalArgumentException {
-        BufferedImage image = new BufferedImage(width, height, imageType);
-        byte[] imgData = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
-        System.arraycopy(pixels, 0, imgData, 0, pixels.length);
-        return image;
-    }
-
     protected byte[] parseBinary(final String filePath) throws IOException {
         final BufferedInputStream bs = new BufferedInputStream(new FileInputStream(filePath));
         bs.skip(getByteCount());
@@ -133,23 +122,7 @@ public abstract class PortableImage {
     }
 
     protected abstract byte[] parseAscii(final String filePath, final Header header) throws IOException;
-
-    protected BufferedImage getBufferedImage() {
-        return bufferedImage;
-    }
-
-    public byte[] getImage() {
-        return ((DataBufferByte)bufferedImage.getRaster().getDataBuffer()).getData();
-    }
-
-    public int getWidth() {
-        return bufferedImage.getWidth();
-    }
-
-    public int getHeight() {
-        return bufferedImage.getHeight();
-    }
-
+    
     public void save(final String fileName) throws Exception {
         if (!header.isPresent())
             this.header = Optional.of(generateHeader());
@@ -168,9 +141,4 @@ public abstract class PortableImage {
 
     protected abstract Header generateHeader() throws Exception;
 
-    public abstract BufferedImage view();
-
-    public abstract Pixel getPixel(final int i, final int j);
-
-    public abstract void setPixel(final int i, final int j, final Pixel pixel);
 }

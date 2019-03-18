@@ -1,6 +1,12 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.image;
 
+import ar.ed.itba.file.pixel.GrayPixel;
+import ar.ed.itba.file.pixel.Pixel;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
 import java.io.*;
 
 
@@ -62,5 +68,40 @@ public class PgmImage extends PortableImage {
     @Override
     protected Header generateHeader() throws Exception {
         return new Header(MagicNumber.P5.getMagicNumber() , getWidth(), getHeight(), 255);
+    }
+    
+    @Override
+    public String getPixelInfo(int i, int j) {
+        return "Gray level: " + (getBufferedImage().getRGB(i,j) & 0xFF);
+    }
+    
+    @Override
+    public String getRegionInfo(int oi, int oj, int ti, int tj) {
+        if(oi > ti){
+            int q = ti;
+            ti = oi;
+            oi = q;
+        }
+        if(oj > tj){
+            int q = tj;
+            tj = oj;
+            oj = q;
+        }
+        Raster raster = getBufferedImage().getData(new Rectangle(oi,oj,ti-oi,tj-oj));
+        return "Avg : " + getAverage(((DataBufferByte)raster.getDataBuffer()).getData());
+    }
+    
+    private byte getAverage(byte[] byteArray){
+    
+        /*int len = byteArray.length;
+        if (len == 2) {
+            int a = byteArray[0] + byteArray[1];
+            return a / 2;
+        }
+        
+        byte a[] = Arrays.copyOfRange(byteArray, 0, len/2);
+        byte b[] = Arrays.copyOfRange(byteArray, len/2, len);*/
+        
+        return 0;
     }
 }

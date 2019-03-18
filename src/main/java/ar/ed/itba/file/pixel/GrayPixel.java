@@ -1,4 +1,4 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.pixel;
 
 public class GrayPixel extends Pixel {
     private final byte gray;

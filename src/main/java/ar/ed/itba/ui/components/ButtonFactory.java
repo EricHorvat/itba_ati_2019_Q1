@@ -10,9 +10,9 @@ public class ButtonFactory {
 	private ButtonFactory() {
 	}
 	
-	public static JButton openFileButton(){
+	public static JButton openFileButton(JTextField filePathField){
 		JButton button = new JButton("Open file");
-		button.addActionListener(new OpenFileButtonListener());
+		button.addActionListener(new OpenFileButtonListener(filePathField));
 		return button;
 	}
 	

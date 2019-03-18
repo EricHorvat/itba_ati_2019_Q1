@@ -1,4 +1,7 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.image;
+
+import ar.ed.itba.file.pixel.Pixel;
+import ar.ed.itba.file.pixel.RGBPixel;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -169,5 +172,14 @@ public class PpmImage extends PortableImage {
     protected Header generateHeader() throws Exception {
         return new Header(MagicNumber.P6.getMagicNumber(), getWidth(), getHeight(), 255);
     }
-
+    
+    @Override
+    public String getPixelInfo(int i, int j) {
+        return null;
+    }
+    
+    @Override
+    public String getRegionInfo(int oi, int oj, int ti, int tj) {
+        return null;
+    }
 }

@@ -1,6 +1,11 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.image;
 
+import ar.ed.itba.file.pixel.BitPixel;
+import ar.ed.itba.file.pixel.Pixel;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.io.IOException;
 
 public class PbmImage extends PortableImage {
@@ -164,6 +169,17 @@ public class PbmImage extends PortableImage {
                 err += dx - (radius << 1);
             }
         }
+    }
+    
+    @Override
+    public String getPixelInfo(int i, int j) {
+        return "Gray level: " + (getBufferedImage().getRGB(i,j) & 0xFF);
+    }
+    
+    @Override
+    public String getRegionInfo(int oi, int oj, int ti, int tj) {
+        Raster r = getBufferedImage().getData(new Rectangle(oi,oj,ti-oi,tj-oj));
+        return null;
     }
 }
 

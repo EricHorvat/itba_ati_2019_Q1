@@ -1,4 +1,4 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.image;
 
 import java.util.Optional;
 

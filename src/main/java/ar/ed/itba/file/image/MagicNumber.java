@@ -1,4 +1,4 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.image;
 
 public enum MagicNumber {
     P1("P1", false, ".pbm"),

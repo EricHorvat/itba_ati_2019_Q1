@@ -1,14 +1,13 @@
 package ar.ed.itba.ui.frames;
 
-import ar.ed.itba.ui.frames.interfaces.EditableImageInterface;
+import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.ui.frames.interfaces.ImageInterface;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
 
 public abstract class ImageFrame extends ATIFrame {
 	
-	/*package*/ BufferedImage image;
+	/*package*/ ATIImage atiImage;
 	/*package*/ final ImageInterface anInterface;
 	
 	ImageFrame(String text, ImageInterface anInterface){
@@ -16,15 +15,19 @@ public abstract class ImageFrame extends ATIFrame {
 		this.anInterface = anInterface;
 	}
 	
-	public void setImage(BufferedImage image) {
-		this.image = image;
+	public void setAtiImage(ATIImage atiImage) {
+		this.atiImage = atiImage;
+	}
+	
+	public ATIImage getAtiImage() {
+		return atiImage;
 	}
 	
 	@Override
 	public void build(){
-		if (image != null) {
+		if (atiImage != null) {
 			super.build();
-			anInterface.getImageLabel().setIcon(new ImageIcon(image));
+			anInterface.getImageLabel().setIcon(new ImageIcon(atiImage.getBufferedImage()));
 		} else {
 			/*TODO THROW EXCEPTION*/
 		}

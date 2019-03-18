@@ -36,7 +36,7 @@ public class FiltersMenuButtonListener extends ATIMenuButtonListener {
 			for(int count = 0; count < random.nextInt(60000); count++){
 				image.setRGB(random.nextInt(250), random.nextInt(250), random.nextInt(0xFFFFFF));
 			}
-			FrameFactory.fixedImageFrame("originalImage", image).buildAndShow();
+			//FrameFactory.fixedImageFrame("originalImage", image).buildAndShow();
 			/*REMOVE*/
 		});
 		return button;

@@ -1,25 +1,33 @@
 package ar.ed.itba.ui.listeners.button;
 
+import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.ImageOpener;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.ui.frames.FrameFactory;
-import ar.ed.itba.ui.frames.ImageFrame;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 public class OpenFileButtonListener implements ActionListener {
+	
+	private final JTextField filePathField;
+	
+	public OpenFileButtonListener(JTextField filePathField) {
+		this.filePathField = filePathField;
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		ImageOpener imageOpener = new ImageOpener();
-		BufferedImage image = imageOpener.open();
+		ATIImage image = imageOpener.open(filePathField.getText());
 		
-		EditableImageFrame inputImageFrame = EditableImageFrame.instance();
-		inputImageFrame.setImage(image);
-		inputImageFrame.buildAndShow();
-		
-		FrameFactory.fixedImageFrame("originalImage", image).buildAndShow();
+		if(image != null){
+			EditableImageFrame inputImageFrame = EditableImageFrame.instance();
+			inputImageFrame.setAtiImage(image);
+			inputImageFrame.buildAndShow();
+			
+			FrameFactory.fixedImageFrame("originalImage", image).buildAndShow();
+		}
 	}
 }

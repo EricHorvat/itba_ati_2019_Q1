@@ -1,4 +1,4 @@
-package ar.ed.itba.file;
+package ar.ed.itba.file.pixel;
 
 public class BitPixel extends Pixel {
     private byte bit;
