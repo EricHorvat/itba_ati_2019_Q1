@@ -2,6 +2,7 @@ package ar.ed.itba.file.image;
 
 import ar.ed.itba.file.pixel.Pixel;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public abstract class ATIImage {
 	
 	public abstract String getPixelInfo(final int i, final int j);
 	
-	public abstract String getRegionInfo(final int oi, final int oj, final int ti, final int tj);
+	public abstract String getRegionInfo(final int oi, final int oj, final int w, final int h);
 	
 	/* Methods */
 	
@@ -60,6 +61,38 @@ public abstract class ATIImage {
 		return image;
 	}
 	
+	/*
+	 * Where bi is your image, (x0,y0) is your upper left coordinate, and (w,h)
+	 * are your width and height respectively
+	 */
+	public Color averageColor(int x0, int y0, int w, int h) {
+		return ATIImage.averageColor(getBufferedImage(),x0, y0, w, h);
+	}
 	
-	
+	/*
+	 * Where bi is your image, (x0,y0) is your upper left coordinate, and (w,h)
+	 * are your width and height respectively
+	 */
+	public static Color averageColor(BufferedImage bi, int x0, int y0, int w, int h) {
+		int x1 = x0 + w;
+		int y1 = y0 + h;
+		long sumR = 0, sumG = 0, sumB = 0;
+		long sumr = 0, sumg = 0, sumb = 0;
+		for (int x = x0; x < x1; x++) {
+			for (int y = y0; y < y1; y++) {
+				Color pixel = new Color(bi.getRGB(x, y));
+				sumr += pixel.getRed();
+				sumg += pixel.getGreen();
+				sumb += pixel.getBlue();
+			}
+			sumR += sumr;
+			sumG += sumg;
+			sumB += sumb;
+			sumr = 0;
+			sumg = 0;
+			sumb = 0;
+		}
+		int num = w * h;
+		return new Color((int)(sumR / num), (int)(sumG / num), (int)(sumB / num));
+	}
 }

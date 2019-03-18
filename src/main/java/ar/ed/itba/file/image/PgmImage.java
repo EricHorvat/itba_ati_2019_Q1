@@ -72,36 +72,13 @@ public class PgmImage extends PortableImage {
     
     @Override
     public String getPixelInfo(int i, int j) {
-        return "Gray level: " + (getBufferedImage().getRGB(i,j) & 0xFF);
+        return "Gray level: " + (new Color(getBufferedImage().getRGB(i,j)).getBlue());
     }
     
     @Override
-    public String getRegionInfo(int oi, int oj, int ti, int tj) {
-        if(oi > ti){
-            int q = ti;
-            ti = oi;
-            oi = q;
-        }
-        if(oj > tj){
-            int q = tj;
-            tj = oj;
-            oj = q;
-        }
-        Raster raster = getBufferedImage().getData(new Rectangle(oi,oj,ti-oi,tj-oj));
-        return "Avg : " + getAverage(((DataBufferByte)raster.getDataBuffer()).getData());
+    public String getRegionInfo(int oi, int oj, int w, int h) {
+	    Color c = averageColor(oi, oj, w, h);
+	    return "Region average : " + c.getBlue();
     }
     
-    private byte getAverage(byte[] byteArray){
-    
-        /*int len = byteArray.length;
-        if (len == 2) {
-            int a = byteArray[0] + byteArray[1];
-            return a / 2;
-        }
-        
-        byte a[] = Arrays.copyOfRange(byteArray, 0, len/2);
-        byte b[] = Arrays.copyOfRange(byteArray, len/2, len);*/
-        
-        return 0;
-    }
 }

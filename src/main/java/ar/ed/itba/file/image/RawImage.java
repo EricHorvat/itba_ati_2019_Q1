@@ -3,6 +3,7 @@ package ar.ed.itba.file.image;
 import ar.ed.itba.file.pixel.GrayPixel;
 import ar.ed.itba.file.pixel.Pixel;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,14 +46,15 @@ public class RawImage extends ATIImage {
     public void setPixel(final int i, final int j, final Pixel pixel) {
         getImage()[i * getWidth() + j] = ((GrayPixel) pixel).getGray();
     }
-    
-    @Override
-    public String getPixelInfo(int i, int j) {
-        return null;
-    }
-    
-    @Override
-    public String getRegionInfo(int oi, int oj, int ti, int tj) {
-        return null;
-    }
+	
+	@Override
+	public String getPixelInfo(int i, int j) {
+		return "Gray level: " + (new Color(getBufferedImage().getRGB(i,j)).getBlue());
+	}
+	
+	@Override
+	public String getRegionInfo(int oi, int oj, int w, int h) {
+		Color c = averageColor(oi, oj, w, h);
+		return "Region average : " + c.getBlue();
+	}
 }

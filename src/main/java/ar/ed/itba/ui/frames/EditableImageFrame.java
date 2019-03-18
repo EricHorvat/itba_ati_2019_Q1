@@ -25,12 +25,23 @@ public class EditableImageFrame extends ImageFrame {
 	}
 	
 	public void showRegionInfo(int oX, int oY, int tX, int tY) {
-		((EditableImageInterface)this.anInterface).setInfo("TODO, pos " + oX + " " + oY + " " + tX + " " + tY + " " + atiImage.getRegionInfo(oX, oY, tX, tY));
+		int x0,y0,w,h;
+		if(oX > tX){
+			x0 = tX; w = oX-tX;
+		} else {
+			x0 = oX; w = tX-oX;
+		}
+		if(oY > tY){
+			y0 = tY; h = oY-tY;
+		} else {
+			y0 = oY; h = tY-oY;
+		}
+		((EditableImageInterface)this.anInterface).setInfo("oX: " + oX + " oY: " + oY + " tX: " + tX + " tY: " + tY + " " + atiImage.getRegionInfo(x0, y0, w, h));
 		pack();
 	}
 	
 	public void showPixelInfo(int oX, int oY) {
-		((EditableImageInterface)this.anInterface).setInfo("TODO pos " + oX + " " + oY + " " + atiImage.getPixelInfo(oX, oY));
+		((EditableImageInterface)this.anInterface).setInfo("X: " + oX + " Y: " + oY + " " + atiImage.getPixelInfo(oX, oY));
 		pack();
 	}
 }

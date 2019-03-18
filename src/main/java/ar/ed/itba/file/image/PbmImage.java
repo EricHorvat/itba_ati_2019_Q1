@@ -170,16 +170,16 @@ public class PbmImage extends PortableImage {
             }
         }
     }
-    
-    @Override
-    public String getPixelInfo(int i, int j) {
-        return "Gray level: " + (getBufferedImage().getRGB(i,j) & 0xFF);
-    }
-    
-    @Override
-    public String getRegionInfo(int oi, int oj, int ti, int tj) {
-        Raster r = getBufferedImage().getData(new Rectangle(oi,oj,ti-oi,tj-oj));
-        return null;
-    }
+	
+	@Override
+	public String getPixelInfo(int i, int j) {
+		return "Gray level: " + (new Color(getBufferedImage().getRGB(i,j)).getBlue());
+	}
+	
+	@Override
+	public String getRegionInfo(int oi, int oj, int w, int h) {
+		Color c = averageColor(oi, oj, w, h);
+		return "Region average : " + c.getBlue();
+	}
 }
 

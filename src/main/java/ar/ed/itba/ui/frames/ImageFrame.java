@@ -30,6 +30,7 @@ public abstract class ImageFrame extends ATIFrame {
 			anInterface.getImageLabel().setIcon(new ImageIcon(atiImage.getBufferedImage()));
 		} else {
 			/*TODO THROW EXCEPTION*/
+			throw new RuntimeException("ATI IMAGE IS NULL");
 		}
 	}
 	
