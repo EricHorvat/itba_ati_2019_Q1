@@ -21,6 +21,8 @@ public class GenerateMenuButtonListener extends ATIMenuButtonListener {
 		super(targetPanel);
 		options.add(MenuButtonFactory.generateCircleMenuButton());
 		options.add(MenuButtonFactory.generateSquareMenuButton());
+		options.add(MenuButtonFactory.generateGrayDegradeMenuButton());
+		options.add(MenuButtonFactory.generateColorDegradeMenuButton());
 	}
 	
 }

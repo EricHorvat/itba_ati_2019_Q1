@@ -1,9 +1,7 @@
 package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.frames.MainFrame;
-import ar.ed.itba.ui.listeners.button.menu.generate.GenerateCircleMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.menu.generate.GenerateSquareMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.menu.generate.OpenMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.menu.generate.*;
 
 import javax.swing.*;
 
@@ -26,6 +24,18 @@ public class MenuButtonFactory {
 	public static JButton generateSquareMenuButton(){
 		JButton button = new JButton("Generate Square");
 		button.addActionListener(new GenerateSquareMenuButtonListener(MainFrame.instance().getParamPanel()));
+		return button;
+	}
+	
+	public static JButton generateGrayDegradeMenuButton(){
+		JButton button = new JButton("Generate Gray Degrade");
+		button.addActionListener(new GenerateGrayDegradeMenuButtonListener(MainFrame.instance().getParamPanel()));
+		return button;
+	}
+	
+	public static JButton generateColorDegradeMenuButton(){
+		JButton button = new JButton("Generate Color Degrade");
+		button.addActionListener(new GenerateColorDegradeMenuButtonListener(MainFrame.instance().getParamPanel()));
 		return button;
 	}
 	
