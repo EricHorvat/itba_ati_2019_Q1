@@ -12,15 +12,15 @@ import java.io.IOException;
 public class PpmImage extends PortableImage {
 
     public PpmImage(final String filePath) throws IOException {
-        super(filePath);
+        super(filePath, ImageMode.COLOR);
     }
 
     public PpmImage(final int width, final int height) {
-        super(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        super(width, height, BufferedImage.TYPE_3BYTE_BGR, ImageMode.COLOR);
     }
 
     public PpmImage(byte[] image, int width, int height) {
-        super(image, width, height, BufferedImage.TYPE_3BYTE_BGR);
+        super(image, width, height, BufferedImage.TYPE_3BYTE_BGR, ImageMode.COLOR);
     }
 
     public BufferedImage open(final String filePath) {

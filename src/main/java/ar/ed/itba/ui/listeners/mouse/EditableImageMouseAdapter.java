@@ -19,6 +19,7 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 		originX = e.getX();
 		originY = e.getY();
 		EditableImageFrame.instance().showPixelInfo(originX,originY);
+		EditableImageFrame.instance().noRegion();
 	}
 	
 	@Override
@@ -45,7 +46,23 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 		targetY = e.getY();
 		if (originY != targetY && originX != targetX){
 			EditableImageFrame.instance().showRegionInfo(originX,originY,targetX,targetY);
+			EditableImageFrame.instance().region(originX, originY, targetX, targetY);
 		}
 	}
 	
+	public int getOriginX() {
+		return originX;
+	}
+	
+	public int getOriginY() {
+		return originY;
+	}
+	
+	public int getTargetX() {
+		return targetX;
+	}
+	
+	public int getTargetY() {
+		return targetY;
+	}
 }

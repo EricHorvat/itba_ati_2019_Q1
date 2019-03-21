@@ -10,6 +10,7 @@ public class EditableImageInterface extends ImageInterface {
 	private JPanel mainPanel;
 	private JLabel infoLabel;
 	private JLabel extraDataLabel;
+	private EditableImageMouseAdapter mouseAdapter;
 	
 	public JPanel getMainPanel(){
 		return mainPanel;
@@ -24,9 +25,9 @@ public class EditableImageInterface extends ImageInterface {
 	}
 	
 	private void setListeners(){
-		MouseAdapter m = new EditableImageMouseAdapter();
-		imageLabel.addMouseListener(m);
-		imageLabel.addMouseMotionListener(m);
+		mouseAdapter = new EditableImageMouseAdapter();
+		imageLabel.addMouseListener(mouseAdapter);
+		imageLabel.addMouseMotionListener(mouseAdapter);
 		//fileButton.addActionListener(new FileMenuButtonListener(mainPanel, detailPanel));
 		//filterButton.addActionListener(new FiltersMenuButtonListener(mainPanel, detailPanel));
 	}
@@ -35,4 +36,7 @@ public class EditableImageInterface extends ImageInterface {
 		infoLabel.setText(s);
 	}
 	
+	public EditableImageMouseAdapter getEditableMouseAdapter() {
+		return mouseAdapter;
+	}
 }

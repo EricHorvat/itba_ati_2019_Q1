@@ -2,6 +2,7 @@ package ar.ed.itba.ui.frames;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.ui.frames.interfaces.ImageInterface;
+import ar.ed.itba.utils.Region;
 
 import javax.swing.*;
 
@@ -27,7 +28,7 @@ public abstract class ImageFrame extends ATIFrame {
 	public void build(){
 		if (atiImage != null) {
 			super.build();
-			anInterface.getImageLabel().setIcon(new ImageIcon(atiImage.getBufferedImage()));
+			updateImage();
 		} else {
 			/*TODO THROW EXCEPTION*/
 			throw new RuntimeException("ATI IMAGE IS NULL");
@@ -38,4 +39,22 @@ public abstract class ImageFrame extends ATIFrame {
 	JPanel getMainPanel() {
 		return anInterface.getMainPanel();
 	}
+	
+	public ImageInterface getInterface() {
+		return anInterface;
+	}
+	
+	public void updateImage(){
+		anInterface.getImageLabel().setIcon(new ImageIcon(isRegionated()?atiImage.regionatedView(getRegion()):atiImage.view()));
+	}
+	
+	@Override
+	public void pack() {
+		updateImage();
+		super.pack();
+	}
+	
+	public abstract boolean isRegionated();
+	
+	public abstract Region getRegion();
 }

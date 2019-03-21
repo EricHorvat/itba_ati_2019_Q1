@@ -4,6 +4,7 @@ import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.ImageOpener;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.ui.frames.FrameFactory;
+import ar.ed.itba.ui.frames.OriginalImageFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,9 @@ public class OpenFileButtonListener implements ActionListener {
 			inputImageFrame.setAtiImage(image);
 			inputImageFrame.buildAndShow();
 			
-			FrameFactory.fixedImageFrame("originalImage", image).buildAndShow();
+			OriginalImageFrame originalImageFrame = OriginalImageFrame.instance();
+			originalImageFrame.setAtiImage(image);
+			originalImageFrame.buildAndShow();
 		}
 	}
 }

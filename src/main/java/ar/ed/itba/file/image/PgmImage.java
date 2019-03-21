@@ -12,11 +12,11 @@ import java.io.*;
 public class PgmImage extends PortableImage {
 
     public PgmImage(final String filePath) throws IOException {
-        super(filePath);
+        super(filePath, ImageMode.GRAY);
     }
 
     public PgmImage(final byte[] image, final int width, final int height) {
-        super(image, width, height, BufferedImage.TYPE_BYTE_GRAY);
+        super(image, width, height, BufferedImage.TYPE_BYTE_GRAY, ImageMode.GRAY);
     }
 
     @Override

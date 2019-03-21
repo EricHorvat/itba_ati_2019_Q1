@@ -23,6 +23,7 @@ public class GenerateMenuButtonListener extends ATIMenuButtonListener {
 		options.add(MenuButtonFactory.generateSquareMenuButton());
 		options.add(MenuButtonFactory.generateGrayDegradeMenuButton());
 		options.add(MenuButtonFactory.generateColorDegradeMenuButton());
+		options.add(MenuButtonFactory.generateHSVMenuButton());
 	}
 	
 }

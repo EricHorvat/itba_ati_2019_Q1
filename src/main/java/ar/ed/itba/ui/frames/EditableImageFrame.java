@@ -1,8 +1,10 @@
 package ar.ed.itba.ui.frames;
 
 import ar.ed.itba.ui.frames.interfaces.EditableImageInterface;
+import ar.ed.itba.utils.Region;
 
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 
 public class EditableImageFrame extends ImageFrame {
 	private static EditableImageFrame instance;
@@ -11,17 +13,14 @@ public class EditableImageFrame extends ImageFrame {
 		super("Editable Image", new EditableImageInterface());
 	}
 	
+	private Region region;
+	
 	public static EditableImageFrame instance() {
 		if (instance == null) {
 			instance = new EditableImageFrame();
 			/*instance.setListeners()*/
 		}
 		return instance;
-	}
-	
-	@Override
-	JPanel getMainPanel() {
-		return anInterface.getMainPanel();
 	}
 	
 	public void showRegionInfo(int oX, int oY, int tX, int tY) {
@@ -43,5 +42,26 @@ public class EditableImageFrame extends ImageFrame {
 	public void showPixelInfo(int oX, int oY) {
 		((EditableImageInterface)this.anInterface).setInfo("X: " + oX + " Y: " + oY + " " + atiImage.getPixelInfo(oX, oY));
 		pack();
+	}
+	
+	public void region(int ox, int oy, int tx, int ty){
+		int regionX = ox < tx ? ox : tx;
+		int regionY = oy < ty ? oy : ty;
+		int regionW = (tx - ox) * (ox < tx ? 1 : -1);
+		int regionH = (ty - oy) * (oy < ty ? 1 : -1);
+		region = new Region(regionX, regionY, regionW, regionH);
+	}
+	
+	public void noRegion(){
+		region = null;
+	}
+	
+	@Override
+	public boolean isRegionated() {
+		return region != null;
+	}
+	
+	public Region getRegion() {
+		return region;
 	}
 }

@@ -2,13 +2,11 @@ package ar.ed.itba.file.image;
 
 import ar.ed.itba.file.pixel.GrayPixel;
 import ar.ed.itba.file.pixel.Pixel;
+import ar.ed.itba.ui.components.DialogFactory;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -16,7 +14,7 @@ import java.nio.file.Paths;
 public class RawImage extends ATIImage {
 
     public RawImage(final String filePath) throws IOException {
-        super(filePath);
+        super(filePath, ImageMode.GRAY);
     }
 
     @Override
@@ -56,5 +54,31 @@ public class RawImage extends ATIImage {
 	public String getRegionInfo(int oi, int oj, int w, int h) {
 		Color c = averageColor(oi, oj, w, h);
 		return "Region average : " + c.getBlue();
+	}
+	
+	private String directoryOutput = "./output/";
+	
+	@Override
+	public void save(String fileName) throws Exception {
+		
+		try (FileOutputStream fs = new FileOutputStream(directoryOutput + fileName + ".raw")) {
+			fs.write(getImage());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try (FileOutputStream fs = new FileOutputStream(directoryOutput + fileName + ".txt")) {
+			String s = ""+ getWidth() + ","+ getHeight();
+			fs.write(s.getBytes());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
