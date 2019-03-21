@@ -59,19 +59,19 @@ public class PgmImage extends PortableImage {
             throw new UnsupportedOperationException("Pgm extension is not supported");
 
         if (image instanceof PbmImage) {
-            for (int i = fromX; i <= imageToX - imageFromX ; i++) {
-                for (int j = fromY; j <= imageToY - imageFromX ; j++)
-                    setPixel(i, j, binToGray((BitPixel) image.getPixel(imageFromX + i, imageFromY + j)));
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, binToGray((BitPixel) image.getPixel(imageFromX + i, imageFromY + j)));
             }
         } else {
-            for (int i = fromX; i <= imageToX - imageFromX ; i++) {
-                for (int j = fromY; j <= imageToY - imageFromX ; j++)
-                    setPixel(i, j, image.getPixel(imageFromX + i, imageFromY + j));
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, image.getPixel(imageFromX + i, imageFromY + j));
             }
         }
     }
 
-    private GrayPixel binToGray(final BitPixel bitPixel) {
+    public static GrayPixel binToGray(final BitPixel bitPixel) {
         if (bitPixel.getBit() == 1)
             return new GrayPixel((byte) 0);
         else

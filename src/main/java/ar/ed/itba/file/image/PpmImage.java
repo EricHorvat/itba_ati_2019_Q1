@@ -63,23 +63,22 @@ public class PpmImage extends PortableImage {
                 && this.betweenBounds(fromX + (imageToX - imageFromX), fromY + (imageToY - imageFromY))))
             throw new IllegalArgumentException("Points must be between images bounds");
 
-
         if (image instanceof PbmImage) {
-            for (int i = fromX; i <= imageToX - imageFromX ; i++) {
-                for (int j = fromY; j <= imageToY - imageFromX ; j++)
-                    setPixel(i, j, binToColor((BitPixel) image.getPixel(imageFromX + i, imageFromY + j)));
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, binToColor((BitPixel) image.getPixel(imageFromX + i, imageFromY + j)));
             }
         }
         else if (image instanceof PgmImage) {
-            for (int i = fromX; i <= imageToX - imageFromX ; i++) {
-                for (int j = fromY; j <= imageToY - imageFromX ; j++)
-                    setPixel(i, j, grayToColor((GrayPixel) image.getPixel(imageFromX + i, imageFromY + j)));
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, grayToColor((GrayPixel) image.getPixel(imageFromX + i, imageFromY + j)));
             }
         }
         else {
-            for (int i = fromX; i <= imageToX - imageFromX ; i++) {
-                for (int j = fromY; j <= imageToY - imageFromX; j++)
-                    setPixel(i, j, image.getPixel(imageFromX + i, imageFromY + j));
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, image.getPixel(imageFromX + i, imageFromY + j));
             }
         }
     }

@@ -45,9 +45,9 @@ public class PbmImage extends PortableImage {
         if (!(image instanceof PbmImage))
             throw new UnsupportedOperationException("Only bpm extension is supported");
 
-        for (int i = fromX; i <= imageToX - imageFromX ; i++) {
-            for (int j = fromY; j <= imageToY - imageFromX ; j++)
-                setPixel(i, j, image.getPixel(imageFromX + i, imageFromY + j));
+        for (int i = 0 ; i <= imageToX - imageFromX ; i++) {
+            for (int j = 0; j <= imageToY - imageFromY ; j++)
+                setPixel(fromX + i, fromY + j, image.getPixel(imageFromX + i, imageFromY + j));
         }
     }
 
