@@ -49,5 +49,11 @@ public class MenuButtonFactory {
 		return button;
 	}
 	
+	public static JButton generateHSVMenuButton(){
+		JButton button = new JButton("Generate HSV");
+		button.addActionListener(new GenerateHSVMenuButtonListener(MainFrame.instance().getParamPanel()));
+		return button;
+	}
+	
 	/*FILTER*/
 }

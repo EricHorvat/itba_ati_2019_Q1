@@ -50,4 +50,10 @@ public class ButtonFactory {
 		return button;
 	}
 	
+	public static JButton generateHSVButton(){
+		JButton button = new JButton("Generate HSV");
+		button.addActionListener(new GenerateHSVButtonListener());
+		return button;
+	}
+	
 }
