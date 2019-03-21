@@ -217,8 +217,8 @@ public class PpmImage extends PortableImage {
 	
 	@Override
 	public String getPixelInfo(int i, int j) {
-		Color c = new Color(getBufferedImage().getRGB(i,j));
-		return "Gray level: R" + c.getRed() + " G" + c.getGreen() + " B" + c.getBlue();
+		final RGBPixel rgb = (RGBPixel) getPixel(j, i);
+		return "Gray level: R" + (rgb.getRed() & 0xFF) + " G" + (rgb.getGreen() & 0xFF) + " B" + (rgb.getBlue() & 0xFF);
 	}
 	
 	@Override

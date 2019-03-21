@@ -189,7 +189,7 @@ public class PbmImage extends PortableImage {
 	
 	@Override
 	public String getPixelInfo(int i, int j) {
-		return "Gray level: " + (new Color(getBufferedImage().getRGB(i,j)).getBlue());
+		return "Gray level: " + (PgmImage.binToGray((BitPixel) getPixel(j, i)).getGray() & 0xFF);
 	}
 	
 	@Override
