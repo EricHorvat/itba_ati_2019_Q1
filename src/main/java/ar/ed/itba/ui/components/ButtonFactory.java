@@ -16,6 +16,12 @@ public class ButtonFactory {
 		return button;
 	}
 	
+	public static JButton saveFileButton(JTextField fileNameField){
+		JButton button = new JButton("Save file");
+		button.addActionListener(new SaveFileButtonListener(fileNameField));
+		return button;
+	}
+	
 	/*EDIT*/
 	
 	public static JButton editPixelButton(JTextField colorField){

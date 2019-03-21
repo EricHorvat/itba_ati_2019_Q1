@@ -123,6 +123,7 @@ public abstract class PortableImage extends ATIImage {
 
     protected abstract byte[] parseAscii(final String filePath, final Header header) throws IOException;
     
+    @Override
     public void save(final String fileName) throws Exception {
         if (!header.isPresent())
             this.header = Optional.of(generateHeader());

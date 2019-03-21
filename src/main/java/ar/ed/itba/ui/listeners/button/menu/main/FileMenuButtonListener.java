@@ -20,6 +20,7 @@ public class FileMenuButtonListener extends ATIMenuButtonListener {
 	public FileMenuButtonListener(JPanel targetPanel) {
 		super(targetPanel);
 		options.add(MenuButtonFactory.openFileMenuButton());
+		options.add(MenuButtonFactory.saveFileMenuButton());
 	}
 	
 }

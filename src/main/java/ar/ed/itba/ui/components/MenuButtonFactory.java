@@ -3,6 +3,7 @@ package ar.ed.itba.ui.components;
 import ar.ed.itba.ui.frames.MainFrame;
 import ar.ed.itba.ui.listeners.button.menu.edit.EditPixelMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.menu.file.OpenMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.menu.file.SaveMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.menu.generate.*;
 
 import javax.swing.*;
@@ -13,6 +14,12 @@ public class MenuButtonFactory {
 	public static JButton openFileMenuButton(){
 		JButton button = new JButton("Open File");
 		button.addActionListener(new OpenMenuButtonListener(MainFrame.instance().getParamPanel()));
+		return button;
+	}
+	
+	public static JButton saveFileMenuButton(){
+		JButton button = new JButton("Save File");
+		button.addActionListener(new SaveMenuButtonListener(MainFrame.instance().getParamPanel()));
 		return button;
 	}
 	

@@ -13,7 +13,7 @@ public abstract class ATIImage {
 	
 	/* Mode */
 	
-	public enum ImageMode{
+	public enum ImageMode {
 		GRAY, COLOR
 	}
 	
@@ -29,14 +29,14 @@ public abstract class ATIImage {
 		this.imageMode = imageMode;
 	}
 	
-	public ATIImage(String filePath, ImageMode imageMode) throws IOException{
+	public ATIImage(String filePath, ImageMode imageMode) throws IOException {
 		this.bufferedImage = open(filePath);
 		this.imageMode = imageMode;
 	}
 	
 	/* Abstract methods */
 	
-	public ImageMode getMode(){
+	public ImageMode getMode() {
 		return imageMode;
 	}
 	
@@ -44,20 +44,20 @@ public abstract class ATIImage {
 	
 	public abstract BufferedImage view();
 	
-	public BufferedImage regionatedView(Region region){
+	public BufferedImage regionatedView(Region region) {
 		BufferedImage view = ImageUtils.deepCopy(getBufferedImage());
 		int ox = region.getX();
 		int oy = region.getY();
 		int w = region.getW();
 		int h = region.getH();
 		
-		for (int x = ox; x < ox + w; x++){
-			view.setRGB(x,oy,ImageUtils.negateRGB(view.getRGB(x,oy)));
-			view.setRGB(x,oy+h,ImageUtils.negateRGB(view.getRGB(x,oy+h)));
+		for (int x = ox; x < ox + w; x++) {
+			view.setRGB(x, oy, ImageUtils.negateRGB(view.getRGB(x, oy)));
+			view.setRGB(x, oy + h, ImageUtils.negateRGB(view.getRGB(x, oy + h)));
 		}
-		for (int y = oy; y < oy + h; y++){
-			view.setRGB(ox,y,ImageUtils.negateRGB(view.getRGB(ox,y)));
-			view.setRGB(ox+w,y,ImageUtils.negateRGB(view.getRGB(ox+w,y)));
+		for (int y = oy; y < oy + h; y++) {
+			view.setRGB(ox, y, ImageUtils.negateRGB(view.getRGB(ox, y)));
+			view.setRGB(ox + w, y, ImageUtils.negateRGB(view.getRGB(ox + w, y)));
 		}
 		return view;
 	}
@@ -77,7 +77,7 @@ public abstract class ATIImage {
 	}
 	
 	public byte[] getImage() {
-		return ((DataBufferByte)bufferedImage.getRaster().getDataBuffer()).getData();
+		return ((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData();
 	}
 	
 	public int getWidth() {
@@ -90,7 +90,7 @@ public abstract class ATIImage {
 	
 	public static BufferedImage byte2Buffered(byte[] pixels, int width, int height, final int imageType) throws IllegalArgumentException {
 		BufferedImage image = new BufferedImage(width, height, imageType);
-		byte[] imgData = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
+		byte[] imgData = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 		System.arraycopy(pixels, 0, imgData, 0, pixels.length);
 		return image;
 	}
@@ -100,7 +100,7 @@ public abstract class ATIImage {
 	 * are your width and height respectively
 	 */
 	public Color averageColor(int x0, int y0, int w, int h) {
-		return ATIImage.averageColor(getBufferedImage(),x0, y0, w, h);
+		return ATIImage.averageColor(getBufferedImage(), x0, y0, w, h);
 	}
 	
 	/*
@@ -127,6 +127,10 @@ public abstract class ATIImage {
 			sumb = 0;
 		}
 		int num = w * h;
-		return new Color((int)(sumR / num), (int)(sumG / num), (int)(sumB / num));
+		return new Color((int) (sumR / num), (int) (sumG / num), (int) (sumB / num));
 	}
+	
+	public abstract void save(final String fileName) throws Exception;
 }
+
+

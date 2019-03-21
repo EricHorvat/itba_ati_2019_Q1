@@ -70,6 +70,11 @@ public class FiltersMenuButtonListener extends ATIMenuButtonListener {
 				}
 				
 				@Override
+				public void save(String fileName) throws Exception {
+				
+				}
+				
+				@Override
 				public String getPixelInfo(int i, int j) {
 					return null;
 				}
