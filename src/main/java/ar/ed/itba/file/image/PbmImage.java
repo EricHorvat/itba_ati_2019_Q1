@@ -36,6 +36,22 @@ public class PbmImage extends PortableImage {
     }
 
     @Override
+    public void copy(final PortableImage image, final int imageFromX, final int imageToX,
+                     final int imageFromY, final int imageToY, final int fromX, final int fromY) {
+        if (!(image.betweenBounds(imageFromX, imageFromY)  && image.betweenBounds(imageToX, imageToY)
+                && this.betweenBounds(fromX + (imageToX - imageFromX), fromY + (imageToY - imageFromY))))
+            throw new IllegalArgumentException("Points must be between images bounds");
+
+        if (!(image instanceof PbmImage))
+            throw new UnsupportedOperationException("Only bpm extension is supported");
+
+        for (int i = fromX; i <= imageToX - imageFromX ; i++) {
+            for (int j = fromY; j <= imageToY - imageFromX ; j++)
+                setPixel(i, j, image.getPixel(imageFromX + i, imageFromY + j));
+        }
+    }
+
+    @Override
     protected Header generateHeader() throws Exception {
         return new Header(MagicNumber.P4.getMagicNumber(), getWidth(), getHeight());
     }

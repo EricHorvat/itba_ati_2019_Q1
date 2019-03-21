@@ -1,12 +1,11 @@
 package ar.ed.itba.file.image;
 
+import ar.ed.itba.file.pixel.BitPixel;
 import ar.ed.itba.file.pixel.GrayPixel;
 import ar.ed.itba.file.pixel.Pixel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
 import java.io.*;
 
 
@@ -48,6 +47,35 @@ public class PgmImage extends PortableImage {
     @Override
     public void setPixel(final int i, final int j, final Pixel pixel) {
         getImage()[i * getWidth() + j] = ((GrayPixel) pixel).getGray();
+    }
+
+    public void copy(final PortableImage image, final int imageFromX, final int imageToX,
+                     final int imageFromY, final int imageToY, final int fromX, final int fromY) {
+        if (!(image.betweenBounds(imageFromX, imageFromY)  && image.betweenBounds(imageToX, imageToY)
+                && this.betweenBounds(fromX + (imageToX - imageFromX), fromY + (imageToY - imageFromY))))
+            throw new IllegalArgumentException("Points must be between images bounds");
+
+        if (!(image instanceof PbmImage || image instanceof PgmImage))
+            throw new UnsupportedOperationException("Pgm extension is not supported");
+
+        if (image instanceof PbmImage) {
+            for (int i = fromX; i <= imageToX - imageFromX ; i++) {
+                for (int j = fromY; j <= imageToY - imageFromX ; j++)
+                    setPixel(i, j, binToGray((BitPixel) image.getPixel(imageFromX + i, imageFromY + j)));
+            }
+        } else {
+            for (int i = fromX; i <= imageToX - imageFromX ; i++) {
+                for (int j = fromY; j <= imageToY - imageFromX ; j++)
+                    setPixel(i, j, image.getPixel(imageFromX + i, imageFromY + j));
+            }
+        }
+    }
+
+    private GrayPixel binToGray(final BitPixel bitPixel) {
+        if (bitPixel.getBit() == 1)
+            return new GrayPixel((byte) 0);
+        else
+            return new GrayPixel((byte) 255);
     }
 
     public static PgmImage createGrayDowngrade(final int width, final int height) {

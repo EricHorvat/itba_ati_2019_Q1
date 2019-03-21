@@ -121,8 +121,6 @@ public abstract class PortableImage extends ATIImage {
         return imageArray;
     }
 
-    protected abstract byte[] parseAscii(final String filePath, final Header header) throws IOException;
-    
     public void save(final String fileName) throws Exception {
         if (!header.isPresent())
             this.header = Optional.of(generateHeader());
@@ -139,6 +137,14 @@ public abstract class PortableImage extends ATIImage {
         }
     }
 
+    public boolean betweenBounds(final int x, final int y) {
+        return x >= 0 && x < getHeight() && y >= 0 && y < getWidth();
+    }
+
+    public abstract void copy(final PortableImage image, final int imageFromX, final int imageToX,
+                              final int imageFromY, final int imageToY, final int fromX, final int fromY);
+
     protected abstract Header generateHeader() throws Exception;
 
+    protected abstract byte[] parseAscii(final String filePath, final Header header) throws IOException;
 }
