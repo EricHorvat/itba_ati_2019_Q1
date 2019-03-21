@@ -64,22 +64,22 @@ public class PbmImage extends PortableImage {
     @Override
     public Pixel getPixel(final int i, final int j) {
         final int position = i * getWidth() + j;
-        final int arrayPosition = (int) Math.ceil(position/8);
+        final int arrayPosition = (int) Math.floor(position/8);
         final int offset = position % 8;
         final byte pixelByte = getImage()[arrayPosition];
-        return new BitPixel((byte) ((pixelByte >> offset) & 1));
+        return new BitPixel((byte) ((pixelByte >> (7 - offset)) & 1));
     }
 
     @Override
     public void setPixel(final int i, final int j, final Pixel pixel) {
         final int position = i * getWidth() + j;
-        final int arrayPosition = (int) Math.ceil(position/8);
+        final int arrayPosition = (int) Math.floor(position/8);
         final int offset = position % 8;
         final byte pixelByte = getImage()[arrayPosition];
         if (((BitPixel) pixel).getBit() == (byte) 1)
-            getImage()[arrayPosition] = (byte) (pixelByte | (1 << offset));
+            getImage()[arrayPosition] = (byte) (pixelByte | (1 << (7 - offset)));
         else
-            getImage()[arrayPosition] = (byte) (pixelByte & ~(1 << offset));
+            getImage()[arrayPosition] = (byte) (pixelByte & ~(1 << (7 - offset)));
     }
 
     private byte[] negateImage(final byte[] image) {
