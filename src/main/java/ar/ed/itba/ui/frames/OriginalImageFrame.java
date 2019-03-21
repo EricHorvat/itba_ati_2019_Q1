@@ -1,6 +1,7 @@
 package ar.ed.itba.ui.frames;
 
 import ar.ed.itba.ui.frames.interfaces.FixedImageInterface;
+import ar.ed.itba.utils.Region;
 
 public class OriginalImageFrame extends ImageFrame {
 	
@@ -18,4 +19,13 @@ public class OriginalImageFrame extends ImageFrame {
 		return instance;
 	}
 	
+	@Override
+	public boolean isRegionated() {
+		return false;
+	}
+	
+	@Override
+	public Region getRegion() {
+		return null;
+	}
 }

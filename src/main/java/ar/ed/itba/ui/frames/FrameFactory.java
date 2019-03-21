@@ -9,10 +9,10 @@ public class FrameFactory {
 	}
 	
 	public static ImageFrame fixedImageFrame(String title, ATIImage image){
-		ImageFrame imageFrame = new ImageFrame(title, new FixedImageInterface()) {
-		};
+		/*ImageFrame imageFrame = new ImageFrame(title, new FixedImageInterface()) {};
 		imageFrame.setAtiImage(image);
-		return imageFrame;
+		return imageFrame;*/
+		return null;
 	}
 	
 }

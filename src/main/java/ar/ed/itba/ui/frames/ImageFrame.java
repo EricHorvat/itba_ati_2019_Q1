@@ -2,6 +2,7 @@ package ar.ed.itba.ui.frames;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.ui.frames.interfaces.ImageInterface;
+import ar.ed.itba.utils.Region;
 
 import javax.swing.*;
 
@@ -44,7 +45,7 @@ public abstract class ImageFrame extends ATIFrame {
 	}
 	
 	public void updateImage(){
-		anInterface.getImageLabel().setIcon(new ImageIcon(atiImage.getBufferedImage()));
+		anInterface.getImageLabel().setIcon(new ImageIcon(isRegionated()?atiImage.regionatedView(getRegion()):atiImage.view()));
 	}
 	
 	@Override
@@ -52,4 +53,8 @@ public abstract class ImageFrame extends ATIFrame {
 		updateImage();
 		super.pack();
 	}
+	
+	public abstract boolean isRegionated();
+	
+	public abstract Region getRegion();
 }

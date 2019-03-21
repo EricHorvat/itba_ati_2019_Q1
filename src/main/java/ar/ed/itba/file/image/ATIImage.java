@@ -1,6 +1,8 @@
 package ar.ed.itba.file.image;
 
 import ar.ed.itba.file.pixel.Pixel;
+import ar.ed.itba.utils.ImageUtils;
+import ar.ed.itba.utils.Region;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -42,6 +44,24 @@ public abstract class ATIImage {
 	
 	public abstract BufferedImage view();
 	
+	public BufferedImage regionatedView(Region region){
+		BufferedImage view = ImageUtils.deepCopy(getBufferedImage());
+		int ox = region.getX();
+		int oy = region.getY();
+		int w = region.getW();
+		int h = region.getH();
+		
+		for (int x = ox; x < ox + w; x++){
+			view.setRGB(x,oy,ImageUtils.negateRGB(view.getRGB(x,oy)));
+			view.setRGB(x,oy+h,ImageUtils.negateRGB(view.getRGB(x,oy+h)));
+		}
+		for (int y = oy; y < oy + h; y++){
+			view.setRGB(ox,y,ImageUtils.negateRGB(view.getRGB(ox,y)));
+			view.setRGB(ox+w,y,ImageUtils.negateRGB(view.getRGB(ox+w,y)));
+		}
+		return view;
+	}
+	
 	public abstract Pixel getPixel(final int i, final int j);
 	
 	public abstract void setPixel(final int i, final int j, final Pixel pixel);
@@ -52,7 +72,7 @@ public abstract class ATIImage {
 	
 	/* Methods */
 	
-	public BufferedImage getBufferedImage() {
+	protected BufferedImage getBufferedImage() {
 		return bufferedImage;
 	}
 	

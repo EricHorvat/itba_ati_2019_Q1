@@ -1,6 +1,7 @@
 package ar.ed.itba.ui.frames;
 
 import ar.ed.itba.ui.frames.interfaces.FixedImageInterface;
+import ar.ed.itba.utils.Region;
 
 public class TakeDataImageFrame extends ImageFrame {
 	private static TakeDataImageFrame instance;
@@ -21,4 +22,13 @@ public class TakeDataImageFrame extends ImageFrame {
 		throw new RuntimeException("TODO");
 	}
 	
+	@Override
+	public boolean isRegionated() {
+		return false; /*TODOOOOOOOOOOOOOOOOOOOOOO*/
+	}
+	
+	@Override
+	public Region getRegion() {
+		return null;
+	}
 }

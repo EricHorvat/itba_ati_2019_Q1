@@ -1,8 +1,10 @@
 package ar.ed.itba.ui.frames;
 
 import ar.ed.itba.ui.frames.interfaces.EditableImageInterface;
+import ar.ed.itba.utils.Region;
 
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 
 public class EditableImageFrame extends ImageFrame {
 	private static EditableImageFrame instance;
@@ -10,6 +12,8 @@ public class EditableImageFrame extends ImageFrame {
 	private EditableImageFrame(){
 		super("Editable Image", new EditableImageInterface());
 	}
+	
+	private Region region;
 	
 	public static EditableImageFrame instance() {
 		if (instance == null) {
@@ -40,4 +44,24 @@ public class EditableImageFrame extends ImageFrame {
 		pack();
 	}
 	
+	public void region(int ox, int oy, int tx, int ty){
+		int regionX = ox < tx ? ox : tx;
+		int regionY = oy < ty ? oy : ty;
+		int regionW = (tx - ox) * (ox < tx ? 1 : -1);
+		int regionH = (ty - oy) * (oy < ty ? 1 : -1);
+		region = new Region(regionX, regionY, regionW, regionH);
+	}
+	
+	public void noRegion(){
+		region = null;
+	}
+	
+	@Override
+	public boolean isRegionated() {
+		return region != null;
+	}
+	
+	public Region getRegion() {
+		return region;
+	}
 }
