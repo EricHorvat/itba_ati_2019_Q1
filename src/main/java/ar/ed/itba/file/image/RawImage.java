@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 public class RawImage extends ATIImage {
 
     public RawImage(final String filePath) throws IOException {
-        super(filePath);
+        super(filePath, ImageMode.GRAY);
     }
 
     @Override

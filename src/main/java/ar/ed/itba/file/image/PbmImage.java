@@ -11,11 +11,11 @@ import java.io.IOException;
 public class PbmImage extends PortableImage {
 
     public PbmImage(final String filePath) throws IOException {
-        super(filePath);
+        super(filePath, ImageMode.GRAY);
     }
 
     public PbmImage(final byte[] image, final int width, final int height) {
-        super(image, width, height, BufferedImage.TYPE_BYTE_BINARY);
+        super(image, width, height, BufferedImage.TYPE_BYTE_BINARY, ImageMode.GRAY);
     }
 
 

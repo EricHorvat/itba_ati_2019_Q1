@@ -27,7 +27,7 @@ public abstract class ImageFrame extends ATIFrame {
 	public void build(){
 		if (atiImage != null) {
 			super.build();
-			anInterface.getImageLabel().setIcon(new ImageIcon(atiImage.getBufferedImage()));
+			updateImage();
 		} else {
 			/*TODO THROW EXCEPTION*/
 			throw new RuntimeException("ATI IMAGE IS NULL");
@@ -37,5 +37,19 @@ public abstract class ImageFrame extends ATIFrame {
 	@Override
 	JPanel getMainPanel() {
 		return anInterface.getMainPanel();
+	}
+	
+	public ImageInterface getInterface() {
+		return anInterface;
+	}
+	
+	public void updateImage(){
+		anInterface.getImageLabel().setIcon(new ImageIcon(atiImage.getBufferedImage()));
+	}
+	
+	@Override
+	public void pack() {
+		updateImage();
+		super.pack();
 	}
 }

@@ -26,16 +26,16 @@ public abstract class PortableImage extends ATIImage {
     private Optional<Header> header;
     private int byteCount = 0;
 
-    public PortableImage(final String filePath) throws IOException {
-        super(filePath);
+    public PortableImage(final String filePath, final ImageMode imageMode) throws IOException {
+        super(filePath, imageMode);
     }
 
-    public PortableImage(final int width, final int height, final int imgType) {
-        super(new BufferedImage(width, height, imgType));
+    public PortableImage(final int width, final int height, final int imgType, final ImageMode imageMode) {
+        super(new BufferedImage(width, height, imgType), imageMode);
     }
 
-    public PortableImage(final byte[] image, final int width, final int height, final int imgType) {
-        super(byte2Buffered(image, width, height, imgType));
+    public PortableImage(final byte[] image, final int width, final int height, final int imgType, final ImageMode imageMode) {
+        super(byte2Buffered(image, width, height, imgType), imageMode);
     }
     
     protected BufferedImage open(final String filePath, final int imageType) {

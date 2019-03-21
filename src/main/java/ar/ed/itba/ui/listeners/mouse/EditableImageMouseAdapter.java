@@ -48,4 +48,19 @@ public class EditableImageMouseAdapter extends MouseAdapter {
 		}
 	}
 	
+	public int getOriginX() {
+		return originX;
+	}
+	
+	public int getOriginY() {
+		return originY;
+	}
+	
+	public int getTargetX() {
+		return targetX;
+	}
+	
+	public int getTargetY() {
+		return targetY;
+	}
 }

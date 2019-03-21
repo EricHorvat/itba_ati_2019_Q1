@@ -16,6 +16,14 @@ public class ButtonFactory {
 		return button;
 	}
 	
+	/*EDIT*/
+	
+	public static JButton editPixelButton(JTextField colorField){
+		JButton button = new JButton("Set");
+		button.addActionListener(new EditPixelButtonListener(colorField));
+		return button;
+	}
+	
 	/*GENERATE*/
 	
 	public static JButton generateCircleButton(JTextField radiusField){

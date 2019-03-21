@@ -19,11 +19,6 @@ public class EditableImageFrame extends ImageFrame {
 		return instance;
 	}
 	
-	@Override
-	JPanel getMainPanel() {
-		return anInterface.getMainPanel();
-	}
-	
 	public void showRegionInfo(int oX, int oY, int tX, int tY) {
 		int x0,y0,w,h;
 		if(oX > tX){
@@ -44,4 +39,5 @@ public class EditableImageFrame extends ImageFrame {
 		((EditableImageInterface)this.anInterface).setInfo("X: " + oX + " Y: " + oY + " " + atiImage.getPixelInfo(oX, oY));
 		pack();
 	}
+	
 }

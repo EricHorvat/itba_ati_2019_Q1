@@ -9,20 +9,34 @@ import java.io.IOException;
 
 public abstract class ATIImage {
 	
+	/* Mode */
+	
+	public enum ImageMode{
+		GRAY, COLOR
+	}
+	
 	/* Variables */
 	
 	protected final BufferedImage bufferedImage;
 	
+	protected final ImageMode imageMode;
+	
 	/* Constructors */
-	public ATIImage(BufferedImage bufferedImage) {
+	public ATIImage(BufferedImage bufferedImage, ImageMode imageMode) {
 		this.bufferedImage = bufferedImage;
+		this.imageMode = imageMode;
 	}
 	
-	public ATIImage(String filePath) throws IOException{
+	public ATIImage(String filePath, ImageMode imageMode) throws IOException{
 		this.bufferedImage = open(filePath);
+		this.imageMode = imageMode;
 	}
 	
 	/* Abstract methods */
+	
+	public ImageMode getMode(){
+		return imageMode;
+	}
 	
 	protected abstract BufferedImage open(final String filePath) throws IOException;
 	
