@@ -1,9 +1,9 @@
 package ar.ed.itba.ui.frames.interfaces;
 
-import ar.ed.itba.ui.listeners.button.menu.main.EditMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.menu.main.FileMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.menu.main.FiltersMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.menu.main.GenerateMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.main.EditGeneralMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.main.FileGeneralMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.main.FiltersGeneralMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.main.GenerateGeneralMenuButtonListener;
 
 import javax.swing.*;
 
@@ -17,7 +17,6 @@ public class MainInterface {
 	private JLabel detailTitle;
 	private JLabel paramTitle;
 	private JPanel mainPanel;
-	private JLabel imageLabel;
 	private JButton editButton;
 	
 	public JPanel getMainPanel(){
@@ -30,10 +29,10 @@ public class MainInterface {
 	}
 	
 	public void setListeners(){
-		fileButton.addActionListener(new FileMenuButtonListener(detailPanel));
-		editButton.addActionListener(new EditMenuButtonListener(detailPanel));
-		generateOptionsButton.addActionListener(new GenerateMenuButtonListener(detailPanel));
-		filterButton.addActionListener(new FiltersMenuButtonListener(detailPanel));
+		fileButton.addActionListener(new FileGeneralMenuButtonListener());
+		editButton.addActionListener(new EditGeneralMenuButtonListener());
+		generateOptionsButton.addActionListener(new GenerateGeneralMenuButtonListener());
+		filterButton.addActionListener(new FiltersGeneralMenuButtonListener());
 	}
 	
 	public JPanel getMenuPanel() {

@@ -28,8 +28,8 @@ public class EditableImageInterface extends ImageInterface {
 		mouseAdapter = new EditableImageMouseAdapter();
 		imageLabel.addMouseListener(mouseAdapter);
 		imageLabel.addMouseMotionListener(mouseAdapter);
-		//fileButton.addActionListener(new FileMenuButtonListener(mainPanel, detailPanel));
-		//filterButton.addActionListener(new FiltersMenuButtonListener(mainPanel, detailPanel));
+		//fileButton.addActionListener(new FileGeneralMenuButtonListener(mainPanel, detailPanel));
+		//filterButton.addActionListener(new FiltersGeneralMenuButtonListener(mainPanel, detailPanel));
 	}
 	
 	public void setInfo(String s){
