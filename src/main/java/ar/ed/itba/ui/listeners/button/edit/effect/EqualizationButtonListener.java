@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EqualizationButtonListener implements ActionListener {
 	
-	public EqualizationButtonListener(JTextField filePathField) {
+	public EqualizationButtonListener() {
 	}
 	
 	

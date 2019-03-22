@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ContrastButtonListener implements ActionListener {
-	public ContrastButtonListener(JTextField filePathField) {
+	public ContrastButtonListener(JTextField r1Field, JTextField r2Field) {
 	}
 	
 	

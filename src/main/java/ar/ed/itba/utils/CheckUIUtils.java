@@ -3,9 +3,9 @@ package ar.ed.itba.utils;
 import ar.ed.itba.ui.components.DialogFactory;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 
-public final class CheckUtils {
+public final class CheckUIUtils {
 	
-	private CheckUtils(){}
+	private CheckUIUtils(){}
 	
 	public static boolean checkEditableImageVisible(){
 		boolean isVisible = EditableImageFrame.instance().isVisible();

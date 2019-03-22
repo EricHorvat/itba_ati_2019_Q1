@@ -1,6 +1,5 @@
 package ar.ed.itba.ui.components;
 
-import ar.ed.itba.ui.frames.MainFrame;
 import ar.ed.itba.ui.listeners.button.edit.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.SaveGeneralMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
@@ -8,7 +7,7 @@ import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;
 
 import javax.swing.*;
 
-public class MenuButtonFactory {
+public final class MenuButtonFactory {
 	
 	/* FILE */
 	public static JButton openFileMenuButton(){
@@ -69,7 +68,7 @@ public class MenuButtonFactory {
 	
 	public static JButton setContrastMenuButton() {
 		JButton button = new JButton("Contrast");
-		button.addActionListener(new ConstrastGeneralMenuButtonListener());
+		button.addActionListener(new ContrastGeneralMenuButtonListener());
 		return button;
 	}
 	

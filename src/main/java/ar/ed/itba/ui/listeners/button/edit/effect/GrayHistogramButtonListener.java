@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GrayHistogramButtonListener implements ActionListener {
-	public GrayHistogramButtonListener(JTextField filePathField) {
+	public GrayHistogramButtonListener() {
 	}
 	
 	@Override

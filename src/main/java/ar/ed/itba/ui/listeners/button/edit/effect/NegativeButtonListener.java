@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class NegativeButtonListener implements ActionListener {
-	public NegativeButtonListener(JTextField filePathField) {
+	public NegativeButtonListener() {
 	}
 	
 	@Override

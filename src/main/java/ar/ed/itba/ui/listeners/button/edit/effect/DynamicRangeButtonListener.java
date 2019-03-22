@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DynamicRangeButtonListener implements ActionListener {
-	public DynamicRangeButtonListener(JTextField filePathField) {
+	public DynamicRangeButtonListener(JTextField coeffField) {
 	}
 	
 	

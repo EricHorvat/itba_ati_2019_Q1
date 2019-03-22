@@ -1,5 +1,6 @@
 package ar.ed.itba.ui.listeners.button.edit.menu;
 
+import ar.ed.itba.ui.components.MenuOptionButtonFactory;
 import ar.ed.itba.ui.listeners.button.ATIMenuOptionsButtonListener;
 
 import javax.swing.*;
@@ -10,5 +11,6 @@ import java.util.List;
 public class NegativeMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public NegativeMenuButtonListener() {
+		options.add(MenuOptionButtonFactory.negativeMenuOptionButton());
 	}
 }

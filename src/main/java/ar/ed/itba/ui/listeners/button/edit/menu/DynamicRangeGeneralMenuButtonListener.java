@@ -1,5 +1,6 @@
 package ar.ed.itba.ui.listeners.button.edit.menu;
 
+import ar.ed.itba.ui.components.MenuOptionButtonFactory;
 import ar.ed.itba.ui.listeners.button.ATIGeneralMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.ATIMenuOptionsButtonListener;
 
@@ -10,6 +11,9 @@ import java.util.List;
 public class DynamicRangeGeneralMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public DynamicRangeGeneralMenuButtonListener() {
-	
+		options.add(new JLabel("Coefficient"));
+		JTextField coefficientField = new JTextField();
+		options.add(coefficientField);
+		options.add(MenuOptionButtonFactory.dynamicRangeMenuOptionButton(coefficientField));
 	}
 }

@@ -6,7 +6,7 @@ import ar.ed.itba.file.pixel.RGBPixel;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.ui.frames.interfaces.EditableImageInterface;
 import ar.ed.itba.ui.listeners.mouse.EditableImageMouseAdapter;
-import ar.ed.itba.utils.CheckUtils;
+import ar.ed.itba.utils.CheckUIUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class EditPixelButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		if(CheckUtils.checkEditableImageVisible()){
+		if(CheckUIUtils.checkEditableImageVisible()){
 			
 			Pixel pixel;
 			

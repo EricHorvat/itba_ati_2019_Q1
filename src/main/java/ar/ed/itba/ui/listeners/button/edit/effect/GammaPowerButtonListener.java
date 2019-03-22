@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GammaPowerButtonListener implements ActionListener {
-	public GammaPowerButtonListener(JTextField filePathField) {
+	public GammaPowerButtonListener(JTextField gammaField) {
 	}
 	
 	@Override
