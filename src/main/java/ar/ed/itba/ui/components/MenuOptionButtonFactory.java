@@ -133,8 +133,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new MedianFilterButtonListener(maskSideField));
 	}
 	
-	public static JButton ponderedMedianFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new PonderedMedianFilterButtonListener(maskSideField));
+	public static JButton ponderedMedianFilterMenuOptionButton(){
+		return applyButton(new PonderedMedianFilterButtonListener());
 	}
 	
 	public static JButton gaussianFilterMenuOptionButton(JTextField maskSideField, JTextField sigmaField){

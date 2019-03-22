@@ -2,7 +2,6 @@ package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.SaveGeneralMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.filter.effect.HighlightBorderFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.*;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;

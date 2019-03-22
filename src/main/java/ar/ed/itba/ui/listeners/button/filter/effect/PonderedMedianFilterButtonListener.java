@@ -6,10 +6,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PonderedMedianFilterButtonListener extends MaskFilterButtonListener{
+public class PonderedMedianFilterButtonListener implements ActionListener{
 	
-	public PonderedMedianFilterButtonListener(JTextField maskSideField) {
-		super(maskSideField);
+	public PonderedMedianFilterButtonListener() {
+		//super(maskSideField); maskSide fixed at 3
 	}
 	
 	@Override
