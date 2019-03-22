@@ -2,161 +2,151 @@ package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.SaveGeneralMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.generate.effect.GenerateRayleighButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.HighlightBorderFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.*;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public final class MenuButtonFactory {
 	
 	/* FILE */
 	public static JButton openFileMenuButton(){
-		JButton button = new JButton("Open File");
-		button.addActionListener(new OpenGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Open File", new OpenGeneralMenuButtonListener());
 	}
 	
 	public static JButton saveFileMenuButton(){
-		JButton button = new JButton("Save File");
-		button.addActionListener(new SaveGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Save File", new SaveGeneralMenuButtonListener());
 	}
+	/* END FILE*/
 	
-	/*EDIT*/
+	/* EDIT */
 	
 	public static JButton setPixelMenuButton(){
-		JButton button = new JButton("Edit Pixel");
-		button.addActionListener(new EditPixelGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Edit Pixel", new EditPixelGeneralMenuButtonListener());
 	}
 	
 	public static JButton setAddMenuButton() {
-		JButton button = new JButton("Add image");
-		button.addActionListener(new AddImageGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Add image", new AddImageGeneralMenuButtonListener());
 	}
 	
 	public static JButton setLessMenuButton() {
-		JButton button = new JButton("Less image");
-		button.addActionListener(new LessImageGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Less image", new LessImageGeneralMenuButtonListener());
 	}
 	
 	public static JButton setDynamicRangeMenuButton() {
-		JButton button = new JButton("Dynamic range");
-		button.addActionListener(new DynamicRangeGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Dynamic range",new DynamicRangeGeneralMenuButtonListener());
 	}
 	
 	public static JButton setGammaPowMenuButton() {
-		JButton button = new JButton("Gamma Power");
-		button.addActionListener(new GammaPowerMenuButtonListener());
-		return button;
+		return listeningButton("Gamma Power", new GammaPowerMenuButtonListener());
 	}
 	
 	public static JButton setNegativeMenuButton() {
-		JButton button = new JButton("Negative");
-		button.addActionListener(new NegativeMenuButtonListener());
-		return button;
+		return listeningButton("Negative",new NegativeMenuButtonListener());
 	}
 	
 	public static JButton setContrastMenuButton() {
-		JButton button = new JButton("Contrast");
-		button.addActionListener(new ContrastGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Contrast",new ContrastGeneralMenuButtonListener());
 	}
 	
 	public static JButton setThresholdMenuButton() {
-		JButton button = new JButton("Threshold");
-		button.addActionListener(new ThresholdMenuButtonListener());
-		return button;
+		return listeningButton("Threshold", new ThresholdMenuButtonListener());
 	}
 	
 	public static JButton setEqualizationMenuButton() {
-		JButton button = new JButton("Equalization");
-		button.addActionListener(new EqualizationMenuButtonListener());
-		return button;
+		return listeningButton("Equalization", new EqualizationMenuButtonListener());
 	}
 	
 	public static JButton applyGaussianMenuButton() {
-		JButton button = new JButton("Apply Gaussian Noise");
-		button.addActionListener(new ApplyGaussianMenuButtonListener());
-		return button;
+		return listeningButton("Apply Gaussian Noise", new ApplyGaussianMenuButtonListener());
 	}
 	
 	public static JButton applyRayleighMenuButton() {
-		JButton button = new JButton("Apply Rayleigh Noise");
-		button.addActionListener(new ApplyRayleighMenuButtonListener());
-		return button;
+		return listeningButton("Apply Rayleigh Noise", new ApplyRayleighMenuButtonListener());
 	}
 	
 	public static JButton applyExponentialMenuButton() {
-		JButton button = new JButton("Apply Exponential Noise");
-		button.addActionListener(new ApplyExponentialMenuButtonListener());
-		return button;
+		return listeningButton("Apply Exponential Noise", new ApplyExponentialMenuButtonListener());
 	}
 	
 	public static JButton applySaltAndPepperMenuButton() {
-		JButton button = new JButton("Apply Salt&Pepper");
-		button.addActionListener(new ApplySaltAndPepperMenuButtonListener());
-		return button;
+		return listeningButton("Apply Salt&Pepper Noise", new ApplySaltAndPepperMenuButtonListener());
 	}
 	
+	/* END EDIT */
 	/* GENERATE */
 	public static JButton generateCircleMenuButton(){
-		JButton button = new JButton("Generate Circle");
-		button.addActionListener(new GenerateCircleGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Generate Circle", new GenerateCircleGeneralMenuButtonListener());
 	}
 	
 	public static JButton generateSquareMenuButton(){
-		JButton button = new JButton("Generate Square");
-		button.addActionListener(new GenerateSquareGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Generate Square", new GenerateSquareGeneralMenuButtonListener());
 	}
 	
 	public static JButton generateGrayDegradeMenuButton(){
-		JButton button = new JButton("Generate Gray Degrade");
-		button.addActionListener(new GenerateGrayDegradeGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Generate Gray Degrade", new GenerateGrayDegradeGeneralMenuButtonListener());
 	}
 	
 	public static JButton generateColorDegradeMenuButton(){
-		JButton button = new JButton("Generate Color Degrade");
-		button.addActionListener(new GenerateColorDegradeGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Generate Color Degrade", new GenerateColorDegradeGeneralMenuButtonListener());
 	}
 	
 	public static JButton generateHSVMenuButton(){
-		JButton button = new JButton("Generate HSV");
-		button.addActionListener(new GenerateHSVGeneralMenuButtonListener());
-		return button;
+		return listeningButton("Generate HSV", new GenerateHSVGeneralMenuButtonListener());
 	}
 	
 	public static JButton generateGrayHistogramMenuButton() {
-		JButton button = new JButton("Gray Histogram");
-		button.addActionListener(new GenerateGrayHistogramMenuButtonListener());
-		return button;
+		return listeningButton("Gray Histogram", new GenerateGrayHistogramMenuButtonListener());
 	}
 	
 	public static JButton generateGaussianMenuButton() {
-		JButton button = new JButton("Gaussian Noise");
-		button.addActionListener(new GenerateGaussianMenuButtonListener());
-		return button;
+		return listeningButton("Gaussian Noise", new GenerateGaussianMenuButtonListener());
 	}
 	
 	public static JButton generateRayleighMenuButton() {
-		JButton button = new JButton("Rayleigh Noise");
-		button.addActionListener(new GenerateRayleighMenuButtonListener());
-		return button;
+		return listeningButton("Rayleigh Noise", new GenerateRayleighMenuButtonListener());
 	}
 	
 	public static JButton generateExponentialMenuButton() {
-		JButton button = new JButton("Exponential Noise");
-		button.addActionListener(new GenerateExponentialMenuButtonListener());
-		return button;
+		return listeningButton("Exponential Noise", new GenerateExponentialMenuButtonListener());
 	}
 	
-	/*FILTER*/
+	/* END GENERATE*/
+	/* FILTER */
+	
+	public static JButton mediaFilterMenuButton() {
+		return listeningButton("Media Filter", new MediaFilterMenuButtonListener());
+	}
+	
+	public static JButton medianFilterMenuButton() {
+		return listeningButton("Median Filter", new MedianFilterMenuButtonListener());
+	}
+	
+	public static JButton ponderedMedianFilterMenuButton() {
+		return listeningButton("Pondered Median Filter", new PonderedMedianFilterMenuButtonListener());
+	}
+	
+	public static JButton gaussianFilterMenuButton() {
+		return listeningButton("Gaussian Filter", new GaussianFilterMenuButtonListener());
+	}
+	
+	public static JButton highlightBorderFilterMenuButton() {
+		return listeningButton("Highlight Border Filter", new HighlightBorderFilterMenuButtonListener());
+	}
+	
+	/* END FILTER */
+	
+	/* UTILS */
+	
+	private static JButton listeningButton(String text, ActionListener listener){
+		JButton button = new JButton(text);
+		button.addActionListener(listener);
+		return button;
+		
+	}
+
+
 }

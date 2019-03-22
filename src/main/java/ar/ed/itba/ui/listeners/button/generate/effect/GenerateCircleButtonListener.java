@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class GenerateCircleButtonListener implements ActionListener {
 	
-	final JTextField radiusParam;
+	private final JTextField radiusParam;
 	
 	public GenerateCircleButtonListener(JTextField radiusParam) {
 		this.radiusParam = radiusParam;

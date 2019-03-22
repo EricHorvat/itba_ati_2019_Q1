@@ -12,10 +12,10 @@ import java.awt.event.ActionListener;
 
 public class GenerateColorDegradeButtonListener implements ActionListener {
 	
-	final JTextField color1Field;
-	final JTextField color2Field;
-	final JTextField widthField;
-	final JTextField heightField;
+	private final JTextField color1Field;
+	private final JTextField color2Field;
+	private final JTextField widthField;
+	private final JTextField heightField;
 	
 	public GenerateColorDegradeButtonListener(JTextField color1Field, JTextField color2Field, JTextField widthField, JTextField heightField) {
 		this.color1Field= color1Field;

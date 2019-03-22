@@ -2,6 +2,7 @@ package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.effect.*;
 import ar.ed.itba.ui.listeners.button.edit.menu.ApplySaltAndPepperMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.*;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
@@ -11,10 +12,9 @@ import java.awt.event.ActionListener;
 
 public final class MenuOptionButtonFactory {
 	
-	private MenuOptionButtonFactory() {
-	}
+	private MenuOptionButtonFactory() {}
 	
-	/*FILE*/
+	/* FILE */
 	
 	public static JButton openFileMenuOptionButton(JTextField filePathField){
 		JButton button = new JButton("Open file");
@@ -28,7 +28,8 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
-	/*EDIT*/
+	/* END FILE*/
+	/* EDIT */
 	
 	public static JButton editPixelMenuOptionButton(JTextField colorField){
 		return applyButton(new EditPixelButtonListener(colorField));
@@ -82,7 +83,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new ApplySaltAndPepperButtonListener(pField));
 	}
 	
-	/*GENERATE*/
+	/* END EDIT */
+	/* GENERATE */
 	
 	public static JButton generateCircleMenuOptionButton(JTextField radiusField){
 		return generateButton(new GenerateCircleButtonListener(radiusField));
@@ -120,6 +122,30 @@ public final class MenuOptionButtonFactory {
 		return generateButton(new GenerateExponentialButtonListener(lambdaField));
 	}
 	
+	/* END GENERATE */
+	/* FILTER */
+	
+	public static JButton mediaFilterMenuOptionButton(JTextField maskSideField){
+		return applyButton(new MediaFilterButtonListener(maskSideField));
+	}
+	
+	public static JButton medianFilterMenuOptionButton(JTextField maskSideField){
+		return applyButton(new MedianFilterButtonListener(maskSideField));
+	}
+	
+	public static JButton ponderedMedianFilterMenuOptionButton(JTextField maskSideField){
+		return applyButton(new PonderedMedianFilterButtonListener(maskSideField));
+	}
+	
+	public static JButton gaussianFilterMenuOptionButton(JTextField maskSideField, JTextField sigmaField){
+		return applyButton(new GaussianFilterButtonListener(maskSideField, sigmaField));
+	}
+	
+	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
+		return applyButton(new HighlightBorderFilterButtonListener(maskSideField));
+	}
+	
+	/* END FILTER */
 	/*Utils*/
 	
 	private static JButton applyButton(ActionListener listener){
