@@ -1,7 +1,5 @@
 package ar.ed.itba.file.pixel;
 
-import ar.ed.itba.file.pixel.Pixel;
-
 public class RGBPixel extends Pixel {
     private final byte red;
     private final byte green;

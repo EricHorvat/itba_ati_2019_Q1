@@ -1,5 +1,7 @@
 package ar.ed.itba.file.image;
 
+import ar.ed.itba.file.pixel.BitPixel;
+import ar.ed.itba.file.pixel.GrayPixel;
 import ar.ed.itba.file.pixel.Pixel;
 import ar.ed.itba.file.pixel.RGBPixel;
 
@@ -45,6 +47,51 @@ public class PpmImage extends PortableImage {
     public Pixel getPixel(final int i, final int j) {
         return new RGBPixel(getImage()[(i * getWidth() + j) * 3], getImage()[(i * getWidth() + j) * 3 + 1],
                 getImage()[(i * getWidth() + j) * 3 + 2]);
+    }
+
+    @Override
+    public void setPixel(final int i, final int j, final Pixel pixel) {
+        getImage()[(i * getWidth() + j) * 3] = ((RGBPixel) pixel).getRed();
+        getImage()[(i * getWidth() + j) * 3 + 1] = ((RGBPixel) pixel).getGreen();
+        getImage()[(i * getWidth() + j) * 3 + 2] = ((RGBPixel) pixel).getBlue();
+    }
+
+    @Override
+    public void copy(final PortableImage image, final int imageFromX, final int imageToX,
+                     final int imageFromY, final int imageToY, final int fromX, final int fromY) {
+        if (!(image.betweenBounds(imageFromX, imageFromY)  && image.betweenBounds(imageToX, imageToY)
+                && this.betweenBounds(fromX + (imageToX - imageFromX), fromY + (imageToY - imageFromY))))
+            throw new IllegalArgumentException("Points must be between images bounds");
+
+        if (image instanceof PbmImage) {
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, binToColor((BitPixel) image.getPixel(imageFromX + i, imageFromY + j)));
+            }
+        }
+        else if (image instanceof PgmImage) {
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, grayToColor((GrayPixel) image.getPixel(imageFromX + i, imageFromY + j)));
+            }
+        }
+        else {
+            for (int i = 0; i <= imageToX - imageFromX ; i++) {
+                for (int j = 0; j <= imageToY - imageFromY ; j++)
+                    setPixel(fromX + i, fromY + j, image.getPixel(imageFromX + i, imageFromY + j));
+            }
+        }
+    }
+
+    private RGBPixel binToColor(final BitPixel bitPixel) {
+        if (bitPixel.getBit() == 1)
+            return new RGBPixel((byte) 0, (byte) 0, (byte) 0);
+        else
+            return new RGBPixel((byte) 255, (byte) 255, (byte) 255);
+    }
+
+    private RGBPixel grayToColor(final GrayPixel grayPixel) {
+        return new RGBPixel(grayPixel.getGray(), grayPixel.getGray(), grayPixel.getGray());
     }
 
     public PgmImage getRedChannel() {
@@ -122,13 +169,6 @@ public class PpmImage extends PortableImage {
                 (byte) ((int) (v / v_max * 255)));
     }
 
-    @Override
-    public void setPixel(final int i, final int j, final Pixel pixel) {
-        getImage()[(i * getWidth() + j) * 3] = ((RGBPixel) pixel).getRed();
-        getImage()[(i * getWidth() + j) * 3 + 1] = ((RGBPixel) pixel).getGreen();
-        getImage()[(i * getWidth() + j) * 3 + 2] = ((RGBPixel) pixel).getBlue();
-    }
-
     private byte[] swapRB(final byte[] image) {
         //swap red coordinate with blue
         final byte[] aux = new byte[image.length];
@@ -176,8 +216,8 @@ public class PpmImage extends PortableImage {
 	
 	@Override
 	public String getPixelInfo(int i, int j) {
-		Color c = new Color(getBufferedImage().getRGB(i,j));
-		return "Gray level: R" + c.getRed() + " G" + c.getGreen() + " B" + c.getBlue();
+		final RGBPixel rgb = (RGBPixel) getPixel(j, i);
+		return "Gray level: R" + (rgb.getRed() & 0xFF) + " G" + (rgb.getGreen() & 0xFF) + " B" + (rgb.getBlue() & 0xFF);
 	}
 	
 	@Override

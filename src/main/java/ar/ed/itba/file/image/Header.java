@@ -45,7 +45,7 @@ public class Header {
             sb.append(MagicNumber.getBinaryMagicNumber(magicNumber).getMagicNumber()).append("\n")
               .append(width).append("\t").append(height).append("\n");
             if (maxColors.isPresent())
-                sb.append(maxColors).append("\n");
+                sb.append(maxColors.get()).append("\n");
             return sb.toString();
         }
         catch (Exception e) {
