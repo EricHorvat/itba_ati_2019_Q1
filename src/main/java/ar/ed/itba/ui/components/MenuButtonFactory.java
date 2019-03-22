@@ -79,6 +79,30 @@ public final class MenuButtonFactory {
 		return button;
 	}
 	
+	public static JButton applyGaussianMenuButton() {
+		JButton button = new JButton("Apply Gaussian Noise");
+		button.addActionListener(new ApplyGaussianMenuButtonListener());
+		return button;
+	}
+	
+	public static JButton applyRayleighMenuButton() {
+		JButton button = new JButton("Apply Rayleigh Noise");
+		button.addActionListener(new ApplyRayleighMenuButtonListener());
+		return button;
+	}
+	
+	public static JButton applyExponentialMenuButton() {
+		JButton button = new JButton("Apply Exponential Noise");
+		button.addActionListener(new ApplyExponentialMenuButtonListener());
+		return button;
+	}
+	
+	public static JButton applySaltAndPepperMenuButton() {
+		JButton button = new JButton("Apply Salt&Pepper");
+		button.addActionListener(new ApplySaltAndPepperMenuButtonListener());
+		return button;
+	}
+	
 	/* GENERATE */
 	public static JButton generateCircleMenuButton(){
 		JButton button = new JButton("Generate Circle");

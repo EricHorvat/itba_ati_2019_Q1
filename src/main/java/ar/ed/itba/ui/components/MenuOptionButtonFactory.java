@@ -1,6 +1,7 @@
 package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.effect.*;
+import ar.ed.itba.ui.listeners.button.edit.menu.ApplySaltAndPepperMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
@@ -30,9 +31,7 @@ public final class MenuOptionButtonFactory {
 	/*EDIT*/
 	
 	public static JButton editPixelMenuOptionButton(JTextField colorField){
-		JButton button = new JButton("Set");
-		button.addActionListener(new EditPixelButtonListener(colorField));
-		return button;
+		return applyButton(new EditPixelButtonListener(colorField));
 	}
 	
 	public static JButton addImageMenuOptionButton(JTextField filePathField){
@@ -67,36 +66,42 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new EqualizationButtonListener());
 	}
 	
+	public static JButton applyGaussianMenuOptionButton(JTextField sigmaField, JTextField muField){
+		return applyButton(new ApplyGaussianButtonListener(sigmaField, muField));
+	}
+	
+	public static JButton applyRayleighMenuOptionButton(JTextField xiField){
+		return applyButton(new ApplyRayleighButtonListener(xiField));
+	}
+	
+	public static JButton applyExponentialMenuOptionButton(JTextField lambdaField){
+		return applyButton(new ApplyExponentialButtonListener(lambdaField));
+	}
+	
+	public static JButton applySaltAndPepperMenuOptionButton(JTextField pField){
+		return applyButton(new ApplySaltAndPepperButtonListener(pField));
+	}
+	
 	/*GENERATE*/
 	
 	public static JButton generateCircleMenuOptionButton(JTextField radiusField){
-		JButton button = new JButton("Generate Circle");
-		button.addActionListener(new GenerateCircleButtonListener(radiusField));
-		return button;
+		return generateButton(new GenerateCircleButtonListener(radiusField));
 	}
 	
 	public static JButton generateSquareMenuOptionButton(JTextField sideField){
-		JButton button = new JButton("Generate Square");
-		button.addActionListener(new GenerateSquareButtonListener(sideField));
-		return button;
+		return generateButton(new GenerateSquareButtonListener(sideField));
 	}
 	
 	public static JButton generateGrayDegradeMenuOptionButton(JTextField widthField, JTextField heigthField){
-		JButton button = new JButton("Generate Degrade");
-		button.addActionListener(new GenerateGrayDegradeButtonListener(widthField, heigthField));
-		return button;
+		return generateButton(new GenerateGrayDegradeButtonListener(widthField, heigthField));
 	}
 	
 	public static JButton generateColorDegradeMenuOptionButton(JTextField color1Field, JTextField color2Field, JTextField widthField, JTextField heigthField){
-		JButton button = new JButton("Generate Degrade");
-		button.addActionListener(new GenerateColorDegradeButtonListener(color1Field, color2Field, widthField, heigthField));
-		return button;
+		return generateButton(new GenerateColorDegradeButtonListener(color1Field, color2Field, widthField, heigthField));
 	}
 	
 	public static JButton generateHSVMenuOptionButton(){
-		JButton button = new JButton("Generate HSV");
-		button.addActionListener(new GenerateHSVButtonListener());
-		return button;
+		return generateButton(new GenerateHSVButtonListener());
 	}
 	
 	public static JButton generateGrayHistogramMenuOptionButton(){
