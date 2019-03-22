@@ -59,10 +59,6 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new ContrastButtonListener(r1Field, r2Field));
 	}
 	
-	public static JButton grayHistogramMenuOptionButton(){
-		return applyButton(new GrayHistogramButtonListener());
-	}
-	
 	public static JButton thresholdMenuOptionButton(JTextField tField){
 		return applyButton(new ThresholdButtonListener(tField));
 	}
@@ -103,8 +99,32 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
+	public static JButton generateGrayHistogramMenuOptionButton(){
+		return generateButton(new GenerateGrayHistogramButtonListener());
+	}
+	
+	public static JButton generateGaussianMenuOptionButton(JTextField sigmaField, JTextField muField){
+		return generateButton(new GenerateGaussianButtonListener(sigmaField, muField));
+	}
+	
+	public static JButton generateRayleighMenuOptionButton(JTextField xiField){
+		return generateButton(new GenerateRayleighButtonListener(xiField));
+	}
+	
+	public static JButton generateExponentialMenuOptionButton(JTextField lambdaField){
+		return generateButton(new GenerateExponentialButtonListener(lambdaField));
+	}
+	
+	/*Utils*/
+	
 	private static JButton applyButton(ActionListener listener){
 		JButton button = new JButton("Apply");
+		button.addActionListener(listener);
+		return button;
+	}
+	
+	private static JButton generateButton(ActionListener listener){
+		JButton button = new JButton("Generate");
 		button.addActionListener(listener);
 		return button;
 	}

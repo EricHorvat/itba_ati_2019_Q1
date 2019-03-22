@@ -2,6 +2,7 @@ package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.SaveGeneralMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.generate.effect.GenerateRayleighButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;
 
@@ -60,12 +61,6 @@ public final class MenuButtonFactory {
 		return button;
 	}
 	
-	public static JButton setGrayHistogramMenuButton() {
-		JButton button = new JButton("Gray Histogram");
-		button.addActionListener(new GrayHistogramMenuButtonListener());
-		return button;
-	}
-	
 	public static JButton setContrastMenuButton() {
 		JButton button = new JButton("Contrast");
 		button.addActionListener(new ContrastGeneralMenuButtonListener());
@@ -112,6 +107,30 @@ public final class MenuButtonFactory {
 	public static JButton generateHSVMenuButton(){
 		JButton button = new JButton("Generate HSV");
 		button.addActionListener(new GenerateHSVGeneralMenuButtonListener());
+		return button;
+	}
+	
+	public static JButton generateGrayHistogramMenuButton() {
+		JButton button = new JButton("Gray Histogram");
+		button.addActionListener(new GenerateGrayHistogramMenuButtonListener());
+		return button;
+	}
+	
+	public static JButton generateGaussianMenuButton() {
+		JButton button = new JButton("Gaussian Noise");
+		button.addActionListener(new GenerateGaussianMenuButtonListener());
+		return button;
+	}
+	
+	public static JButton generateRayleighMenuButton() {
+		JButton button = new JButton("Rayleigh Noise");
+		button.addActionListener(new GenerateRayleighMenuButtonListener());
+		return button;
+	}
+	
+	public static JButton generateExponentialMenuButton() {
+		JButton button = new JButton("Exponential Noise");
+		button.addActionListener(new GenerateExponentialMenuButtonListener());
 		return button;
 	}
 	

@@ -16,6 +16,10 @@ public class GenerateGeneralMenuButtonListener extends ATIMenuButtonListener {
 		options.add(MenuButtonFactory.generateGrayDegradeMenuButton());
 		options.add(MenuButtonFactory.generateColorDegradeMenuButton());
 		options.add(MenuButtonFactory.generateHSVMenuButton());
+		options.add(MenuButtonFactory.generateGrayHistogramMenuButton());
+		options.add(MenuButtonFactory.generateGaussianMenuButton());
+		options.add(MenuButtonFactory.generateRayleighMenuButton());
+		options.add(MenuButtonFactory.generateExponentialMenuButton());
 	}
 	
 }
