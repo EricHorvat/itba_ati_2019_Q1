@@ -11,6 +11,8 @@ import java.io.*;
 
 public class PgmImage extends PortableImage {
 
+    private static final int MAX_COLOR = 255;
+
     public PgmImage(final String filePath) throws IOException {
         super(filePath, ImageMode.GRAY);
     }
@@ -49,6 +51,16 @@ public class PgmImage extends PortableImage {
         getImage()[i * getWidth() + j] = ((GrayPixel) pixel).getGray();
     }
 
+    @Override
+    public void negative() {
+        final byte[] image = getImage();
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++)
+                image[i * getWidth() + j] = (byte) (-(image[i * getWidth() + j] & 0xFF) + MAX_COLOR);
+        }
+    }
+
+    @Override
     public void copy(final PortableImage image, final int imageFromX, final int imageToX,
                      final int imageFromY, final int imageToY, final int fromX, final int fromY) {
         if (!(image.betweenBounds(imageFromX, imageFromY)  && image.betweenBounds(imageToX, imageToY)

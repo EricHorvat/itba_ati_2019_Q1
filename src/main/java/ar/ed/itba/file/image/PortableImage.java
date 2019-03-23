@@ -141,10 +141,13 @@ public abstract class PortableImage extends ATIImage {
         return x >= 0 && x < getHeight() && y >= 0 && y < getWidth();
     }
 
+    public abstract  void negative();
+
     public abstract void copy(final PortableImage image, final int imageFromX, final int imageToX,
                               final int imageFromY, final int imageToY, final int fromX, final int fromY);
 
     protected abstract Header generateHeader() throws Exception;
+
 
     protected abstract byte[] parseAscii(final String filePath, final Header header) throws IOException;
 }

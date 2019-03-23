@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class PbmImage extends PortableImage {
 
+    private static final int MAX_COLOR = 1;
+
     public PbmImage(final String filePath) throws IOException {
         super(filePath, ImageMode.GRAY);
     }
@@ -80,6 +82,16 @@ public class PbmImage extends PortableImage {
             getImage()[arrayPosition] = (byte) (pixelByte | (1 << (7 - offset)));
         else
             getImage()[arrayPosition] = (byte) (pixelByte & ~(1 << (7 - offset)));
+    }
+
+    @Override
+    public void negative() {
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
+                final byte bitPixel = ((BitPixel) getPixel(i, j)).getBit();
+                setPixel(i, j, new BitPixel((byte) (-(bitPixel & 0xFF) + MAX_COLOR)));
+            }
+        }
     }
 
     private byte[] negateImage(final byte[] image) {

@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class PpmImage extends PortableImage {
 
+    private static final int MAX_COLOR = 255;
+
     public PpmImage(final String filePath) throws IOException {
         super(filePath, ImageMode.COLOR);
     }
@@ -54,6 +56,17 @@ public class PpmImage extends PortableImage {
         getImage()[(i * getWidth() + j) * 3] = ((RGBPixel) pixel).getRed();
         getImage()[(i * getWidth() + j) * 3 + 1] = ((RGBPixel) pixel).getGreen();
         getImage()[(i * getWidth() + j) * 3 + 2] = ((RGBPixel) pixel).getBlue();
+    }
+
+    @Override
+    public void negative() {
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
+                final RGBPixel pixel = (RGBPixel) getPixel(i, j);
+                setPixel(i, j, new RGBPixel((byte) (-(pixel.getRed() & 0xFF) + MAX_COLOR),
+                        (byte) (-(pixel.getGreen() & 0xFF) + MAX_COLOR), (byte) (-(pixel.getBlue() & 0xFF) + MAX_COLOR)));
+            }
+        }
     }
 
     @Override
