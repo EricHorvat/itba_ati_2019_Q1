@@ -84,7 +84,7 @@ public final class ImageUtils {
 		return ((grayInput - inputSegmentStart) * (outputSegmentEnd - outputSegmentStart) / (inputSegmentEnd - inputSegmentStart)) + outputSegmentStart;
 	}
 
-	public static void treshold(final ATIImage image, final int treshold) {
+	public static void threshold(final ATIImage image, final int treshold) {
 		if (image instanceof PpmImage)
 			throw new UnsupportedOperationException("RGB image type is not supported");
 
