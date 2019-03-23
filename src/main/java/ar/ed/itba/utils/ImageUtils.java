@@ -1,5 +1,8 @@
 package ar.ed.itba.utils;
 
+import ar.ed.itba.file.image.ATIImage;
+import ar.ed.itba.file.image.PpmImage;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -41,5 +44,43 @@ public final class ImageUtils {
 		a.add(rgb2 - 255);
 		return sumRGB(a, -255);
 	}
-	
+
+	public static void increaseContrast(final ATIImage image, final int x1, final int y1, final int x2, final int y2) {
+		if (image instanceof PpmImage)
+			throw new UnsupportedOperationException("RGB image type is not supported");
+
+		int inputSegmentStart;
+		int inputSegmentEnd;
+		int outputSegmentStart;
+		int outputSegmentEnd;
+
+		final byte[] pixels = image.getImage();
+		for (int i = 0 ; i < pixels.length ; i++) {
+			final int pixel = pixels[i] & 0xFF;
+			if (pixel < x1) {
+				inputSegmentStart = 0;
+				inputSegmentEnd = x1;
+				outputSegmentStart = 0;
+				outputSegmentEnd = y1;
+			}
+			else if (pixel < x2) {
+				inputSegmentStart = x1;
+				inputSegmentEnd = x2;
+				outputSegmentStart = y1;
+				outputSegmentEnd = y2;
+			}
+			else {
+				inputSegmentStart = x2;
+				inputSegmentEnd = 255;
+				outputSegmentStart = y2;
+				outputSegmentEnd = 255;
+			}
+			pixels[i] = (byte) linearMapping(pixel, inputSegmentStart, inputSegmentEnd, outputSegmentStart, outputSegmentEnd);
+		}
+	}
+
+	private static int linearMapping(final int grayInput, final int inputSegmentStart, final int inputSegmentEnd,
+									 final int outputSegmentStart, final int outputSegmentEnd) {
+		return ((grayInput - inputSegmentStart) * (outputSegmentEnd - outputSegmentStart) / (inputSegmentEnd - inputSegmentStart)) + outputSegmentStart;
+	}
 }
