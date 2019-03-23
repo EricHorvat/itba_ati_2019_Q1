@@ -83,4 +83,18 @@ public final class ImageUtils {
 									 final int outputSegmentStart, final int outputSegmentEnd) {
 		return ((grayInput - inputSegmentStart) * (outputSegmentEnd - outputSegmentStart) / (inputSegmentEnd - inputSegmentStart)) + outputSegmentStart;
 	}
+
+	public static void treshold(final ATIImage image, final int treshold) {
+		if (image instanceof PpmImage)
+			throw new UnsupportedOperationException("RGB image type is not supported");
+
+		final byte[] pixels = image.getImage();
+		for (int i = 0 ; i < pixels.length ; i++) {
+			final int pixel = pixels[i] & 0xFF;
+			if (pixel <= treshold)
+				pixels[i] = 0;
+			else
+				pixels[i] = (byte) 255;
+		}
+	}
 }
