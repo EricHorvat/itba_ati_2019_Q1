@@ -97,4 +97,20 @@ public final class ImageUtils {
 				pixels[i] = (byte) 255;
 		}
 	}
+
+	public static void dynamicRangeCompression(final ATIImage image) {
+
+		final byte[] pixels = image.getImage();
+		int maxValue = 0;
+		for (int i = 0 ; i < pixels.length ; i++) {
+			final int currentValue = pixels[i] & 0xFF;
+			if (currentValue > maxValue)
+				maxValue = currentValue;
+		}
+
+		final double c = 255 / Math.log(1 + maxValue);
+
+		for (int i = 0 ; i < pixels.length ; i++)
+			pixels[i] = (byte) (c * Math.log(1 + (pixels[i] & 0xFF)));
+	}
 }
