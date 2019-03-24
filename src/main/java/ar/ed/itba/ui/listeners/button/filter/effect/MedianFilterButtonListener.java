@@ -1,6 +1,7 @@
 package ar.ed.itba.ui.listeners.button.filter.effect;
 
 import ar.ed.itba.ui.components.DialogFactory;
+import ar.ed.itba.utils.filters.MaskFilter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,7 @@ public class MedianFilterButtonListener extends MaskFilterButtonListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent actionEvent) {
-		DialogFactory.notImplementedDialog();
+	public MaskFilter getFilter() {
+		return null;
 	}
 }
