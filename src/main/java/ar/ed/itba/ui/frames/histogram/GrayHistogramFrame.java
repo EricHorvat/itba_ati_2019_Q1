@@ -27,6 +27,10 @@ public class GrayHistogramFrame extends HistogramFrame {
 		super("GrayHistogram", atiImage);
 	}
 	
+	public GrayHistogramFrame(ATIImage atiImage, boolean ignoreZero) {
+		super("GrayHistogram", atiImage, ignoreZero);
+	}
+	
 	protected int colorCount(){
 		return 1;
 	}

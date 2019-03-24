@@ -23,6 +23,7 @@ public class RayleighNoiseGenerator extends NoiseGenerator{
 	@Override
 	public double getNextValue(Map<String, ? extends Number> params) {
 		Double xi = (Double) params.get(XI);
-		return 10240* xi * Math.sqrt(-2 * Math.log(1- ProgramRandom.random().nextDouble()));
+		double x = ProgramRandom.random().nextDouble();
+		return xi * Math.sqrt(-2 * Math.log(1-x));
 	}
 }

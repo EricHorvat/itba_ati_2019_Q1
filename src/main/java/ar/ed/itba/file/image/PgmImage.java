@@ -6,6 +6,7 @@ import ar.ed.itba.file.pixel.Pixel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.*;
 
 
@@ -19,6 +20,10 @@ public class PgmImage extends PortableImage {
 
     public PgmImage(final byte[] image, final int width, final int height) {
         super(image, width, height, BufferedImage.TYPE_BYTE_GRAY, ImageMode.GRAY);
+    }
+    
+    public PgmImage(BufferedImage bi){
+	    this(((DataBufferByte)bi.getRaster().getDataBuffer()).getData(),bi.getWidth(),bi.getHeight());
     }
 
     @Override

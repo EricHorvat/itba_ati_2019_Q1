@@ -1,21 +1,24 @@
 package ar.ed.itba.ui.listeners.button.generate.effect;
 
+import ar.ed.itba.math.NoiseImageFactory;
 import ar.ed.itba.ui.components.DialogFactory;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
-public class GenerateExponentialButtonListener implements ActionListener {
+public class GenerateExponentialButtonListener extends GenerateNoiseButtonListener {
 	
-	private final JTextField exponentalField;
+	private final JTextField lambdaField;
 	
-	public GenerateExponentialButtonListener(JTextField exponentalField) {
-		this.exponentalField = exponentalField;
+	public GenerateExponentialButtonListener(JTextField lambdaField) {
+		this.lambdaField = lambdaField;
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent actionEvent) {
-		DialogFactory.notImplementedDialog();
+	protected BufferedImage getImage() {
+		double lambda = Double.parseDouble(lambdaField.getText());
+		return NoiseImageFactory.exponentialNoiseImage(100, 100, 1, lambda);
 	}
 }

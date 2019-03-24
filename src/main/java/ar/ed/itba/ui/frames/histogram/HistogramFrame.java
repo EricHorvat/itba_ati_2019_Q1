@@ -18,14 +18,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.DoubleSupplier;
+import java.util.stream.DoubleStream;
 
 public abstract class HistogramFrame extends ATIFrame {
 	
 	public HistogramFrame(String title, ATIImage atiImage) throws HeadlessException {
 		super(title);
 		image = atiImage.view();
+	}
+	
+	public HistogramFrame(String title, ATIImage atiImage, boolean ignoreZero) throws HeadlessException {
+		this(title, atiImage);
+		this.ignoreZero = ignoreZero;
 	}
 	
 	@Override
@@ -41,6 +49,7 @@ public abstract class HistogramFrame extends ATIFrame {
 	private XYBarRenderer renderer;
 	private final Map<Integer,String> seriesNames = seriesNames();
 	private final int colorCount = colorCount();
+	private boolean ignoreZero = false;
 	
 	protected abstract int colorCount();
 	protected abstract Map<Integer,String> seriesNames();
@@ -73,6 +82,9 @@ public abstract class HistogramFrame extends ATIFrame {
 		double[] r = new double[w * h];
 		for (int i = 0; i < colorCount; i++) {
 			r = raster.getSamples(0, 0, w, h, i, r);
+			if(ignoreZero){
+				r = Arrays.stream(r).filter(x -> x != 255).toArray();
+			}
 			dataset.addSeries(seriesNames.get(i), r, BINS);
 		}
 		// chart
