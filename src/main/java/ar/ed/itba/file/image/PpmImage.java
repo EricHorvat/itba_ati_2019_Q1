@@ -25,6 +25,10 @@ public class PpmImage extends PortableImage {
         super(image, width, height, BufferedImage.TYPE_3BYTE_BGR, ImageMode.COLOR);
     }
 
+    public PpmImage(int[] image, int width, int height) {
+        super(image, width, height, BufferedImage.TYPE_3BYTE_BGR, ImageMode.COLOR);
+    }
+
     public BufferedImage open(final String filePath) {
         return super.open(filePath, BufferedImage.TYPE_3BYTE_BGR);
     }
@@ -37,7 +41,15 @@ public class PpmImage extends PortableImage {
     @Override
     protected byte[] parseAscii(String filePath, Header header) throws IOException {
         return super.parseAscii(filePath, header, RGB);
+    }
 
+    @Override
+    public int[] toRGB() {
+        final byte[] image = getImage();
+        final int[] aux = new int[image.length];
+        for (int i = 0 ; i < image.length ; i++)
+            aux[i] = image[i] & 0xFF;
+        return aux;
     }
 
     @Override
@@ -96,7 +108,7 @@ public class PpmImage extends PortableImage {
         }
     }
 
-    private RGBPixel binToColor(final BitPixel bitPixel) {
+    public static RGBPixel binToColor(final BitPixel bitPixel) {
         if (bitPixel.getBit() == 1)
             return new RGBPixel((byte) 0, (byte) 0, (byte) 0);
         else

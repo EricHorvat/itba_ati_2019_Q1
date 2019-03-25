@@ -2,6 +2,7 @@ package ar.ed.itba.file.image;
 
 import ar.ed.itba.file.pixel.BitPixel;
 import ar.ed.itba.file.pixel.Pixel;
+import ar.ed.itba.file.pixel.RGBPixel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,6 @@ public class PbmImage extends PortableImage {
         super(image, width, height, BufferedImage.TYPE_BYTE_BINARY, ImageMode.GRAY);
     }
 
-
     @Override
     public BufferedImage open(final String filePath) {
         return super.open(filePath, BufferedImage.TYPE_BYTE_BINARY);
@@ -35,6 +35,20 @@ public class PbmImage extends PortableImage {
     protected byte[] parseAscii(final String filePath, final Header header) throws IOException {
         final byte[] aux = super.parseAscii(filePath, header, BIN);
         return compress(aux);
+    }
+
+    @Override
+    public int[] toRGB() {
+        final int[] aux = new int[getWidth() * getHeight() * 3];
+        for (int i = 0 ; i < getHeight() ; i++) {
+            for (int j = 0 ; j < getWidth() ; j++) {
+             final RGBPixel rgbPixel = PpmImage.binToColor((BitPixel) getPixel(i, j));
+             aux[(i * getWidth() + j) * 3] = rgbPixel.getRed() & 0xFF;
+             aux[(i * getWidth() + j) * 3 + 1] = rgbPixel.getGreen() & 0xFF;
+             aux[(i * getWidth() + j) * 3 + 2] = rgbPixel.getBlue() & 0xFF;
+            }
+        }
+        return aux;
     }
 
     @Override

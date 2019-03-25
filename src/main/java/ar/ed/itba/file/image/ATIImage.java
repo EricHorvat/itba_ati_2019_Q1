@@ -94,6 +94,14 @@ public abstract class ATIImage {
 		System.arraycopy(pixels, 0, imgData, 0, pixels.length);
 		return image;
 	}
+
+	//only for rgb images
+	public static BufferedImage byte2Buffered(int[] pixels, int width, int height, final int imageType) throws IllegalArgumentException {
+		byte[] aux = new byte[pixels.length];
+		for (int i = 0 ; i < pixels.length ; i++)
+			aux[i] = (byte) pixels[i];
+		return byte2Buffered(aux, width, height, imageType);
+	}
 	
 	/*
 	 * Where bi is your image, (x0,y0) is your upper left coordinate, and (w,h)
