@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class RayleighNoiseGenerator extends NoiseGenerator{
 	
-	public final static String XI = "XI";
+	public final static String PHI = "PHI";
 	private static RayleighNoiseGenerator instance;
 	
 	private RayleighNoiseGenerator() {
@@ -22,8 +22,8 @@ public class RayleighNoiseGenerator extends NoiseGenerator{
 	
 	@Override
 	public double getNextValue(Map<String, ? extends Number> params) {
-		Double xi = (Double) params.get(XI);
+		Double phi = (Double) params.get(PHI);
 		double x = ProgramRandom.random().nextDouble();
-		return xi * Math.sqrt(-2 * Math.log(1-x));
+		return phi * Math.sqrt(-2 * Math.log(1-x));
 	}
 }

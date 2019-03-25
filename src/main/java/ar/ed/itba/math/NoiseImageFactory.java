@@ -14,9 +14,9 @@ public class NoiseImageFactory {
 	
 	private NoiseImageFactory() { }
 	
-	public static BufferedImage rayleighNoiseImage(int width, int height, double percentage, double xi){
+	public static BufferedImage rayleighNoiseImage(int width, int height, double percentage, double phi){
 		Map<String, Double> params = new HashMap<>();
-		params.put(RayleighNoiseGenerator.XI,xi);
+		params.put(RayleighNoiseGenerator.PHI,phi);
 		return imageGenerator(RayleighNoiseGenerator.getInstance(), width, height, percentage, params);
 	}
 	

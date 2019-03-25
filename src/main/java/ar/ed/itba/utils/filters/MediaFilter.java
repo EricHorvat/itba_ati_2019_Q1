@@ -1,6 +1,6 @@
 package ar.ed.itba.utils.filters;
 
-public class MediaFilter extends MaskFilter {
+public class MediaFilter extends WeightMaskFilter {
 	
 	public MediaFilter(int maskSide) {
 		super(maskSide);
@@ -12,10 +12,10 @@ public class MediaFilter extends MaskFilter {
 	}
 	
 	@Override
-	protected int[][] generateMask() {
-		int[][] mask = new int[maskSide][];
+	protected double[][] generateMask() {
+		double[][] mask = new double[maskSide][];
 		for (int i = 0; i < maskSide; i++) {
-			int[] column = new int[maskSide];
+			double[] column = new double[maskSide];
 			for (int j = 0; j < maskSide; j++) {
 				column[j] = 1;
 			}

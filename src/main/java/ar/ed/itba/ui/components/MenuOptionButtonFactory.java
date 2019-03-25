@@ -23,6 +23,12 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
+	public static JButton openTESTFileMenuOptionButton(JTextField filePathField){
+		JButton button = new JButton("Open Test file");
+		button.addActionListener(new OpenTESTFileButtonListener(filePathField));
+		return button;
+	}
+	
 	public static JButton saveFileMenuOptionButton(JTextField fileNameField){
 		JButton button = new JButton("Save file");
 		button.addActionListener(new SaveFileButtonListener(fileNameField));
