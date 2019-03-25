@@ -81,4 +81,10 @@ public class RawImage extends ATIImage {
 			e.printStackTrace();
 		}
 	}
+
+	//implement
+	@Override
+	public int[] toRGB() {
+		return new int[0];
+	}
 }

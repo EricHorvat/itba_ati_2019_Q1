@@ -30,6 +30,7 @@ public class GenerateRayleighButtonListener extends GenerateNoiseButtonListener 
 		/*TODO CHECK FIELD*/
 		double xi = Double.parseDouble(xiField.getText());
 		return NoiseImageFactory.rayleighNoiseImage(100, 100, 1, xi);
+
 	}
 	
 }

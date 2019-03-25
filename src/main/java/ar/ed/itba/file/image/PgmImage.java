@@ -42,6 +42,20 @@ public class PgmImage extends PortableImage {
     }
 
     @Override
+    public int[] toRGB() {
+        final byte[] image = getImage();
+        final int[] aux = new int[image.length * 3];
+        for (int i = 0 ; i < getHeight() ; i++) {
+            for (int j= 0 ; j < getWidth() ; j++) {
+                aux[(i * getWidth() + j) * 3] = image[i * getWidth() + j] & 0xFF;
+                aux[(i * getWidth() + j) * 3 + 1] = image[i * getWidth() + j] & 0xFF;
+                aux[(i * getWidth() + j) * 3 + 2] = image[i * getWidth() + j] & 0xFF;
+            }
+        }
+        return aux;
+    }
+
+    @Override
     public BufferedImage view() {
         return getBufferedImage();
     }

@@ -46,8 +46,6 @@ public final class ImageUtils {
 	}
 
 	public static void increaseContrast(final ATIImage image, final int x1, final int y1, final int x2, final int y2) {
-		if (image instanceof PpmImage)
-			throw new UnsupportedOperationException("RGB image type is not supported");
 
 		int inputSegmentStart;
 		int inputSegmentEnd;
@@ -84,33 +82,49 @@ public final class ImageUtils {
 		return ((grayInput - inputSegmentStart) * (outputSegmentEnd - outputSegmentStart) / (inputSegmentEnd - inputSegmentStart)) + outputSegmentStart;
 	}
 
-	public static void threshold(final ATIImage image, final int treshold) {
-		if (image instanceof PpmImage)
-			throw new UnsupportedOperationException("RGB image type is not supported");
+	public static void threshold(final ATIImage image, final int threshold) {
 
 		final byte[] pixels = image.getImage();
 		for (int i = 0 ; i < pixels.length ; i++) {
 			final int pixel = pixels[i] & 0xFF;
-			if (pixel <= treshold)
+			if (pixel <= threshold)
 				pixels[i] = 0;
 			else
 				pixels[i] = (byte) 255;
 		}
 	}
 
-	public static void dynamicRangeCompression(final ATIImage image) {
+	public static PpmImage multiply(final ATIImage image, final double value) {
+		final int[] pixels = image.toRGB();
+
+		for (int i = 0 ; i < pixels.length ; i++)
+			pixels[i] = (int) (pixels[i] * value);
+
+		dynamicRangeCompression(pixels);
+		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+	}
+
+	public static void gammaPower(final ATIImage image, final double gamma) {
+		if (gamma <= 0 || gamma > 2 || gamma == 1)
+			throw new IllegalArgumentException("gamma must be between 0 and 2");
 
 		final byte[] pixels = image.getImage();
+		final double c = Math.pow(255, 1 - gamma);
+		for (int i = 0 ; i < pixels.length ; i++)
+			pixels[i] = (byte) (c * Math.pow((pixels[i] & 0xFF), gamma));
+	}
+
+	public static void dynamicRangeCompression(final int[] rgbImage) {
 		int maxValue = 0;
-		for (int i = 0 ; i < pixels.length ; i++) {
-			final int currentValue = pixels[i] & 0xFF;
+		for (int i = 0 ; i < rgbImage.length ; i++) {
+			final int currentValue = rgbImage[i];
 			if (currentValue > maxValue)
 				maxValue = currentValue;
 		}
 
 		final double c = 255 / Math.log(1 + maxValue);
 
-		for (int i = 0 ; i < pixels.length ; i++)
-			pixels[i] = (byte) (c * Math.log(1 + (pixels[i] & 0xFF)));
+		for (int i = 0 ; i < rgbImage.length ; i++)
+			rgbImage[i] = (int) (c * Math.log(1 + (rgbImage[i] & 0xFF)));
 	}
 }
