@@ -38,13 +38,20 @@ public class PgmImage extends PortableImage {
 
     @Override
     public int[] toRGB() {
-        final byte[] image = getImage();
-        final int[] aux = new int[image.length * 3];
-        for (int i = 0 ; i < getHeight() ; i++) {
-            for (int j= 0 ; j < getWidth() ; j++) {
-                aux[(i * getWidth() + j) * 3] = image[i * getWidth() + j] & 0xFF;
-                aux[(i * getWidth() + j) * 3 + 1] = image[i * getWidth() + j] & 0xFF;
-                aux[(i * getWidth() + j) * 3 + 2] = image[i * getWidth() + j] & 0xFF;
+        return toRGB(this);
+    }
+
+    public static int[] toRGB(final ATIImage image) {
+        if (!(image instanceof PgmImage || image instanceof RawImage))
+            throw new UnsupportedOperationException("Image must be pgm or raw");
+
+        final byte[] pixels = image.getImage();
+        final int[] aux = new int[pixels.length * 3];
+        for (int i = 0 ; i < image.getHeight() ; i++) {
+            for (int j= 0 ; j < image.getWidth() ; j++) {
+                aux[(i * image.getWidth() + j) * 3] = pixels[i * image.getWidth() + j] & 0xFF;
+                aux[(i * image.getWidth() + j) * 3 + 1] = pixels[i * image.getWidth() + j] & 0xFF;
+                aux[(i * image.getWidth() + j) * 3 + 2] = pixels[i * image.getWidth() + j] & 0xFF;
             }
         }
         return aux;
@@ -67,10 +74,17 @@ public class PgmImage extends PortableImage {
 
     @Override
     public void negative() {
-        final byte[] image = getImage();
-        for (int i = 0; i < getHeight(); i++) {
-            for (int j = 0; j < getWidth(); j++)
-                image[i * getWidth() + j] = (byte) (-(image[i * getWidth() + j] & 0xFF) + MAX_COLOR);
+        negative(this);
+    }
+
+    public static void negative(final ATIImage image) {
+        if (!(image instanceof PgmImage || image instanceof RawImage))
+            throw new UnsupportedOperationException("Image must be pgm or raw");
+
+        byte[] pixels = image.getImage();
+        for (int i = 0; i < image.getHeight(); i++) {
+            for (int j = 0; j < image.getWidth(); j++)
+                pixels[i * image.getWidth() + j] = (byte) (-(pixels[i * image.getWidth() + j] & 0xFF) + MAX_COLOR);
         }
     }
 
