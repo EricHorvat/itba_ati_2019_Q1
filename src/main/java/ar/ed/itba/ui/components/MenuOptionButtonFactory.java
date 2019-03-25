@@ -80,8 +80,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new ApplyExponentialButtonListener(lambdaField));
 	}
 	
-	public static JButton applySaltAndPepperMenuOptionButton(JTextField pField){
-		return applyButton(new ApplySaltAndPepperButtonListener(pField));
+	public static JButton applySaltAndPepperMenuOptionButton(JTextField cField, JTextField sField){
+		return applyButton(new ApplySaltAndPepperButtonListener(cField, sField));
 	}
 	
 	/* END EDIT */
