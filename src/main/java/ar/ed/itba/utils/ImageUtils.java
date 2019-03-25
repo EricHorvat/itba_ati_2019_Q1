@@ -98,8 +98,17 @@ public final class ImageUtils {
 		}
 	}
 
-	public static void dynamicRangeCompression(final int[] rgbImage) {
+	public static PpmImage multiply(final ATIImage image, final double value) {
+		final int[] pixels = image.toRGB();
 
+		for (int i = 0 ; i < pixels.length ; i++)
+			pixels[i] = (int) (pixels[i] * value);
+
+		dynamicRangeCompression(pixels);
+		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+	}
+
+	public static void dynamicRangeCompression(final int[] rgbImage) {
 		int maxValue = 0;
 		for (int i = 0 ; i < rgbImage.length ; i++) {
 			final int currentValue = rgbImage[i];

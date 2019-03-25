@@ -139,6 +139,8 @@ public abstract class ATIImage {
 	}
 	
 	public abstract void save(final String fileName) throws Exception;
+
+	public abstract int[] toRGB();
 }
 
 

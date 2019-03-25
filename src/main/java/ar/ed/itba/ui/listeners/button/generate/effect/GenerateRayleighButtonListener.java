@@ -60,6 +60,12 @@ public class GenerateRayleighButtonListener implements ActionListener {
 				public void save(String fileName) throws Exception {
 				
 				}
+
+				//implement
+				@Override
+				public int[] toRGB() {
+					return new int[0];
+				}
 			};
 			
 			EditableImageFrame inputImageFrame = EditableImageFrame.instance();

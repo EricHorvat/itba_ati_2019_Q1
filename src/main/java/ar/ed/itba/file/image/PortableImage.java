@@ -147,8 +147,6 @@ public abstract class PortableImage extends ATIImage {
 
     public abstract void negative();
 
-    public abstract int[] toRGB();
-
     public abstract void copy(final PortableImage image, final int imageFromX, final int imageToX,
                               final int imageFromY, final int imageToY, final int fromX, final int fromY);
 
