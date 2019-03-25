@@ -143,7 +143,6 @@ public abstract class ATIImage {
 	public abstract int[] toRGB();
 
 	public abstract void negative();
-
 }
 
 

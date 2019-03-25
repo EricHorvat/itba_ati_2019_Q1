@@ -61,10 +61,14 @@ public class GenerateRayleighButtonListener implements ActionListener {
 				
 				}
 
-				//implement
 				@Override
 				public int[] toRGB() {
 					return new int[0];
+				}
+
+				@Override
+				public void negative() {
+
 				}
 			};
 			

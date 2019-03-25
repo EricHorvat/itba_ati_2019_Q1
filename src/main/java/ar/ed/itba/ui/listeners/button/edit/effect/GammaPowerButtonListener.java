@@ -1,8 +1,6 @@
 package ar.ed.itba.ui.listeners.button.edit.effect;
 
-import ar.ed.itba.ui.components.DialogFactory;
 import ar.ed.itba.ui.frames.EditableImageFrame;
-import ar.ed.itba.ui.frames.OriginalImageFrame;
 import ar.ed.itba.utils.ImageUtils;
 
 import javax.swing.*;

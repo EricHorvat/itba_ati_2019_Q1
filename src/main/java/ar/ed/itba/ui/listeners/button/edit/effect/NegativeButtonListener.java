@@ -1,8 +1,7 @@
 package ar.ed.itba.ui.listeners.button.edit.effect;
 
-import ar.ed.itba.ui.components.DialogFactory;
+import ar.ed.itba.ui.frames.EditableImageFrame;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,8 @@ public class NegativeButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		DialogFactory.notImplementedDialog();
+		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
+		editableImageFrame.getAtiImage().negative();
+		editableImageFrame.buildAndShow();
 	}
 }
