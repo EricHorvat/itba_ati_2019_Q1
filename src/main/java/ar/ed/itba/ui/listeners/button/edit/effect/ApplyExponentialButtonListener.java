@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 
 public class ApplyExponentialButtonListener implements ActionListener {
 	
-	private final JTextField exponentalField;
+	private final JTextField exponentialField;
 	
-	public ApplyExponentialButtonListener(JTextField exponentalField) {
-		this.exponentalField = exponentalField;
+	public ApplyExponentialButtonListener(JTextField exponentialField) {
+		this.exponentialField = exponentialField;
 	}
 	
 	@Override
