@@ -12,12 +12,18 @@ public class ContrastGeneralMenuButtonListener extends ATIMenuOptionsButtonListe
 	
 	public ContrastGeneralMenuButtonListener() {
 		
-		options.add(new JLabel("R1"));
-		JTextField r1Field = new JTextField();
-		options.add(r1Field);
-		options.add(new JLabel("R2"));
-		JTextField r2Field = new JTextField();
-		options.add(r2Field);
-		options.add(MenuOptionButtonFactory.contrastMenuOptionButton(r1Field,r2Field));
+		options.add(new JLabel("R1 X"));
+		JTextField r1xField = new JTextField();
+		options.add(r1xField);
+		options.add(new JLabel("R1 Y"));
+		JTextField r1yField = new JTextField();
+		options.add(r1yField);
+		options.add(new JLabel("R2 X"));
+		JTextField r2xField = new JTextField();
+		options.add(r2xField);
+		options.add(new JLabel("R2 Y"));
+		JTextField r2yField = new JTextField();
+		options.add(r2yField);
+		options.add(MenuOptionButtonFactory.contrastMenuOptionButton(r1xField,r1yField, r2xField, r2yField));
 	}
 }

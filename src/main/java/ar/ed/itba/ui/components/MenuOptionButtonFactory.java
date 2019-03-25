@@ -56,8 +56,9 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new NegativeButtonListener());
 	}
 	
-	public static JButton contrastMenuOptionButton(JTextField r1Field, JTextField r2Field){
-		return applyButton(new ContrastButtonListener(r1Field, r2Field));
+	public static JButton contrastMenuOptionButton(JTextField r1xField, JTextField r1yField, JTextField r2xField,
+												   JTextField r2yField){
+		return applyButton(new ContrastButtonListener(r1xField, r1yField, r2xField, r2yField));
 	}
 	
 	public static JButton thresholdMenuOptionButton(JTextField tField){

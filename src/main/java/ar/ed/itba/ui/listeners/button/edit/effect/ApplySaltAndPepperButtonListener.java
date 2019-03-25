@@ -24,5 +24,6 @@ public class ApplySaltAndPepperButtonListener implements ActionListener {
 		final double saltProb = Double.parseDouble(sField.getText());
 		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
 		editableImageFrame.setAtiImage(SaltAndPepper.generateNoise(editableImageFrame.getAtiImage(), contamination, saltProb));
+		editableImageFrame.buildAndShow();
 	}
 }
