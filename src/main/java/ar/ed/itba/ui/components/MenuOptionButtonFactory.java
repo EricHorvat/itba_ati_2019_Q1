@@ -44,8 +44,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new LessImageButtonListener(filePathField));
 	}
 	
-	public static JButton dynamicRangeMenuOptionButton(JTextField coeffField){
-		return applyButton(new DynamicRangeButtonListener(coeffField));
+	public static JButton dynamicRangeMenuOptionButton(){
+		return applyButton(new DynamicRangeButtonListener());
 	}
 	
 	public static JButton gammaPowerMenuOptionButton(JTextField gammaField){
