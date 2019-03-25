@@ -21,6 +21,5 @@ public class GammaPowerButtonListener implements ActionListener {
 		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
 		ImageUtils.gammaPower(editableImageFrame.getAtiImage(), gamma);
 		editableImageFrame.buildAndShow();
-
 	}
 }
