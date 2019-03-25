@@ -46,8 +46,6 @@ public final class ImageUtils {
 	}
 
 	public static void increaseContrast(final ATIImage image, final int x1, final int y1, final int x2, final int y2) {
-		if (image instanceof PpmImage)
-			throw new UnsupportedOperationException("RGB image type is not supported");
 
 		int inputSegmentStart;
 		int inputSegmentEnd;
@@ -85,8 +83,6 @@ public final class ImageUtils {
 	}
 
 	public static void threshold(final ATIImage image, final int threshold) {
-		if (image instanceof PpmImage)
-			throw new UnsupportedOperationException("RGB image type is not supported");
 
 		final byte[] pixels = image.getImage();
 		for (int i = 0 ; i < pixels.length ; i++) {
@@ -106,6 +102,16 @@ public final class ImageUtils {
 
 		dynamicRangeCompression(pixels);
 		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+	}
+
+	public static void gammaPower(final ATIImage image, final double gamma) {
+		if (gamma <= 0 || gamma > 2 || gamma == 1)
+			throw new IllegalArgumentException("gamma must be between 0 and 2");
+
+		final byte[] pixels = image.getImage();
+		final double c = Math.pow(255, 1 - gamma);
+		for (int i = 0 ; i < pixels.length ; i++)
+			pixels[i] = (byte) (c * Math.pow((pixels[i] & 0xFF), gamma));
 	}
 
 	public static void dynamicRangeCompression(final int[] rgbImage) {
