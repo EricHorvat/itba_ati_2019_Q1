@@ -7,7 +7,7 @@ public class SaltAndPepper {
 
     //contamination in percentage, p is the salt probability
     public static PpmImage generateNoise(final ATIImage image, final double contamination, final double p) {
-        if (contamination < 0 || contamination > 0 || p < 0 || p > 1)
+        if (contamination < 0 || contamination > 100 || p < 0 || p > 1)
             throw new IllegalArgumentException("Contamination must be a percentage and p a probability");
         
         final int[] pixels = image.toRGB();
