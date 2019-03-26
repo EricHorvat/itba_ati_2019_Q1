@@ -27,26 +27,30 @@ public abstract class WeightMaskFilter extends MaskFilter{
 		
 		for (int i = 0; i < imageWidth; i++) {
 			for (int j = 0; j < imageHeight; j++) {
+				int indexRed = (i * imageWidth + j) * 3;
+				int indexGreen = indexRed + 1;
+				int indexBlue = indexGreen + 1;
 				if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1){
-					finalRGBArray[(i * imageWidth + j) * 3] = sourceRGBArray[(i * imageWidth + j) * 3];
-					finalRGBArray[(i * imageWidth + j) * 3 + 1] = sourceRGBArray[(i * imageWidth + j) * 3 + 1];
-					finalRGBArray[(i * imageWidth + j) * 3 + 2] = sourceRGBArray[(i * imageWidth + j) * 3 + 2];
+					finalRGBArray[indexRed] = sourceRGBArray[indexRed];
+					finalRGBArray[indexGreen] = sourceRGBArray[indexGreen];
+					finalRGBArray[indexBlue] = sourceRGBArray[indexBlue];
 				}else{
 					double sumRed = 0, sumGreen = 0, sumBlue = 0;
-					for (int k = 0; k < maskSide; k++) {
-						for (int l = 0; l < maskSide; l++) {
-							sumRed += sourceRGBArray[(i * imageWidth + j) * 3] * mask[k][l];
-							sumGreen += sourceRGBArray[(i * imageWidth + j) * 3 + 1] * mask[k][l];
-							sumBlue += sourceRGBArray[(i * imageWidth + j) * 3 + 2] * mask[k][l];
+					for (int k = -maskCenter; k < maskCenter + 1; k++) {
+						for (int l = -maskCenter; l < maskCenter + 1; l++) {
+							int deltaIndex = (k * imageWidth + l) * 3;
+							sumRed += sourceRGBArray[indexRed + deltaIndex] * mask[k+maskCenter][l+maskCenter];
+							sumGreen += sourceRGBArray[indexGreen + deltaIndex] * mask[k+maskCenter][l+maskCenter];
+							sumBlue += sourceRGBArray[indexBlue + deltaIndex] * mask[k+maskCenter][l+maskCenter];
 						}
 					}
-					if(j == 129){
-						j = 129;
+					if(j == 121){
+						j = 121;
 					}
-					finalRGBArray[(i * imageWidth + j) * 3] = (int)(sumRed/maskDivisor);
-					finalRGBArray[(i * imageWidth + j) * 3 + 1] = (int)(sumGreen/maskDivisor);
-					finalRGBArray[(i * imageWidth + j) * 3 + 2] = (int)(sumBlue/maskDivisor);
-					
+					finalRGBArray[indexRed] = (int)(sumRed/maskDivisor);
+					finalRGBArray[indexGreen] = (int)(sumGreen/maskDivisor);
+					finalRGBArray[indexBlue] = (int)(sumBlue/maskDivisor);
+					System.out.println(sumRed);
 				}
 			}
 		}
