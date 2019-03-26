@@ -9,7 +9,6 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 
 public final class ImageUtils {
@@ -43,6 +42,34 @@ public final class ImageUtils {
 		a.add(rgb1);
 		a.add(rgb2 - 255);
 		return sumRGB(a, -255);
+	}
+
+	public static PpmImage sum(final ATIImage image1, final ATIImage image2) {
+		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
+			throw new IllegalArgumentException("Image 2 must be contained in image 1");
+
+		final int[] pixels1 = image1.toRGB();
+		final int[] pixels2 = image2.toRGB();
+
+		for (int i = 0 ; i < pixels2.length ; i++)
+			pixels1[i] += pixels2[i];
+
+		normalize(pixels1);
+		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
+	}
+
+	public static void normalize(final int[] pixels) {
+		int minValue = pixels[0];
+		int maxValue = pixels[0];
+		for (int i = 0 ; i < pixels.length ; i++) {
+			if (pixels[i] < minValue)
+				minValue = pixels[i];
+			else if (pixels[i] > maxValue)
+				maxValue = pixels[i];
+		}
+		double aux = maxValue - minValue;
+		for (int i = 0 ; i < pixels.length ; i++)
+			pixels[i] = (int) (((pixels[i] - minValue) / aux) * 255);
 	}
 
 	public static void increaseContrast(final ATIImage image, final int x1, final int y1, final int x2, final int y2) {
