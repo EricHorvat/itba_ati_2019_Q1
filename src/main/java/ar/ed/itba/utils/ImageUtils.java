@@ -53,9 +53,9 @@ public final class ImageUtils {
 
 		for (int i = 0 ; i < image2.getHeight() ; i++) {
 			for (int j = 0 ; j < image2.getWidth() ; j++) {
-				pixels1[(i * image1.getWidth() + j) * 3] = pixels2[(i * image2.getWidth() + j) * 3];
-				pixels1[(i * image1.getWidth() + j) * 3 + 1] = pixels2[(i * image2.getWidth() + j) * 3 + 1];
-				pixels1[(i * image1.getWidth() + j) * 3 + 2] = pixels2[(i * image2.getWidth() + j) * 3 + 2];
+				pixels1[(i * image1.getWidth() + j) * 3] += pixels2[(i * image2.getWidth() + j) * 3];
+				pixels1[(i * image1.getWidth() + j) * 3 + 1] += pixels2[(i * image2.getWidth() + j) * 3 + 1];
+				pixels1[(i * image1.getWidth() + j) * 3 + 2] += pixels2[(i * image2.getWidth() + j) * 3 + 2];
 			}
 		}
 

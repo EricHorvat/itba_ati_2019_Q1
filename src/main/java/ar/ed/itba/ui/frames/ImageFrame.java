@@ -36,7 +36,7 @@ public abstract class ImageFrame extends ATIFrame {
 	}
 	
 	@Override
-	JPanel getMainPanel() {
+	protected JPanel getMainPanel() {
 		return anInterface.getMainPanel();
 	}
 	
