@@ -62,9 +62,9 @@ public final class ImageUtils {
 		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
 	}
 
-	public static PpmImage substract(final ATIImage image1, final ATIImage image2) {
-		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
-			throw new IllegalArgumentException("Image 2 must be contained in image 1");
+	public static PpmImage subtraction(final ATIImage image1, final ATIImage image2) {
+		if (image1.getWidth() != image2.getWidth() || image1.getHeight() != image2.getHeight())
+			throw new IllegalArgumentException("Image 2 size and image 1 size must be equal");
 
 		final int[] pixels1 = image1.toRGB();
 		final int[] pixels2 = image2.toRGB();

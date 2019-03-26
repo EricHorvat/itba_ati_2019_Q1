@@ -2,7 +2,6 @@ package ar.ed.itba.ui.listeners.button.edit.effect;
 
 import ar.ed.itba.file.ImageOpener;
 import ar.ed.itba.file.image.ATIImage;
-import ar.ed.itba.ui.components.DialogFactory;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.utils.ImageUtils;
 
@@ -24,7 +23,7 @@ public class LessImageButtonListener implements ActionListener {
 
 		if (image != null) {
 			EditableImageFrame editableImageFrame = EditableImageFrame.instance();
-			editableImageFrame.setAtiImage(ImageUtils.substract(editableImageFrame.getAtiImage(), image));
+			editableImageFrame.setAtiImage(ImageUtils.subtraction(editableImageFrame.getAtiImage(), image));
 			editableImageFrame.buildAndShow();
 		}
 	}
