@@ -2,8 +2,12 @@ package ar.ed.itba.utils.filters;
 
 import ar.ed.itba.utils.Pair;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public class GaussianFilter extends WeightMaskFilter {
 	
@@ -17,6 +21,7 @@ public class GaussianFilter extends WeightMaskFilter {
 		int center = maskSide / 2;
 		Map<Pair,Double> values = new HashMap<>();
 		double[][] mask = new double[maskSide][];
+		double sum = 0;
 		for (int i = -center; i < center+1; i++) {
 			double[] column = new double[maskSide];
 			for (int j = -center; j < center+1; j++) {
@@ -28,8 +33,15 @@ public class GaussianFilter extends WeightMaskFilter {
 					values.put(p, value);
 					column[j+center] = value;
 				}
+				sum += column[j+center];
 			}
 			mask[i+center]=column;
+		}
+		// DEBUG SUM IN ONE LINE
+		for (int i = 0; i < maskSide; i++) {
+			for (int j = 0; j < maskSide; j++) {
+				mask[i][j] = mask[i][j] / sum;
+			}
 		}
 		return mask;
 	}

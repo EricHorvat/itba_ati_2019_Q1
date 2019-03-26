@@ -44,13 +44,9 @@ public abstract class WeightMaskFilter extends MaskFilter{
 							sumBlue += sourceRGBArray[indexBlue + deltaIndex] * mask[k+maskCenter][l+maskCenter];
 						}
 					}
-					if(j == 121){
-						j = 121;
-					}
 					finalRGBArray[indexRed] = (int)(sumRed/maskDivisor);
 					finalRGBArray[indexGreen] = (int)(sumGreen/maskDivisor);
 					finalRGBArray[indexBlue] = (int)(sumBlue/maskDivisor);
-					System.out.println(sumRed);
 				}
 			}
 		}
