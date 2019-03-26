@@ -51,8 +51,13 @@ public final class ImageUtils {
 		final int[] pixels1 = image1.toRGB();
 		final int[] pixels2 = image2.toRGB();
 
-		for (int i = 0 ; i < pixels2.length ; i++)
-			pixels1[i] += pixels2[i];
+		for (int i = 0 ; i < image2.getHeight() ; i++) {
+			for (int j = 0 ; j < image2.getWidth() ; j++) {
+				pixels1[(i * image1.getWidth() + j) * 3] = pixels2[(i * image2.getWidth() + j) * 3];
+				pixels1[(i * image1.getWidth() + j) * 3 + 1] = pixels2[(i * image2.getWidth() + j) * 3 + 1];
+				pixels1[(i * image1.getWidth() + j) * 3 + 2] = pixels2[(i * image2.getWidth() + j) * 3 + 2];
+			}
+		}
 
 		normalize(pixels1);
 		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
