@@ -58,7 +58,24 @@ public final class ImageUtils {
 				pixels1[(i * image1.getWidth() + j) * 3 + 2] += pixels2[(i * image2.getWidth() + j) * 3 + 2];
 			}
 		}
+		normalize(pixels1);
+		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
+	}
 
+	public static PpmImage substract(final ATIImage image1, final ATIImage image2) {
+		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
+			throw new IllegalArgumentException("Image 2 must be contained in image 1");
+
+		final int[] pixels1 = image1.toRGB();
+		final int[] pixels2 = image2.toRGB();
+
+		for (int i = 0 ; i < image2.getHeight() ; i++) {
+			for (int j = 0 ; j < image2.getWidth() ; j++) {
+				pixels1[(i * image1.getWidth() + j) * 3] -= pixels2[(i * image2.getWidth() + j) * 3];
+				pixels1[(i * image1.getWidth() + j) * 3 + 1] -= pixels2[(i * image2.getWidth() + j) * 3 + 1];
+				pixels1[(i * image1.getWidth() + j) * 3 + 2] -= pixels2[(i * image2.getWidth() + j) * 3 + 2];
+			}
+		}
 		normalize(pixels1);
 		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
 	}
