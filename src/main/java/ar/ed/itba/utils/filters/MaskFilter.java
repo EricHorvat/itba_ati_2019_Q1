@@ -1,5 +1,7 @@
 package ar.ed.itba.utils.filters;
 
+import ar.ed.itba.file.image.ATIImage;
+
 import java.awt.image.BufferedImage;
 
 public abstract class MaskFilter {
@@ -14,6 +16,6 @@ public abstract class MaskFilter {
 		this.mask = generateMask();
 	}
 	
-	public abstract BufferedImage applyFilter(BufferedImage sourceBi);
+	public abstract ATIImage applyFilter(ATIImage sourceAtiImage);
 	
 }

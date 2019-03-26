@@ -11,9 +11,6 @@ import java.util.List;
 public class DynamicRangeGeneralMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public DynamicRangeGeneralMenuButtonListener() {
-		options.add(new JLabel("Coefficient"));
-		JTextField coefficientField = new JTextField();
-		options.add(coefficientField);
-		options.add(MenuOptionButtonFactory.dynamicRangeMenuOptionButton(coefficientField));
+		options.add(MenuOptionButtonFactory.dynamicRangeMenuOptionButton());
 	}
 }

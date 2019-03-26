@@ -8,10 +8,13 @@ import javax.swing.*;
 public class ApplySaltAndPepperMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public ApplySaltAndPepperMenuButtonListener() {
-		options.add(new JLabel("P"));
-		JTextField pField = new JTextField();
-		options.add(pField);
-		options.add(MenuOptionButtonFactory.applySaltAndPepperMenuOptionButton(pField));
+		options.add(new JLabel("Contamination"));
+		JTextField cField = new JTextField();
+		options.add(cField);
+		options.add(new JLabel("Salt"));
+		JTextField sField = new JTextField();
+		options.add(sField);
+		options.add(MenuOptionButtonFactory.applySaltAndPepperMenuOptionButton(cField, sField));
 	}
 	
 }

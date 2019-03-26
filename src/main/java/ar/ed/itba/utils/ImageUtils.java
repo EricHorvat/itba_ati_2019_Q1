@@ -106,7 +106,7 @@ public final class ImageUtils {
 
 	public static void gammaPower(final ATIImage image, final double gamma) {
 		if (gamma <= 0 || gamma > 2 || gamma == 1)
-			throw new IllegalArgumentException("gamma must be between 0 and 2");
+			throw new IllegalArgumentException("gamma must be between 0 and 2 and cant be 1");
 
 		final byte[] pixels = image.getImage();
 		final double c = Math.pow(255, 1 - gamma);

@@ -82,9 +82,13 @@ public class RawImage extends ATIImage {
 		}
 	}
 
-	//implement
 	@Override
 	public int[] toRGB() {
-		return new int[0];
+		return PgmImage.toRGB(this);
+	}
+
+	@Override
+	public void negative() {
+		PgmImage.negative(this);
 	}
 }

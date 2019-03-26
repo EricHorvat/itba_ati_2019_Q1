@@ -16,6 +16,7 @@ public class App
     {
         MainFrame mainFrame = MainFrame.instance();
         mainFrame.build();
+        
         mainFrame.makeShow();
     }
     

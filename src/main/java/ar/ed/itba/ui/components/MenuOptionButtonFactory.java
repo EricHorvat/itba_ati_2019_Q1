@@ -50,8 +50,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new LessImageButtonListener(filePathField));
 	}
 	
-	public static JButton dynamicRangeMenuOptionButton(JTextField coeffField){
-		return applyButton(new DynamicRangeButtonListener(coeffField));
+	public static JButton dynamicRangeMenuOptionButton(){
+		return applyButton(new DynamicRangeButtonListener());
 	}
 	
 	public static JButton gammaPowerMenuOptionButton(JTextField gammaField){
@@ -62,8 +62,9 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new NegativeButtonListener());
 	}
 	
-	public static JButton contrastMenuOptionButton(JTextField r1Field, JTextField r2Field){
-		return applyButton(new ContrastButtonListener(r1Field, r2Field));
+	public static JButton contrastMenuOptionButton(JTextField r1xField, JTextField r1yField, JTextField r2xField,
+												   JTextField r2yField){
+		return applyButton(new ContrastButtonListener(r1xField, r1yField, r2xField, r2yField));
 	}
 	
 	public static JButton thresholdMenuOptionButton(JTextField tField){
@@ -86,8 +87,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new ApplyExponentialButtonListener(lambdaField));
 	}
 	
-	public static JButton applySaltAndPepperMenuOptionButton(JTextField pField){
-		return applyButton(new ApplySaltAndPepperButtonListener(pField));
+	public static JButton applySaltAndPepperMenuOptionButton(JTextField cField, JTextField sField){
+		return applyButton(new ApplySaltAndPepperButtonListener(cField, sField));
 	}
 	
 	/* END EDIT */

@@ -1,18 +1,24 @@
 package ar.ed.itba.ui.listeners.button.edit.effect;
 
-import ar.ed.itba.ui.components.DialogFactory;
+import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.ui.frames.EditableImageFrame;
+import ar.ed.itba.utils.ImageUtils;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DynamicRangeButtonListener implements ActionListener {
-	public DynamicRangeButtonListener(JTextField coeffField) {
+	public DynamicRangeButtonListener() {
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		DialogFactory.notImplementedDialog();
+		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
+		final int[] rgbImage = editableImageFrame.getAtiImage().toRGB();
+		ImageUtils.dynamicRangeCompression(rgbImage);
+		editableImageFrame.setAtiImage(new PpmImage(rgbImage, editableImageFrame.getAtiImage().getWidth(),
+				editableImageFrame.getAtiImage().getHeight()));
+		editableImageFrame.buildAndShow();
 	}
 }

@@ -21,7 +21,7 @@ public class MainFrame extends ATIFrame {
 	}
 	
 	@Override
-	JPanel getMainPanel() {
+	protected JPanel getMainPanel() {
 		return anInterface.getMainPanel();
 	}
 	
@@ -31,5 +31,11 @@ public class MainFrame extends ATIFrame {
 	
 	public JPanel getParamPanel(){
 		return anInterface.getParamPanel();
+	}
+	
+	@Override
+	public void build() {
+		super.build();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

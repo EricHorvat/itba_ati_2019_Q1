@@ -1,5 +1,6 @@
 package ar.ed.itba.ui.listeners.button.filter.effect;
 
+import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PgmImage;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.ui.frames.FrameFactory;
@@ -22,8 +23,8 @@ public abstract class MaskFilterButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		BufferedImage resultImage = getFilter().applyFilter(EditableImageFrame.instance().getAtiImage().view());
+		ATIImage resultImage = getFilter().applyFilter(EditableImageFrame.instance().getAtiImage());
 		
-		FrameFactory.fixedImageFrame("TEST", new PgmImage(resultImage)).buildAndShow();
+		FrameFactory.fixedImageFrame("TEST", resultImage).buildAndShow();
 	}
 }

@@ -13,13 +13,14 @@ public class HighlightBorderFilter extends WeightMaskFilter {
 	
 	@Override
 	protected double[][] generateMask() {
+		int maskDivisor = maskDivisor();
 		int center = maskSide / 2;
 		double[][] mask = new double[maskSide][];
 		for (int i = 0; i < maskSide; i++) {
 			double[] column = new double[maskSide];
 			for (int j = 0; j < maskSide; j++) {
 				if (i == center && j == center){
-					column[j] = maskDivisor - 1;
+					column[j] = maskDivisor;
 				} else {
 					column[j] = -1;
 				}
