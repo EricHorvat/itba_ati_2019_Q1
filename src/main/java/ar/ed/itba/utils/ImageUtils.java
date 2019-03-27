@@ -7,9 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 public final class ImageUtils {
 	
@@ -141,6 +139,40 @@ public final class ImageUtils {
 			else
 				pixels[i] = (byte) 255;
 		}
+	}
+
+	public static PpmImage equalize(final ATIImage image) {
+		final Map<Integer, Double> relativeFreq = new HashMap<>();
+
+		final int[] pixels = image.toRGB();
+
+		for (int i = 0 ; i < pixels.length ; i++) {
+			if (relativeFreq.containsKey(pixels[i]))
+				relativeFreq.put(pixels[i], relativeFreq.get(pixels[i]) + 1);
+			else
+				relativeFreq.put(pixels[i], 1D);
+		}
+
+		for (Map.Entry<Integer, Double> entry : relativeFreq.entrySet())
+			relativeFreq.put(entry.getKey(), entry.getValue() / pixels.length);
+
+		final Map<Integer, Double> equalizedFreq = new HashMap<>();
+
+		for (final int grayLevel : relativeFreq.keySet()) {
+			double sum = 0;
+			for (int j = 0 ; j <= grayLevel ; j++) {
+				if (relativeFreq.containsKey(j))
+					sum += relativeFreq.get(j);
+			}
+			equalizedFreq.put(grayLevel, sum);
+		}
+
+		double minValue = equalizedFreq.values().stream().min(Double::compareTo).get();
+
+		for (int i = 0 ; i < pixels.length ; i++)
+			pixels[i] = (int) (((equalizedFreq.get(pixels[i]) - minValue) / (1 - minValue)) * 255);
+
+		return new PpmImage(pixels, image.getWidth(), image.getHeight());
 	}
 
 	public static PpmImage multiply(final ATIImage image, final double value) {

@@ -16,6 +16,9 @@ public class EqualizationButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		DialogFactory.notImplementedDialog();
+		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
+		editableImageFrame.setAtiImage(ImageUtils.equalize(editableImageFrame.getAtiImage()));
+		editableImageFrame.buildAndShow();
+		new GrayHistogramFrame(editableImageFrame.getAtiImage()).buildAndShow();
 	}
 }
