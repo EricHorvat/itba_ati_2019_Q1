@@ -4,6 +4,7 @@ import ar.ed.itba.file.ImageOpener;
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.ui.components.DialogFactory;
 import ar.ed.itba.ui.frames.EditableImageFrame;
+import ar.ed.itba.utils.CheckUIUtils;
 import ar.ed.itba.utils.ImageUtils;
 
 import javax.swing.*;
@@ -20,6 +21,9 @@ public class AddImageButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
+		if (!CheckUIUtils.checkEditableImageVisible())
+			return;
+
 		ImageOpener imageOpener = new ImageOpener();
 		ATIImage image = imageOpener.open(filePathField.getText());
 

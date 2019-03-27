@@ -3,6 +3,7 @@ package ar.ed.itba.ui.listeners.button.edit.effect;
 import ar.ed.itba.noise.SaltAndPepper;
 import ar.ed.itba.ui.components.DialogFactory;
 import ar.ed.itba.ui.frames.EditableImageFrame;
+import ar.ed.itba.utils.CheckUIUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,10 +21,12 @@ public class ApplySaltAndPepperButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		final double contamination = Double.parseDouble(cField.getText());
-		final double saltProb = Double.parseDouble(sField.getText());
-		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
-		editableImageFrame.setAtiImage(SaltAndPepper.generateNoise(editableImageFrame.getAtiImage(), contamination, saltProb));
-		editableImageFrame.buildAndShow();
+		if (CheckUIUtils.checkEditableImageVisible()) {
+			final double contamination = Double.parseDouble(cField.getText());
+			final double saltProb = Double.parseDouble(sField.getText());
+			EditableImageFrame editableImageFrame = EditableImageFrame.instance();
+			editableImageFrame.setAtiImage(SaltAndPepper.generateNoise(editableImageFrame.getAtiImage(), contamination, saltProb));
+			editableImageFrame.buildAndShow();
+		}
 	}
 }

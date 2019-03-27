@@ -2,6 +2,7 @@ package ar.ed.itba.ui.listeners.button.edit.effect;
 
 import ar.ed.itba.file.image.PpmImage;
 import ar.ed.itba.ui.frames.EditableImageFrame;
+import ar.ed.itba.utils.CheckUIUtils;
 import ar.ed.itba.utils.ImageUtils;
 
 import java.awt.event.ActionEvent;
@@ -14,11 +15,13 @@ public class DynamicRangeButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
-		final int[] rgbImage = editableImageFrame.getAtiImage().toRGB();
-		ImageUtils.dynamicRangeCompression(rgbImage);
-		editableImageFrame.setAtiImage(new PpmImage(rgbImage, editableImageFrame.getAtiImage().getWidth(),
-				editableImageFrame.getAtiImage().getHeight()));
-		editableImageFrame.buildAndShow();
+		if (CheckUIUtils.checkEditableImageVisible()) {
+			EditableImageFrame editableImageFrame = EditableImageFrame.instance();
+			final int[] rgbImage = editableImageFrame.getAtiImage().toRGB();
+			ImageUtils.dynamicRangeCompression(rgbImage);
+			editableImageFrame.setAtiImage(new PpmImage(rgbImage, editableImageFrame.getAtiImage().getWidth(),
+					editableImageFrame.getAtiImage().getHeight()));
+			editableImageFrame.buildAndShow();
+		}
 	}
 }

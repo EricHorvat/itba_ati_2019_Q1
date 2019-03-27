@@ -1,12 +1,12 @@
 package ar.ed.itba.ui.listeners.button.edit.effect;
 
-import ar.ed.itba.ui.components.DialogFactory;
+import ar.ed.itba.ui.frames.EditableImageFrame;
+import ar.ed.itba.ui.frames.histogram.GrayHistogramFrame;
+import ar.ed.itba.utils.CheckUIUtils;
+import ar.ed.itba.utils.ImageUtils;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class EqualizationButtonListener implements ActionListener {
 	
@@ -16,9 +16,11 @@ public class EqualizationButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		EditableImageFrame editableImageFrame = EditableImageFrame.instance();
-		editableImageFrame.setAtiImage(ImageUtils.equalize(editableImageFrame.getAtiImage()));
-		editableImageFrame.buildAndShow();
-		new GrayHistogramFrame(editableImageFrame.getAtiImage()).buildAndShow();
+		if(CheckUIUtils.checkEditableImageVisible()) {
+			EditableImageFrame editableImageFrame = EditableImageFrame.instance();
+			editableImageFrame.setAtiImage(ImageUtils.equalize(editableImageFrame.getAtiImage()));
+			editableImageFrame.buildAndShow();
+			new GrayHistogramFrame(editableImageFrame.getAtiImage()).buildAndShow();
+		}
 	}
 }
