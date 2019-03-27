@@ -9,10 +9,13 @@ import javax.swing.*;
 public class ApplyRayleighMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public ApplyRayleighMenuButtonListener() {
-		options.add(new JLabel("Xi"));
-		JTextField xiField = new JTextField();
-		options.add(xiField);
-		options.add(MenuOptionButtonFactory.applyRayleighMenuOptionButton(xiField));
+		options.add(new JLabel("Phi"));
+		JTextField phiField = new JTextField();
+		options.add(phiField);
+		options.add(new JLabel("Percentage"));
+		JTextField percentageField = new JTextField();
+		options.add(percentageField);
+		options.add(MenuOptionButtonFactory.applyRayleighMenuOptionButton(percentageField,phiField));
 	}
 	
 }

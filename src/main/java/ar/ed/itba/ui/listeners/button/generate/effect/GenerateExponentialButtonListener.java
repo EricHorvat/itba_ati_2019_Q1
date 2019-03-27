@@ -2,6 +2,7 @@ package ar.ed.itba.ui.listeners.button.generate.effect;
 
 import ar.ed.itba.math.NoiseImageFactory;
 import ar.ed.itba.ui.components.DialogFactory;
+import ar.ed.itba.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,13 +13,15 @@ public class GenerateExponentialButtonListener extends GenerateNoiseButtonListen
 	
 	private final JTextField lambdaField;
 	
-	public GenerateExponentialButtonListener(JTextField lambdaField) {
+	public GenerateExponentialButtonListener(JTextField percentageField, JTextField lambdaField) {
+		super(percentageField);
 		this.lambdaField = lambdaField;
 	}
 	
 	@Override
-	protected BufferedImage getImage() {
+	protected int[] getImage(int width, int height) {
 		double lambda = Double.parseDouble(lambdaField.getText());
-		return NoiseImageFactory.exponentialNoiseImage(100, 100, 1, lambda);
+		double percentage = Double.parseDouble(percentageField.getText());
+		return ImageUtils.toIntArray(NoiseImageFactory.exponentialNoiseImage(width,height, percentage, lambda, 0));
 	}
 }

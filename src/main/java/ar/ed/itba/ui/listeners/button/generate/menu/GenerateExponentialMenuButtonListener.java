@@ -8,10 +8,13 @@ import javax.swing.*;
 public class GenerateExponentialMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public GenerateExponentialMenuButtonListener() {
+		options.add(new JLabel("Percentage"));
+		JTextField percentageField = new JTextField();
+		options.add(percentageField);
 		options.add(new JLabel("Lambda"));
-		JTextField lambfaField = new JTextField();
-		options.add(lambfaField);
-		options.add(MenuOptionButtonFactory.generateExponentialMenuOptionButton(lambfaField));
+		JTextField lambdaField = new JTextField();
+		options.add(lambdaField);
+		options.add(MenuOptionButtonFactory.generateExponentialMenuOptionButton(percentageField,lambdaField));
 	}
 	
 }

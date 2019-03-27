@@ -8,10 +8,13 @@ import javax.swing.*;
 public class GenerateRayleighMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public GenerateRayleighMenuButtonListener() {
-		options.add(new JLabel("Xi"));
-		JTextField xiField = new JTextField();
-		options.add(xiField);
-		options.add(MenuOptionButtonFactory.generateRayleighMenuOptionButton(xiField));
+		options.add(new JLabel("Percentage"));
+		JTextField percentageField = new JTextField();
+		options.add(percentageField);
+		options.add(new JLabel("Phi"));
+		JTextField phiField = new JTextField();
+		options.add(phiField);
+		options.add(MenuOptionButtonFactory.generateRayleighMenuOptionButton(percentageField,phiField));
 	}
 	
 }
