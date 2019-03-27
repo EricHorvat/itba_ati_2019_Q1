@@ -15,7 +15,10 @@ public class ApplyGaussianMenuButtonListener extends ATIMenuOptionsButtonListene
 		options.add(new JLabel("Mu"));
 		JTextField muField = new JTextField();
 		options.add(muField);
-		options.add(MenuOptionButtonFactory.applyGaussianMenuOptionButton(sigmaField, muField));
+		options.add(new JLabel("Percentage"));
+		JTextField percentageField = new JTextField();
+		options.add(percentageField);
+		options.add(MenuOptionButtonFactory.applyGaussianMenuOptionButton(percentageField, sigmaField, muField));
 	}
 	
 }

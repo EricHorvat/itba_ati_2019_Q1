@@ -9,6 +9,7 @@ import ar.ed.itba.math.NoiseImageFactory;
 import ar.ed.itba.ui.components.DialogFactory;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.ui.frames.histogram.GrayHistogramFrame;
+import ar.ed.itba.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,17 +20,18 @@ import java.io.IOException;
 
 public class GenerateRayleighButtonListener extends GenerateNoiseButtonListener {
 	
-	private final JTextField xiField;
+	private final JTextField phiField;
 	
-	public GenerateRayleighButtonListener(JTextField xiField) {
-		this.xiField = xiField;
+	public GenerateRayleighButtonListener(JTextField percentageField, JTextField phiField) {
+		super(percentageField);
+		this.phiField = phiField;
 	}
 	
 	@Override
-	protected BufferedImage getImage() {
-		/*TODO CHECK FIELD*/
-		double xi = Double.parseDouble(xiField.getText());
-		return NoiseImageFactory.rayleighNoiseImage(100, 100, 1, xi);
+	protected int[] getImage(int width, int height) {
+		double phi = Double.parseDouble(phiField.getText());
+		double percentage = Double.parseDouble(percentageField.getText());
+		return ImageUtils.toIntArray(NoiseImageFactory.rayleighNoiseImage(width, height, percentage, phi,0));
 	}
 	
 }

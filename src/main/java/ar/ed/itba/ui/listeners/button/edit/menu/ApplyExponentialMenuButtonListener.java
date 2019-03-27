@@ -12,7 +12,10 @@ public class ApplyExponentialMenuButtonListener extends ATIMenuOptionsButtonList
 		options.add(new JLabel("Lambda"));
 		JTextField lambfaField = new JTextField();
 		options.add(lambfaField);
-		options.add(MenuOptionButtonFactory.applyExponentialMenuOptionButton(lambfaField));
+		options.add(new JLabel("Percentage"));
+		JTextField percentageField = new JTextField();
+		options.add(percentageField);
+		options.add(MenuOptionButtonFactory.applyExponentialMenuOptionButton(percentageField,lambfaField));
 	}
 	
 }

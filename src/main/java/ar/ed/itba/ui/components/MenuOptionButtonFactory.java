@@ -75,16 +75,16 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new EqualizationButtonListener());
 	}
 	
-	public static JButton applyGaussianMenuOptionButton(JTextField sigmaField, JTextField muField){
-		return applyButton(new ApplyGaussianButtonListener(sigmaField, muField));
+	public static JButton applyGaussianMenuOptionButton(JTextField percentageField, JTextField sigmaField, JTextField muField){
+		return applyButton(new ApplyGaussianButtonListener(percentageField,sigmaField, muField));
 	}
 	
-	public static JButton applyRayleighMenuOptionButton(JTextField xiField){
-		return applyButton(new ApplyRayleighButtonListener(xiField));
+	public static JButton applyRayleighMenuOptionButton(JTextField percentageField, JTextField phiField){
+		return applyButton(new ApplyRayleighButtonListener(percentageField, phiField));
 	}
 	
-	public static JButton applyExponentialMenuOptionButton(JTextField lambdaField){
-		return applyButton(new ApplyExponentialButtonListener(lambdaField));
+	public static JButton applyExponentialMenuOptionButton(JTextField percentageField, JTextField lambdaField){
+		return applyButton(new ApplyExponentialButtonListener(percentageField, lambdaField));
 	}
 	
 	public static JButton applySaltAndPepperMenuOptionButton(JTextField cField, JTextField sField){
@@ -118,16 +118,16 @@ public final class MenuOptionButtonFactory {
 		return generateButton(new GenerateGrayHistogramButtonListener());
 	}
 	
-	public static JButton generateGaussianMenuOptionButton(JTextField sigmaField, JTextField muField){
-		return generateButton(new GenerateGaussianButtonListener(sigmaField, muField));
+	public static JButton generateGaussianMenuOptionButton(JTextField percentageField, JTextField sigmaField, JTextField muField){
+		return generateButton(new GenerateGaussianButtonListener(percentageField, sigmaField, muField));
 	}
 	
-	public static JButton generateRayleighMenuOptionButton(JTextField xiField){
-		return generateButton(new GenerateRayleighButtonListener(xiField));
+	public static JButton generateRayleighMenuOptionButton(JTextField percentageField, JTextField phiField){
+		return generateButton(new GenerateRayleighButtonListener(percentageField, phiField));
 	}
 	
-	public static JButton generateExponentialMenuOptionButton(JTextField lambdaField){
-		return generateButton(new GenerateExponentialButtonListener(lambdaField));
+	public static JButton generateExponentialMenuOptionButton(JTextField percentageField, JTextField lambdaField){
+		return generateButton(new GenerateExponentialButtonListener(percentageField, lambdaField));
 	}
 	
 	/* END GENERATE */

@@ -1,19 +1,22 @@
 package ar.ed.itba.ui.listeners.button.filter.effect;
 
 import ar.ed.itba.ui.components.DialogFactory;
+import ar.ed.itba.utils.filters.MaskFilter;
+import ar.ed.itba.utils.filters.MedianFilter;
+import ar.ed.itba.utils.filters.PonderatedMedianFilter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PonderedMedianFilterButtonListener implements ActionListener{
+public class PonderedMedianFilterButtonListener extends MaskFilterButtonListener{
 	
 	public PonderedMedianFilterButtonListener() {
-		//super(maskSideField); maskSide fixed at 3
+		super(null);
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent actionEvent) {
-		DialogFactory.notImplementedDialog();
+	public MaskFilter getFilter() {
+		return new PonderatedMedianFilter();
 	}
 }

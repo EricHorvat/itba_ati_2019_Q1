@@ -184,6 +184,18 @@ public final class ImageUtils {
 		dynamicRangeCompression(pixels);
 		return new PpmImage(pixels, image.getWidth(), image.getHeight());
 	}
+	
+	public static PpmImage multiply(final ATIImage image, final double[] noiseImage) {
+		final int[] pixels = image.toRGB();
+		if(image.getWidth()*image.getHeight() * 3 != noiseImage.length ){
+			throw new IllegalArgumentException("Noise image must have the same dimension as source image");
+		}
+		for (int i = 0 ; i < noiseImage.length ; i++){
+			pixels[i] = (int) (pixels[i] * noiseImage[i]);
+		}
+		normalize(pixels);
+		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+	}
 
 	public static void gammaPower(final ATIImage image, final double gamma) {
 		if (gamma <= 0 || gamma > 2 || gamma == 1)
@@ -207,5 +219,13 @@ public final class ImageUtils {
 
 		for (int i = 0 ; i < rgbImage.length ; i++)
 			rgbImage[i] = (int) (c * Math.log(1 + (rgbImage[i] & 0xFF)));
+	}
+	
+	public static int[] toIntArray(final double[] image){
+		int[] ans = new int[image.length];
+		for (int i = 0; i < image.length; i++) {
+			ans[i] = (int) image[i];
+		}
+		return ans;
 	}
 }
