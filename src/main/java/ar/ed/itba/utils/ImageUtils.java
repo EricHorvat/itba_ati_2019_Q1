@@ -87,9 +87,12 @@ public final class ImageUtils {
 			else if (pixels[i] > maxValue)
 				maxValue = pixels[i];
 		}
-		double aux = maxValue - minValue;
 		for (int i = 0 ; i < pixels.length ; i++)
-			pixels[i] = (int) (((pixels[i] - minValue) / aux) * 255);
+			pixels[i] = normalize(pixels[i], minValue, maxValue);
+	}
+
+	private static int normalize(double value, double minValue, double maxValue) {
+		return (int) (((value - minValue) / (maxValue - minValue)) * 255);
 	}
 
 	public static void increaseContrast(final ATIImage image, final int x1, final int y1, final int x2, final int y2) {
@@ -170,7 +173,7 @@ public final class ImageUtils {
 		double minValue = equalizedFreq.values().stream().min(Double::compareTo).get();
 
 		for (int i = 0 ; i < pixels.length ; i++)
-			pixels[i] = (int) (((equalizedFreq.get(pixels[i]) - minValue) / (1 - minValue)) * 255);
+			pixels[i] = normalize(equalizedFreq.get(pixels[i]), minValue, 1);
 
 		return new PpmImage(pixels, image.getWidth(), image.getHeight());
 	}
