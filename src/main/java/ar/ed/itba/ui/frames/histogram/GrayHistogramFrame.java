@@ -24,7 +24,11 @@ public class GrayHistogramFrame extends HistogramFrame {
 	
 	
 	public GrayHistogramFrame(ATIImage atiImage) {
-		super("GrayHistogram", atiImage);
+		this("GrayHistogram", atiImage);
+	}
+	
+	public GrayHistogramFrame(String title, ATIImage atiImage) {
+		super(title, atiImage);
 	}
 	
 	public GrayHistogramFrame(ATIImage atiImage, boolean ignoreZero) {
