@@ -21,4 +21,9 @@ public class MedianFilterButtonListener extends MaskFilterButtonListener {
 		
 		return new MedianFilter(maskSide);
 	}
+	
+	@Override
+	public String getName() {
+		return "Median";
+	}
 }

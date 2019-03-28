@@ -21,10 +21,14 @@ public abstract class MaskFilterButtonListener implements ActionListener {
 	
 	public abstract MaskFilter getFilter();
 	
+	public abstract String getName();
+	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		ATIImage resultImage = getFilter().applyFilter(EditableImageFrame.instance().getAtiImage());
 		
-		FrameFactory.fixedImageFrame("TEST", resultImage).buildAndShow();
+		String text = maskSideField.getText();
+		
+		FrameFactory.fixedImageFrame(getName() + " " + text + "x" + text, resultImage).buildAndShow();
 	}
 }

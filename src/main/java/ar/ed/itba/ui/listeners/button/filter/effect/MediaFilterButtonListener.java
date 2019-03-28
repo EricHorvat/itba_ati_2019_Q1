@@ -21,4 +21,9 @@ public class MediaFilterButtonListener extends MaskFilterButtonListener {
 		
 		return new MediaFilter(maskSide);
 	}
+	
+	@Override
+	public String getName() {
+		return "Media";
+	}
 }

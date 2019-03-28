@@ -11,9 +11,7 @@ import java.awt.event.ActionListener;
 
 public class GaussianFilterButtonListener extends MaskFilterButtonListener{
 	
-	private JTextField sigmaField;
-	
-	public GaussianFilterButtonListener(JTextField maskSideField, JTextField sigmaField) {
+	public GaussianFilterButtonListener(JTextField maskSideField) {
 		super(maskSideField);
 	}
 	
@@ -22,5 +20,10 @@ public class GaussianFilterButtonListener extends MaskFilterButtonListener{
 		int maskSide = Integer.parseInt(maskSideField.getText());
 		
 		return new GaussianFilter(maskSide);
+	}
+	
+	@Override
+	public String getName() {
+		return "Gaussian";
 	}
 }

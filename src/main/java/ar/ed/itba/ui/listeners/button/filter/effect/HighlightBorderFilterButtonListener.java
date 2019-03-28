@@ -26,4 +26,8 @@ public class HighlightBorderFilterButtonListener extends MaskFilterButtonListene
 		return new HighlightBorderFilter(maskSide);
 	}
 	
+	@Override
+	public String getName() {
+		return "Borders";
+	}
 }

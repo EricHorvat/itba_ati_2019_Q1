@@ -19,4 +19,9 @@ public class PonderedMedianFilterButtonListener extends MaskFilterButtonListener
 	public MaskFilter getFilter() {
 		return new PonderatedMedianFilter();
 	}
+	
+	@Override
+	public String getName() {
+		return "PMedian";
+	}
 }

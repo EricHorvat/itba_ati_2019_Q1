@@ -9,9 +9,6 @@ import javax.swing.*;
 public class GaussianFilterMenuButtonListener extends MaskFilterMenuButtonListener {
 	
 	public GaussianFilterMenuButtonListener() {
-		options.add(new JLabel("Sigma"));
-		JTextField sigmaField = new JTextField();
-		options.add(sigmaField);
-		options.add(MenuOptionButtonFactory.gaussianFilterMenuOptionButton(maskSideField,sigmaField));
+		options.add(MenuOptionButtonFactory.gaussianFilterMenuOptionButton(maskSideField));
 	}
 }

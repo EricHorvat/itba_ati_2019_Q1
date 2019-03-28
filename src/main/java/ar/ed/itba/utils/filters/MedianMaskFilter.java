@@ -44,7 +44,6 @@ public abstract class MedianMaskFilter extends MaskFilter{
 								blueList.add(sourceRGBArray[indexBlue + deltaIndex]);
 								
 							}
-							System.out.println(mask[k+maskCenter][l+maskCenter]);
 						}
 					}
 					redList.sort(Integer::compareTo);

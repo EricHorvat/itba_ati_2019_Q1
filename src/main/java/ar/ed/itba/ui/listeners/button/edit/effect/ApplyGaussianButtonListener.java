@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static ar.ed.itba.utils.ImageUtils.toIntArray;
+
 public class ApplyGaussianButtonListener extends ApplyNoiseButtonListener {
 	
 	private final JTextField sigmaField;
@@ -28,6 +30,6 @@ public class ApplyGaussianButtonListener extends ApplyNoiseButtonListener {
 		double mu = Double.parseDouble(muField.getText());
 		
 		double[] noiseImage = NoiseImageFactory.gaussianNoiseImage(atiImage.getWidth(), atiImage.getHeight(), percentage,sigma,mu,0);
-		return ImageUtils.sum(atiImage,new PpmImage(ImageUtils.toIntArray(noiseImage), atiImage.getWidth(), atiImage.getHeight()));
+		return ImageUtils.sum(atiImage,toIntArray(noiseImage));
 	}
 }
