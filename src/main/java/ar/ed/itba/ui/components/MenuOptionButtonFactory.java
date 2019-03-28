@@ -57,8 +57,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new LessImageButtonListener(filePathField));
 	}
 	
-	public static JButton dynamicRangeMenuOptionButton(){
-		return applyButton(new DynamicRangeButtonListener());
+	public static JButton dynamicRangeMenuOptionButton(JTextField scalarField){
+		return applyButton(new DynamicRangeButtonListener(scalarField));
 	}
 	
 	public static JButton gammaPowerMenuOptionButton(JTextField gammaField){

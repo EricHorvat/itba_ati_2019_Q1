@@ -11,6 +11,10 @@ import java.util.List;
 public class DynamicRangeGeneralMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public DynamicRangeGeneralMenuButtonListener() {
-		options.add(MenuOptionButtonFactory.dynamicRangeMenuOptionButton());
+		
+		options.add(new JLabel("Scalar"));
+		JTextField scalarField = new JTextField();
+		options.add(scalarField);
+		options.add(MenuOptionButtonFactory.dynamicRangeMenuOptionButton(scalarField));
 	}
 }

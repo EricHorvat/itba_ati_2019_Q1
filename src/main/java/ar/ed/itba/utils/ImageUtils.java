@@ -229,7 +229,7 @@ public final class ImageUtils {
 		final double c = 255 / Math.log(1 + maxValue);
 
 		for (int i = 0 ; i < rgbImage.length ; i++)
-			rgbImage[i] = (int) (c * Math.log(1 + (rgbImage[i] & 0xFF)));
+			rgbImage[i] = (int) (c * Math.log(1 + rgbImage[i]));
 	}
 	
 	public static int[] toIntArray(final double[] image){

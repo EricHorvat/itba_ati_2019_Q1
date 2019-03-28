@@ -49,9 +49,15 @@ public abstract class MedianMaskFilter extends MaskFilter{
 					redList.sort(Integer::compareTo);
 					greenList.sort(Integer::compareTo);
 					blueList.sort(Integer::compareTo);
-					finalRGBArray[indexRed] = redList.get(redList.size()/2);
-					finalRGBArray[indexGreen] = greenList.get(greenList.size()/2);
-					finalRGBArray[indexBlue] = blueList.get(blueList.size()/2);
+					if(redList.size() % 2 == 1) {
+						finalRGBArray[indexRed] = redList.get(redList.size() / 2);
+						finalRGBArray[indexGreen] = greenList.get(greenList.size() / 2);
+						finalRGBArray[indexBlue] = blueList.get(blueList.size() / 2);
+					}else{
+						finalRGBArray[indexRed] = (int)((redList.get(redList.size() / 2) + redList.get((redList.size() / 2) -1))/2.0);
+						finalRGBArray[indexGreen] = (int)((greenList.get(greenList.size() / 2) + greenList.get((greenList.size() / 2) -1))/2.0);
+						finalRGBArray[indexBlue] = (int)((blueList.get(blueList.size() / 2) + greenList.get((blueList.size() / 2) -1))/2.0);
+					}
 				}
 			}
 		}
