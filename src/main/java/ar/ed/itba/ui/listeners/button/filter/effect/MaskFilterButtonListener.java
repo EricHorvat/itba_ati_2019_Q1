@@ -25,7 +25,7 @@ public abstract class MaskFilterButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent actionEvent) {
 		ATIImage resultImage = getFilter().applyFilter(EditableImageFrame.instance().getAtiImage());
 		
-		String text = maskSideField.getText();
+		String text = maskSideField!=null?maskSideField.getText():"";
 		
 		FrameFactory.fixedImageFrame(getName() + " " + text + "x" + text, resultImage).buildAndShow();
 	}

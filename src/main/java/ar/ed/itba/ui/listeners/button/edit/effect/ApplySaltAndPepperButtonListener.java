@@ -11,21 +11,18 @@ import java.awt.event.ActionListener;
 
 public class ApplySaltAndPepperButtonListener implements ActionListener {
 	
-	private final JTextField cField;
 	private final JTextField sField;
 	
-	public ApplySaltAndPepperButtonListener(JTextField cField, JTextField sField) {
-		this.cField = cField;
+	public ApplySaltAndPepperButtonListener(JTextField sField) {
 		this.sField = sField;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		if (CheckUIUtils.checkEditableImageVisible()) {
-			final double contamination = Double.parseDouble(cField.getText());
 			final double saltProb = Double.parseDouble(sField.getText());
 			EditableImageFrame editableImageFrame = EditableImageFrame.instance();
-			editableImageFrame.setAtiImage(SaltAndPepper.generateNoise(editableImageFrame.getAtiImage(), contamination, saltProb));
+			editableImageFrame.setAtiImage(SaltAndPepper.generateNoise(editableImageFrame.getAtiImage(), saltProb));
 			editableImageFrame.buildAndShow();
 		}
 	}

@@ -94,8 +94,8 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new ApplyExponentialButtonListener(percentageField, lambdaField));
 	}
 	
-	public static JButton applySaltAndPepperMenuOptionButton(JTextField cField, JTextField sField){
-		return applyButton(new ApplySaltAndPepperButtonListener(cField, sField));
+	public static JButton applySaltAndPepperMenuOptionButton(JTextField sField){
+		return applyButton(new ApplySaltAndPepperButtonListener(sField));
 	}
 	
 	/* END EDIT */
