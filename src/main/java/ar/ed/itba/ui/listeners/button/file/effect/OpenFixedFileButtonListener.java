@@ -9,18 +9,18 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class OpenTESTFileButtonListener implements ActionListener {
+public class OpenFixedFileButtonListener implements ActionListener {
 	
-	private final JTextField filePathField;
+	private final String fixedFile;
 	
-	public OpenTESTFileButtonListener(JTextField filePathField) {
-		this.filePathField = filePathField;
+	public OpenFixedFileButtonListener(String fixedFile) {
+		this.fixedFile = fixedFile;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		ImageOpener imageOpener = new ImageOpener();
-		ATIImage image = imageOpener.open("./res/TEST.PGM");
+		ATIImage image = imageOpener.open(fixedFile);
 		if(image != null){
 			EditableImageFrame inputImageFrame = EditableImageFrame.instance();
 			inputImageFrame.setAtiImage(image);

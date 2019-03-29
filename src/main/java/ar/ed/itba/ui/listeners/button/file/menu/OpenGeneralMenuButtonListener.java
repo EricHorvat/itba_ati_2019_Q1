@@ -15,7 +15,8 @@ public class OpenGeneralMenuButtonListener extends ATIMenuOptionsButtonListener 
 		JTextField filePathField = new JTextField();
 		options.add(filePathField);
 		options.add(MenuOptionButtonFactory.openFileMenuOptionButton(filePathField));
-		options.add(MenuOptionButtonFactory.openTESTFileMenuOptionButton(filePathField));
+		options.add(MenuOptionButtonFactory.openTESTFileMenuOptionButton());
+		options.add(MenuOptionButtonFactory.openLenaFileMenuOptionButton());
 	}
 	
 }

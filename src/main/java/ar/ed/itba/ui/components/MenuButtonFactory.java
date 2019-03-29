@@ -136,6 +136,10 @@ public final class MenuButtonFactory {
 		return listeningButton("Highlight Border Filter", new HighlightBorderFilterMenuButtonListener());
 	}
 	
+	public static JButton prewitFilterMenuButton() {
+		return listeningButton("Prewit Filter", new PrewitFilterMenuButtonListener());
+	}
+	
 	/* END FILTER */
 	
 	/* UTILS */

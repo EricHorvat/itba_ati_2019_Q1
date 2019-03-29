@@ -1,13 +1,13 @@
 package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.effect.*;
-import ar.ed.itba.ui.listeners.button.edit.menu.ApplySaltAndPepperMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.file.effect.OpenTESTFileButtonListener;
+import ar.ed.itba.ui.listeners.button.file.effect.OpenFixedFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.ResetFileButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.*;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
+import ar.ed.itba.utils.filters.PrewitFilter;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -30,9 +30,15 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
-	public static JButton openTESTFileMenuOptionButton(JTextField filePathField){
+	public static JButton openTESTFileMenuOptionButton(){
 		JButton button = new JButton("Open Test file");
-		button.addActionListener(new OpenTESTFileButtonListener(filePathField));
+		button.addActionListener(new OpenFixedFileButtonListener("./res/TEST.PGM"));
+		return button;
+	}
+	
+	public static JButton openLenaFileMenuOptionButton(){
+		JButton button = new JButton("Open Lena file");
+		button.addActionListener(new OpenFixedFileButtonListener("./res/LENA.RAW"));
 		return button;
 	}
 	
@@ -158,6 +164,24 @@ public final class MenuOptionButtonFactory {
 	
 	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
 		return applyButton(new HighlightBorderFilterButtonListener(maskSideField));
+	}
+	
+	public static JButton prewitMaxFilterMenuOptionButton(){
+		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.MAX));
+		button.setText("Max");
+		return button;
+	}
+	
+	public static JButton prewitAvgFilterMenuOptionButton(){
+		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.AVG));
+		button.setText("Average");
+		return button;
+	}
+	
+	public static JButton prewitMinFilterMenuOptionButton(){
+		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.MIN));
+		button.setText("Min");
+		return button;
 	}
 	
 	/* END FILTER */

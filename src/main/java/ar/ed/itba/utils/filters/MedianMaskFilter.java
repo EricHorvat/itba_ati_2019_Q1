@@ -14,6 +14,12 @@ public abstract class MedianMaskFilter extends MaskFilter{
 	}
 	
 	public ATIImage applyFilter(ATIImage sourceAtiImage){
+		return new PpmImage(applyFilterRaw(sourceAtiImage), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
+	}
+	
+	@Override
+	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
+		generateMask();
 		int maskCenter = maskSide/2;
 		
 		int imageWidth = sourceAtiImage.getWidth();
@@ -61,9 +67,6 @@ public abstract class MedianMaskFilter extends MaskFilter{
 				}
 			}
 		}
-		
-		return new PpmImage(finalRGBArray, imageWidth, imageHeight);
+		return finalRGBArray;
 	}
-	//4,6
-	
 }

@@ -3,28 +3,18 @@ package ar.ed.itba.utils.filters;
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-
-public abstract class WeightMaskFilter extends MaskFilter{
+public abstract class WeightGradientMaskFilter extends MaskFilter{
 	
 	protected final int maskDivisor;
 	
 	protected abstract int maskDivisor();
 	
-	public WeightMaskFilter(int maskSide) {
+	public WeightGradientMaskFilter(int maskSide) {
 		super(maskSide);
 		this.maskDivisor = maskDivisor();
 	}
 	
 	public ATIImage applyFilter(ATIImage sourceAtiImage){
-		
-		return new PpmImage(applyFilterRaw(sourceAtiImage), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
-	}
-	
-	@Override
-	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
-		
 		mask = generateMask();
 		int maskCenter = maskSide/2;
 		
@@ -58,6 +48,12 @@ public abstract class WeightMaskFilter extends MaskFilter{
 				}
 			}
 		}
-		return finalRGBArray;
+		
+		return new PpmImage(finalRGBArray, imageWidth, imageHeight);
 	}
+	
+	/*@Override
+	protected double[][] generateMask(PrewitPreFilter.Orientation orientation) {
+		return new double[0][];
+	}*/
 }

@@ -41,13 +41,13 @@ public final class ImageUtils {
 		a.add(rgb2 - 255);
 		return sumRGB(a, -255);
 	}
-
+	
 	public static PpmImage sum(final ATIImage image1, final ATIImage image2) {
 		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
 			throw new IllegalArgumentException("Image 2 must be contained in image 1");
-
+		
 		final int[] pixels2 = image2.toRGB();
-
+		
 		return sum(image1,pixels2);
 	}
 	
@@ -56,8 +56,8 @@ public final class ImageUtils {
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		
 		final int[] pixels = image.toRGB();
-		for (int i = 0 ; i < image.getHeight() ; i++) {
-			for (int j = 0 ; j < image.getWidth() ; j++) {
+		for (int i = 0 ; i < image.getWidth() ; i++) {
+			for (int j = 0 ; j < image.getHeight() ; j++) {
 				pixels[(i * image.getWidth() + j) * 3] += modifier[(i * image.getWidth() + j) * 3];
 				pixels[(i * image.getWidth() + j) * 3 + 1] += modifier[(i * image.getWidth() + j) * 3 + 1];
 				pixels[(i * image.getWidth() + j) * 3 + 2] += modifier[(i * image.getWidth() + j) * 3 + 2];
@@ -65,6 +65,110 @@ public final class ImageUtils {
 		}
 		normalize(pixels);
 		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+	}
+	
+	public static PpmImage avg(final ATIImage image1, final ATIImage image2) {
+		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
+			throw new IllegalArgumentException("Image 2 must be contained in image 1");
+		
+		final int[] pixels2 = image2.toRGB();
+		
+		return avg(image1,pixels2);
+	}
+	
+	public static PpmImage avg(final ATIImage image, final int[] modifier) {
+		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		final int[] pixels = image.toRGB();
+		
+		return new PpmImage(avg(pixels,modifier, image.getWidth(), image.getHeight()),image.getWidth(), image.getHeight());
+	}
+	
+	public static int[] avg(final int[] image, final int[] modifier, int width, int height){
+		if (width * height * 3 != modifier.length)
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		
+		final int pixels[] = new int[width * height * 3];
+		
+		for (int i = 0 ; i < width ; i++) {
+			for (int j = 0 ; j < height ; j++) {
+				int index = (i * width + j) * 3;
+				pixels[index] = (pixels[index] + modifier[index]) / 2;
+				pixels[index + 1] += (pixels[index + 1] + modifier[index + 1]) / 2;
+				pixels[index + 2] += (pixels[index + 2] + modifier[index + 2]) / 2;
+			}
+		}
+		return pixels;
+	}
+	
+	public static PpmImage max(final ATIImage image1, final ATIImage image2) {
+		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
+			throw new IllegalArgumentException("Image 2 must be contained in image 1");
+		
+		final int[] pixels2 = image2.toRGB();
+		
+		return max(image1,pixels2);
+	}
+	
+	public static PpmImage max(final ATIImage image, final int[] modifier) {
+		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		final int[] pixels = image.toRGB();
+		
+		return new PpmImage(max(pixels,modifier, image.getWidth(), image.getHeight()),image.getWidth(), image.getHeight());
+	}
+	
+	public static int[] max(final int[] image, final int[] modifier, int width, int height ){
+		if (image.length != modifier.length)
+			throw new IllegalArgumentException("modifier must have same length as image array");
+		if (width * height * 3 != modifier.length){
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		}
+		int pixels[] = new int[width * height * 3 ];
+		
+		for (int i = 0 ; i < width ; i++) {
+			for (int j = 0 ; j < height ; j++) {
+				int index = (i * width + j) * 3;
+				pixels[index] = pixels[index] > modifier[index] ? pixels[index] : modifier[index];
+				pixels[index + 1] = pixels[index + 1] > modifier[index + 1] ? pixels[index + 1] : modifier[index + 1];
+				pixels[index + 2] = pixels[index + 2] > modifier[index + 2] ? pixels[index + 2] : modifier[index + 2];
+			}
+		}
+		return pixels;
+	}
+	
+	public static PpmImage min(final ATIImage image1, final ATIImage image2) {
+		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
+			throw new IllegalArgumentException("Image 2 must be contained in image 1");
+		
+		final int[] pixels2 = image2.toRGB();
+		
+		return min(image1,pixels2);
+	}
+	
+	public static PpmImage min(final ATIImage image, final int[] modifier) {
+		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		final int[] pixels = image.toRGB();
+		
+		return new PpmImage(normalize(min(pixels,modifier, image.getWidth(), image.getHeight())),image.getWidth(), image.getHeight());
+	}
+	
+	public static int[] min(final int[] image, final int[] modifier, int width, int height ){
+		if (width * height * 3 != modifier.length)
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		
+		int pixels[] = new int[width*height*3];
+		
+		for (int i = 0 ; i < width ; i++) {
+			for (int j = 0 ; j < height; j++) {
+				int index = (i * width + j) * 3;
+				pixels[index] = pixels[index] < modifier[index] ? pixels[index] : modifier[index];
+				pixels[index + 1] = pixels[index + 1] < modifier[index + 1] ? pixels[index + 1] : modifier[index + 1];
+				pixels[index + 2] = pixels[index + 2] < modifier[index + 2] ? pixels[index + 2] : modifier[index + 2];
+			}
+		}
+		return pixels;
 	}
 
 	public static PpmImage subtraction(final ATIImage image1, final ATIImage image2) {
@@ -74,8 +178,8 @@ public final class ImageUtils {
 		final int[] pixels1 = image1.toRGB();
 		final int[] pixels2 = image2.toRGB();
 
-		for (int i = 0 ; i < image2.getHeight() ; i++) {
-			for (int j = 0 ; j < image2.getWidth() ; j++) {
+		for (int i = 0 ; i < image2.getWidth() ; i++) {
+			for (int j = 0 ; j < image2.getHeight() ; j++) {
 				pixels1[(i * image1.getWidth() + j) * 3] -= pixels2[(i * image2.getWidth() + j) * 3];
 				pixels1[(i * image1.getWidth() + j) * 3 + 1] -= pixels2[(i * image2.getWidth() + j) * 3 + 1];
 				pixels1[(i * image1.getWidth() + j) * 3 + 2] -= pixels2[(i * image2.getWidth() + j) * 3 + 2];
@@ -85,7 +189,7 @@ public final class ImageUtils {
 		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
 	}
 
-	public static void normalize(final int[] pixels) {
+	public static int[] normalize(final int[] pixels) {
 		int minValue = pixels[0];
 		int maxValue = pixels[0];
 		for (int i = 0 ; i < pixels.length ; i++) {
@@ -97,6 +201,7 @@ public final class ImageUtils {
 		System.out.println("Normalizing between " + minValue + " and " +maxValue);
 		for (int i = 0 ; i < pixels.length ; i++)
 			pixels[i] = normalize(pixels[i], minValue, maxValue);
+		return pixels;
 	}
 
 	private static int normalize(double value, double minValue, double maxValue) {
