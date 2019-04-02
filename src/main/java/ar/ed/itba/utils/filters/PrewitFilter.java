@@ -35,6 +35,12 @@ public class PrewitFilter extends MaskFilter {
 		int width = sourceAtiImage.getWidth();
 		int height = sourceAtiImage.getHeight();
 		switch (type){
+			case HOR:
+				finalImage = xImage;
+				break;
+			case VER:
+				finalImage = yImage;
+				break;
 			case AVG:
 				finalImage = avg(xImage,yImage, width, height);
 				break;
@@ -50,6 +56,6 @@ public class PrewitFilter extends MaskFilter {
 	}
 	
 	public enum PrewitType{
-		MAX, MIN, AVG
+		MAX, MIN, AVG, HOR, VER
 	}
 }

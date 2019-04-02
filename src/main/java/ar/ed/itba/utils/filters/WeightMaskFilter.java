@@ -28,6 +28,7 @@ public abstract class WeightMaskFilter extends MaskFilter{
 		mask = generateMask();
 		int maskCenter = maskSide/2;
 		
+
 		int imageWidth = sourceAtiImage.getWidth();
 		int imageHeight = sourceAtiImage.getHeight();
 		int[] sourceRGBArray = sourceAtiImage.toRGB();

@@ -184,6 +184,18 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
+	public static JButton prewitHorizontalFilterMenuOptionButton(){
+		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.HOR));
+		button.setText("Horizontal");
+		return button;
+	}
+	
+	public static JButton prewitVerticalFilterMenuOptionButton(){
+		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.VER));
+		button.setText("Vertical");
+		return button;
+	}
+	
 	/* END FILTER */
 	/*Utils*/
 	

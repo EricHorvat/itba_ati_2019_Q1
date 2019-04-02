@@ -1,16 +1,22 @@
 package ar.ed.itba.ui.frames;
 
+import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.ui.frames.interfaces.EditableImageInterface;
 import ar.ed.itba.utils.Region;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class EditableImageFrame extends ImageFrame {
 	private static EditableImageFrame instance;
 	
 	private EditableImageFrame(){
 		super("Editable Image", new EditableImageInterface());
+		moves = new ArrayList<>();
+		index = -1;
 	}
 	
 	private Region region;
@@ -22,6 +28,33 @@ public class EditableImageFrame extends ImageFrame {
 		}
 		return instance;
 	}
+	
+	private List<ATIImage> moves;
+	private int index;
+	
+	@Override
+	public void setAtiImage(ATIImage atiImage) {
+		IntStream.range(index+1,moves.size()).forEach(moves::remove);
+		moves.add(atiImage);
+		redo();
+	}
+	
+	public void undo(){
+		if(index > 0) {
+			index--;
+			super.setAtiImage(moves.get(index));
+			this.makeShow();
+		}
+	}
+	
+	public void redo(){
+		if(index < moves.size() - 1) {
+			index++;
+			super.setAtiImage(moves.get(index));
+			this.makeShow();
+		}
+	}
+	
 	
 	public void showRegionInfo(int oX, int oY, int tX, int tY) {
 		int x0,y0,w,h;
