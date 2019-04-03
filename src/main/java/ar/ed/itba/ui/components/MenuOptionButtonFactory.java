@@ -178,6 +178,12 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
+	public static JButton prewitMod2FilterMenuOptionButton(){
+		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.MOD));
+		button.setText("Mod2");
+		return button;
+	}
+	
 	public static JButton prewitMinFilterMenuOptionButton(){
 		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.MIN));
 		button.setText("Min");

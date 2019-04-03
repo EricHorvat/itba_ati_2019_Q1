@@ -44,6 +44,9 @@ public class PrewitFilter extends MaskFilter {
 			case AVG:
 				finalImage = avg(xImage,yImage, width, height);
 				break;
+			case MOD:
+				finalImage = mod2(xImage,yImage, width, height);
+				break;
 			case MAX:
 				finalImage = max(xImage,yImage, width, height);
 				break;
@@ -56,6 +59,6 @@ public class PrewitFilter extends MaskFilter {
 	}
 	
 	public enum PrewitType{
-		MAX, MIN, AVG, HOR, VER
+		MAX, MIN, AVG, MOD, HOR, VER
 	}
 }

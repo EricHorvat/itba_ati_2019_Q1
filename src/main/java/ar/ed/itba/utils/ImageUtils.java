@@ -93,9 +93,43 @@ public final class ImageUtils {
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
 				int index = (i * width + j) * 3;
-				pixels[index] = (pixels[index] + modifier[index]) / 2;
-				pixels[index + 1] += (pixels[index + 1] + modifier[index + 1]) / 2;
-				pixels[index + 2] += (pixels[index + 2] + modifier[index + 2]) / 2;
+				pixels[index] = (image[index] + modifier[index]) / 2;
+				pixels[index + 1] = (image[index + 1] + modifier[index + 1]) / 2;
+				pixels[index + 2] = (image[index + 2] + modifier[index + 2]) / 2;
+			}
+		}
+		return pixels;
+	}
+	
+	public static PpmImage mod2(final ATIImage image1, final ATIImage image2) {
+		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
+			throw new IllegalArgumentException("Image 2 must be contained in image 1");
+		
+		final int[] pixels2 = image2.toRGB();
+		
+		return mod2(image1,pixels2);
+	}
+	
+	public static PpmImage mod2(final ATIImage image, final int[] modifier) {
+		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		final int[] pixels = image.toRGB();
+		
+		return new PpmImage(mod2(pixels,modifier, image.getWidth(), image.getHeight()),image.getWidth(), image.getHeight());
+	}
+	
+	public static int[] mod2(final int[] image, final int[] modifier, int width, int height){
+		if (width * height * 3 != modifier.length)
+			throw new IllegalArgumentException("modifier must have width*height*3 length");
+		
+		final int pixels[] = new int[width * height * 3];
+		
+		for (int i = 0 ; i < width ; i++) {
+			for (int j = 0 ; j < height ; j++) {
+				int index = (i * width + j) * 3;
+				pixels[index] = (int) Math.sqrt(Math.pow(image[index],2) + Math.pow(modifier[index],2));
+				pixels[index + 1] = (int) Math.sqrt(Math.pow(image[index+1],2) + Math.pow(modifier[index+1],2));
+				pixels[index + 2] = (int) Math.sqrt(Math.pow(image[index+2],2) + Math.pow(modifier[index+2],2));
 			}
 		}
 		return pixels;
@@ -129,9 +163,9 @@ public final class ImageUtils {
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
 				int index = (i * width + j) * 3;
-				pixels[index] = pixels[index] > modifier[index] ? pixels[index] : modifier[index];
-				pixels[index + 1] = pixels[index + 1] > modifier[index + 1] ? pixels[index + 1] : modifier[index + 1];
-				pixels[index + 2] = pixels[index + 2] > modifier[index + 2] ? pixels[index + 2] : modifier[index + 2];
+				pixels[index] = image[index] > modifier[index] ? image[index] : modifier[index];
+				pixels[index + 1] = image[index + 1] > modifier[index + 1] ? image[index + 1] : modifier[index + 1];
+				pixels[index + 2] = image[index + 2] > modifier[index + 2] ? image[index + 2] : modifier[index + 2];
 			}
 		}
 		return pixels;
@@ -163,9 +197,9 @@ public final class ImageUtils {
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height; j++) {
 				int index = (i * width + j) * 3;
-				pixels[index] = pixels[index] < modifier[index] ? pixels[index] : modifier[index];
-				pixels[index + 1] = pixels[index + 1] < modifier[index + 1] ? pixels[index + 1] : modifier[index + 1];
-				pixels[index + 2] = pixels[index + 2] < modifier[index + 2] ? pixels[index + 2] : modifier[index + 2];
+				pixels[index] = image[index] < modifier[index] ? image[index] : modifier[index];
+				pixels[index + 1] = image[index + 1] < modifier[index + 1] ? image[index + 1] : modifier[index + 1];
+				pixels[index + 2] = image[index + 2] < modifier[index + 2] ? image[index + 2] : modifier[index + 2];
 			}
 		}
 		return pixels;
