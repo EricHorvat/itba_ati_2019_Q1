@@ -140,6 +140,10 @@ public final class MenuButtonFactory {
 		return listeningButton("Prewit Filter", new PrewitFilterMenuButtonListener());
 	}
 	
+	public static JButton sobelFilterMenuButton() {
+		return listeningButton("Sobel Filter", new SobelFilterMenuButtonListener());
+	}
+	
 	/* END FILTER */
 	
 	/* UTILS */

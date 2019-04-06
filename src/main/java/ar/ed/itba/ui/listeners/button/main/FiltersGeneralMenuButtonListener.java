@@ -25,6 +25,7 @@ public class FiltersGeneralMenuButtonListener extends ATIMenuButtonListener {
 		options.add(MenuButtonFactory.gaussianFilterMenuButton());
 		options.add(MenuButtonFactory.highlightBorderFilterMenuButton());
 		options.add(MenuButtonFactory.prewitFilterMenuButton());
+		options.add(MenuButtonFactory.sobelFilterMenuButton());
 	}
 	
 }

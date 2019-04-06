@@ -1,14 +1,14 @@
 package ar.ed.itba.utils.filters;
 
-public class PrewitFilter extends DerivedFilter {
+public class SobelFilter extends DerivedFilter {
 	
-	public PrewitFilter(DerivedFilterType type) {
+	public SobelFilter(DerivedFilterType type) {
 		super(type);
 	}
 	
 	@Override
 	protected MaskFilter getPreFilter(PrefilterOrientation orientation) {
-		return new PrewitPreFilter(orientation);
+		return new SobelPreFilter(orientation);
 	}
 	
 }

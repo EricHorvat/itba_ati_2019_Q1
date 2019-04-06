@@ -1,10 +1,10 @@
 package ar.ed.itba.utils.filters;
 
-public class PrewitPreFilter extends WeightMaskFilter {
+public class SobelPreFilter extends WeightMaskFilter {
 	
 	private PrefilterOrientation orientation;
 	
-	public PrewitPreFilter(PrefilterOrientation orientation) {
+	public SobelPreFilter(PrefilterOrientation orientation) {
 		super(3);
 		this.orientation = orientation;
 	}
@@ -31,11 +31,11 @@ public class PrewitPreFilter extends WeightMaskFilter {
 		int value;
 		switch (orientation){
 			case X:
-				value = i==0?-1:i==1?0:1;
+				value = (i==0?-1:i==1?0:1) * (j==1?2:1);
 				break;
 			case Y:
 			default:
-				value = j==0?-1:j==1?0:1;
+				value = (j==0?-1:j==1?0:1) * (i==1?2:1);
 				break;
 		}
 		return value;

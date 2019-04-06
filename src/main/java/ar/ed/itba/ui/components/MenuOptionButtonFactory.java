@@ -7,10 +7,13 @@ import ar.ed.itba.ui.listeners.button.filter.effect.*;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
+import ar.ed.itba.utils.filters.DerivedFilterType;
 import ar.ed.itba.utils.filters.PrewitFilter;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+
+import static ar.ed.itba.utils.filters.DerivedFilterType.*;
 
 public final class MenuOptionButtonFactory {
 	
@@ -167,37 +170,73 @@ public final class MenuOptionButtonFactory {
 	}
 	
 	public static JButton prewitMaxFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.MAX));
+		JButton button = applyButton(new PrewitFilterButtonListener(MAX));
 		button.setText("Max");
 		return button;
 	}
 	
 	public static JButton prewitAvgFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.AVG));
+		JButton button = applyButton(new PrewitFilterButtonListener(AVG));
 		button.setText("Average");
 		return button;
 	}
 	
 	public static JButton prewitMod2FilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.MOD));
+		JButton button = applyButton(new PrewitFilterButtonListener(MOD));
 		button.setText("Mod2");
 		return button;
 	}
 	
 	public static JButton prewitMinFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.MIN));
+		JButton button = applyButton(new PrewitFilterButtonListener(MIN));
 		button.setText("Min");
 		return button;
 	}
 	
 	public static JButton prewitHorizontalFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.HOR));
+		JButton button = applyButton(new PrewitFilterButtonListener(HOR));
 		button.setText("Horizontal");
 		return button;
 	}
 	
 	public static JButton prewitVerticalFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(PrewitFilter.PrewitType.VER));
+		JButton button = applyButton(new PrewitFilterButtonListener(VER));
+		button.setText("Vertical");
+		return button;
+	}
+	
+	public static JButton sobelMaxFilterMenuOptionButton(){
+		JButton button = applyButton(new SobelFilterButtonListener(MAX));
+		button.setText("Max");
+		return button;
+	}
+	
+	public static JButton sobelAvgFilterMenuOptionButton(){
+		JButton button = applyButton(new SobelFilterButtonListener(AVG));
+		button.setText("Average");
+		return button;
+	}
+	
+	public static JButton sobelMod2FilterMenuOptionButton(){
+		JButton button = applyButton(new SobelFilterButtonListener(MOD));
+		button.setText("Mod2");
+		return button;
+	}
+	
+	public static JButton sobelMinFilterMenuOptionButton(){
+		JButton button = applyButton(new SobelFilterButtonListener(MIN));
+		button.setText("Min");
+		return button;
+	}
+	
+	public static JButton sobelHorizontalFilterMenuOptionButton(){
+		JButton button = applyButton(new SobelFilterButtonListener(HOR));
+		button.setText("Horizontal");
+		return button;
+	}
+	
+	public static JButton sobelVerticalFilterMenuOptionButton(){
+		JButton button = applyButton(new SobelFilterButtonListener(VER));
 		button.setText("Vertical");
 		return button;
 	}
