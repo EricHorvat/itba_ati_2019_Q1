@@ -11,7 +11,7 @@ import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-import static ar.ed.itba.utils.filters.GradientFilterType.*;
+import static ar.ed.itba.utils.filters.mask.gradient.GradientFilterType.*;
 
 public final class MenuOptionButtonFactory {
 	
@@ -309,6 +309,22 @@ public final class MenuOptionButtonFactory {
 		JButton button = applyButton(new TP2P5AFilterButtonListener(VER));
 		button.setText("Vertical");
 		return button;
+	}
+	
+	public static JButton laplacianFilterMenuOptionButton(){
+		JButton button = applyButton(new LaplacianFilterButtonListener(false));
+		button.setText("Basic");
+		return button;
+	}
+	
+	public static JButton laplacianPendientFilterMenuOptionButton(JTextField thresholdField){
+		JButton button = applyButton(new LaplacianFilterButtonListener(true, thresholdField));
+		button.setText("Pendient control");
+		return button;
+	}
+	
+	public static JButton logFilterMenuOptionButton(JTextField maskSideField){
+		return applyButton(new LoGFilterButtonListener(maskSideField));
 	}
 	
 	/* END FILTER */

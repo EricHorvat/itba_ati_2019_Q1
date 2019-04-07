@@ -1,20 +1,16 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.median;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.utils.filters.mask.MaskFilter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public abstract class MedianMaskFilter extends MaskFilter{
+public abstract class MedianMaskFilter extends MaskFilter {
 	
 	public MedianMaskFilter(int maskSide) {
 		super(maskSide);
-	}
-	
-	public ATIImage applyFilter(ATIImage sourceAtiImage){
-		return new PpmImage(applyFilterRaw(sourceAtiImage), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
 	}
 	
 	@Override

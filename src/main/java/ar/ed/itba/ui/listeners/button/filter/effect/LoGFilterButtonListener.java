@@ -1,13 +1,14 @@
 package ar.ed.itba.ui.listeners.button.filter.effect;
 
-import ar.ed.itba.utils.filters.mask.weight.GaussianFilter;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
+import ar.ed.itba.utils.filters.mask.laplacian.LoGFilter;
+import ar.ed.itba.utils.filters.mask.weight.GaussianFilter;
 
 import javax.swing.*;
 
-public class GaussianFilterButtonListener extends MaskFilterButtonListener{
+public class LoGFilterButtonListener extends MaskFilterButtonListener{
 	
-	public GaussianFilterButtonListener(JTextField maskSideField) {
+	public LoGFilterButtonListener(JTextField maskSideField) {
 		super(maskSideField);
 	}
 	
@@ -15,11 +16,11 @@ public class GaussianFilterButtonListener extends MaskFilterButtonListener{
 	public MaskFilter getFilter() {
 		int maskSide = Integer.parseInt(maskSideField.getText());
 		
-		return new GaussianFilter(maskSide);
+		return new LoGFilter(maskSide/2);
 	}
 	
 	@Override
 	public String getName() {
-		return "Gaussian";
+		return "LoG";
 	}
 }

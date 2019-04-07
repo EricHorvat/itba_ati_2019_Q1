@@ -1,12 +1,10 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.weight;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.utils.filters.mask.MaskFilter;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-
-public abstract class WeightMaskFilter extends MaskFilter{
+public abstract class WeightMaskFilter extends MaskFilter {
 	
 	protected final int maskDivisor;
 	
@@ -15,11 +13,6 @@ public abstract class WeightMaskFilter extends MaskFilter{
 	public WeightMaskFilter(int maskSide) {
 		super(maskSide);
 		this.maskDivisor = maskDivisor();
-	}
-	
-	public ATIImage applyFilter(ATIImage sourceAtiImage){
-		
-		return new PpmImage(applyFilterRaw(sourceAtiImage), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
 	}
 	
 	@Override

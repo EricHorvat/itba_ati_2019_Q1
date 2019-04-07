@@ -1,11 +1,12 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.gradient;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.utils.filters.mask.MaskFilter;
 
 import static ar.ed.itba.utils.ImageUtils.*;
-import static ar.ed.itba.utils.filters.PrefilterOrientation.X;
-import static ar.ed.itba.utils.filters.PrefilterOrientation.Y;
+import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.X;
+import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.Y;
 
 public abstract class GradientFilter extends MaskFilter {
 	
@@ -19,11 +20,6 @@ public abstract class GradientFilter extends MaskFilter {
 	@Override
 	protected double[][] generateMask() {
 		return new double[0][];
-	}
-	
-	@Override
-	public ATIImage applyFilter(ATIImage sourceAtiImage) {
-		return new PpmImage(applyFilterRaw(sourceAtiImage),sourceAtiImage.getWidth(),sourceAtiImage.getHeight());
 	}
 	
 	protected abstract MaskFilter getPreFilter(PrefilterOrientation orientation);

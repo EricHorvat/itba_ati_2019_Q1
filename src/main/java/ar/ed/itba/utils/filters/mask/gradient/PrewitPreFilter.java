@@ -1,4 +1,7 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.gradient;
+
+import ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation;
+import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 
 public class PrewitPreFilter extends WeightMaskFilter {
 	

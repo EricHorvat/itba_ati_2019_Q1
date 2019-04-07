@@ -3,7 +3,7 @@ package ar.ed.itba.ui.listeners.button.filter.effect;
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.ui.frames.FrameFactory;
-import ar.ed.itba.utils.filters.MaskFilter;
+import ar.ed.itba.utils.filters.mask.MaskFilter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

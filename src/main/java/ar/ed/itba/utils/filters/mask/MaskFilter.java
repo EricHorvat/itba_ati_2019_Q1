@@ -1,6 +1,7 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask;
 
 import ar.ed.itba.file.image.ATIImage;
+import ar.ed.itba.file.image.PpmImage;
 
 import java.awt.image.BufferedImage;
 
@@ -15,7 +16,9 @@ public abstract class MaskFilter {
 		this.maskSide = maskSide;
 	}
 	
-	public abstract ATIImage applyFilter(ATIImage sourceAtiImage);
+	public ATIImage applyFilter(ATIImage sourceAtiImage){
+		return new PpmImage(applyFilterRaw(sourceAtiImage), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
+	}
 	
 	public abstract int[] applyFilterRaw(ATIImage sourceAtiImage);
 	

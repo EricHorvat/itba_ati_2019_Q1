@@ -1,6 +1,9 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.gradient.prefilter;
 
-import static ar.ed.itba.utils.filters.PrefilterOrientation.X;
+import ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation;
+import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
+
+import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.X;
 
 public class KirshPreFilter extends WeightMaskFilter {
 	

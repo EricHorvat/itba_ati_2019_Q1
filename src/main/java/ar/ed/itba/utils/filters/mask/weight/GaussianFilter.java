@@ -1,13 +1,10 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.weight;
 
 import ar.ed.itba.utils.Pair;
+import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 public class GaussianFilter extends WeightMaskFilter {
 	

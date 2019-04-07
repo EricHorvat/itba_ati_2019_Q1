@@ -152,6 +152,14 @@ public final class MenuButtonFactory {
 		return listeningButton("TP2 5A Filter", new TP2P5AFilterMenuButtonListener());
 	}
 	
+	public static JButton laplacianFilterMenuButton(){
+		return listeningButton("Laplacian Filter", new LaplacianFilterMenuButtonListener());
+	}
+	
+	public static JButton logFilterMenuButton() {
+		return listeningButton("LoG Filter", new LoGFilterMenuButtonListener());
+	}
+	
 	/* END FILTER */
 	
 	/* UTILS */

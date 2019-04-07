@@ -1,8 +1,8 @@
 package ar.ed.itba.ui.listeners.button.filter.effect;
 
-import ar.ed.itba.utils.filters.GradientFilterType;
-import ar.ed.itba.utils.filters.MaskFilter;
-import ar.ed.itba.utils.filters.SobelFilter;
+import ar.ed.itba.utils.filters.mask.gradient.GradientFilterType;
+import ar.ed.itba.utils.filters.mask.MaskFilter;
+import ar.ed.itba.utils.filters.mask.gradient.SobelFilter;
 
 public class SobelFilterButtonListener extends MaskFilterButtonListener {
 	

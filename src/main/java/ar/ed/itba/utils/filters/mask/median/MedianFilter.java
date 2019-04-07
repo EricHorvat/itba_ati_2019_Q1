@@ -1,4 +1,6 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.median;
+
+import ar.ed.itba.utils.filters.mask.median.MedianMaskFilter;
 
 public class MedianFilter extends MedianMaskFilter {
 	

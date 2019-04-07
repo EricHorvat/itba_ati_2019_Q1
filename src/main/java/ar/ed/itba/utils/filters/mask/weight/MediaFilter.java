@@ -1,4 +1,6 @@
-package ar.ed.itba.utils.filters;
+package ar.ed.itba.utils.filters.mask.weight;
+
+import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 
 public class MediaFilter extends WeightMaskFilter {
 	
