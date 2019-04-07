@@ -7,13 +7,11 @@ import ar.ed.itba.ui.listeners.button.filter.effect.*;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
-import ar.ed.itba.utils.filters.DerivedFilterType;
-import ar.ed.itba.utils.filters.PrewitFilter;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-import static ar.ed.itba.utils.filters.DerivedFilterType.*;
+import static ar.ed.itba.utils.filters.GradientFilterType.*;
 
 public final class MenuOptionButtonFactory {
 	
@@ -237,6 +235,78 @@ public final class MenuOptionButtonFactory {
 	
 	public static JButton sobelVerticalFilterMenuOptionButton(){
 		JButton button = applyButton(new SobelFilterButtonListener(VER));
+		button.setText("Vertical");
+		return button;
+	}
+	
+	public static JButton kirshMaxFilterMenuOptionButton(){
+		JButton button = applyButton(new KirshFilterButtonListener(MAX));
+		button.setText("Max");
+		return button;
+	}
+	
+	public static JButton kirshAvgFilterMenuOptionButton(){
+		JButton button = applyButton(new KirshFilterButtonListener(AVG));
+		button.setText("Average");
+		return button;
+	}
+	
+	public static JButton kirshMod2FilterMenuOptionButton(){
+		JButton button = applyButton(new KirshFilterButtonListener(MOD));
+		button.setText("Mod2");
+		return button;
+	}
+	
+	public static JButton kirshMinFilterMenuOptionButton(){
+		JButton button = applyButton(new KirshFilterButtonListener(MIN));
+		button.setText("Min");
+		return button;
+	}
+	
+	public static JButton kirshHorizontalFilterMenuOptionButton(){
+		JButton button = applyButton(new KirshFilterButtonListener(HOR));
+		button.setText("Horizontal");
+		return button;
+	}
+	
+	public static JButton kirshVerticalFilterMenuOptionButton(){
+		JButton button = applyButton(new KirshFilterButtonListener(VER));
+		button.setText("Vertical");
+		return button;
+	}
+	
+	public static JButton tp2p5aMaxFilterMenuOptionButton(){
+		JButton button = applyButton(new TP2P5AFilterButtonListener(MAX));
+		button.setText("Max");
+		return button;
+	}
+	
+	public static JButton tp2p5aAvgFilterMenuOptionButton(){
+		JButton button = applyButton(new TP2P5AFilterButtonListener(AVG));
+		button.setText("Average");
+		return button;
+	}
+	
+	public static JButton tp2p5aMod2FilterMenuOptionButton(){
+		JButton button = applyButton(new TP2P5AFilterButtonListener(MOD));
+		button.setText("Mod2");
+		return button;
+	}
+	
+	public static JButton tp2p5aMinFilterMenuOptionButton(){
+		JButton button = applyButton(new TP2P5AFilterButtonListener(MIN));
+		button.setText("Min");
+		return button;
+	}
+	
+	public static JButton tp2p5aHorizontalFilterMenuOptionButton(){
+		JButton button = applyButton(new TP2P5AFilterButtonListener(HOR));
+		button.setText("Horizontal");
+		return button;
+	}
+	
+	public static JButton tp2p5aVerticalFilterMenuOptionButton(){
+		JButton button = applyButton(new TP2P5AFilterButtonListener(VER));
 		button.setText("Vertical");
 		return button;
 	}

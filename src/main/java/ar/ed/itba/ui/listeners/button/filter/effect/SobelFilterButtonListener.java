@@ -1,15 +1,14 @@
 package ar.ed.itba.ui.listeners.button.filter.effect;
 
-import ar.ed.itba.utils.filters.DerivedFilterType;
+import ar.ed.itba.utils.filters.GradientFilterType;
 import ar.ed.itba.utils.filters.MaskFilter;
-import ar.ed.itba.utils.filters.PrewitFilter;
 import ar.ed.itba.utils.filters.SobelFilter;
 
 public class SobelFilterButtonListener extends MaskFilterButtonListener {
 	
-	private final DerivedFilterType type;
+	private final GradientFilterType type;
 	
-	public SobelFilterButtonListener(DerivedFilterType type) {
+	public SobelFilterButtonListener(GradientFilterType type) {
 		super(null);
 		this.type = type;
 	}
@@ -21,6 +20,6 @@ public class SobelFilterButtonListener extends MaskFilterButtonListener {
 	
 	@Override
 	public String getName() {
-		return "Prewit 3x3 " + type.name();
+		return "Sobel 3x3 " + type.name();
 	}
 }

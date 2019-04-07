@@ -7,11 +7,11 @@ import static ar.ed.itba.utils.ImageUtils.*;
 import static ar.ed.itba.utils.filters.PrefilterOrientation.X;
 import static ar.ed.itba.utils.filters.PrefilterOrientation.Y;
 
-public abstract class DerivedFilter extends MaskFilter {
+public abstract class GradientFilter extends MaskFilter {
 	
-	final private DerivedFilterType type;
+	final private GradientFilterType type;
 	
-	public DerivedFilter(DerivedFilterType type) {
+	public GradientFilter(GradientFilterType type) {
 		super(3);
 		this.type = type;
 	}

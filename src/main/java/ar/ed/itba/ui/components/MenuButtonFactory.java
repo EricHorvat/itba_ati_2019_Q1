@@ -144,6 +144,14 @@ public final class MenuButtonFactory {
 		return listeningButton("Sobel Filter", new SobelFilterMenuButtonListener());
 	}
 	
+	public static JButton kirshFilterMenuButton() {
+		return listeningButton("Kirsh Filter", new KirshFilterMenuButtonListener());
+	}
+	
+	public static JButton tp2p5aFilterMenuButton() {
+		return listeningButton("TP2 5A Filter", new TP2P5AFilterMenuButtonListener());
+	}
+	
 	/* END FILTER */
 	
 	/* UTILS */

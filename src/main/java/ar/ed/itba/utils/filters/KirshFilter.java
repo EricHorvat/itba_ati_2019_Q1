@@ -1,14 +1,14 @@
 package ar.ed.itba.utils.filters;
 
-public class PrewitFilter extends GradientFilter {
+public class KirshFilter extends GradientFilter {
 	
-	public PrewitFilter(GradientFilterType type) {
+	public KirshFilter(GradientFilterType type) {
 		super(type);
 	}
 	
 	@Override
 	protected MaskFilter getPreFilter(PrefilterOrientation orientation) {
-		return new PrewitPreFilter(orientation);
+		return new KirshPreFilter(orientation);
 	}
 	
 }

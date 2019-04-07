@@ -1,8 +1,8 @@
 package ar.ed.itba.utils.filters;
 
-public class SobelFilter extends DerivedFilter {
+public class SobelFilter extends GradientFilter {
 	
-	public SobelFilter(DerivedFilterType type) {
+	public SobelFilter(GradientFilterType type) {
 		super(type);
 	}
 	
