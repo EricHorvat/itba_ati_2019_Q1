@@ -11,14 +11,16 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.Y;
 public class LaplacianFilter extends WeightMaskFilter {
 	
 	private boolean pendientControl;
+	private Integer threshold;
 	
-	public LaplacianFilter(boolean pendientControl, int maskSide) {
+	public LaplacianFilter(boolean pendientControl, Integer threshold, int maskSide) {
 		super(maskSide);
 		this.pendientControl = pendientControl;
+		this.threshold = threshold;
 	}
 	
-	public LaplacianFilter(boolean pendientControl) {
-		this(pendientControl,3);
+	public LaplacianFilter(boolean pendientControl, Integer threshold) {
+		this(pendientControl,threshold, 3);
 	}
 	
 	@Override
@@ -50,10 +52,10 @@ public class LaplacianFilter extends WeightMaskFilter {
 		int index = ImageUtils.index(i,j,width);
 		int next_index = orientation == Y ? ImageUtils.index(i,j+1,width) : ImageUtils.index(i+1,j,width);
 		int next_next_index = orientation == Y ? ImageUtils.index(i,j+2,width) : ImageUtils.index(i+2,j,width);
-		int control = prevResult[index] * prevResult[next_index];
-		if(control == 0){
-			control = prevResult[index] * prevResult[next_next_index];
-			if(control < 0){
+		int zeroCrossControl = prevResult[index] * prevResult[next_index];
+		if(zeroCrossControl == 0){
+			zeroCrossControl = prevResult[index] * prevResult[next_next_index];
+			if(zeroCrossControl < 0){
 				int value = getValue(prevResult[index],prevResult[next_next_index]);
 				int value1 = Math.max(value, ans[index]);
 				ans[index] = value1;
@@ -64,7 +66,7 @@ public class LaplacianFilter extends WeightMaskFilter {
 				ans[next_index + 1] = value2;
 				ans[next_index + 2] = value2;
 			}
-		}else if(control < 0){
+		}else if(zeroCrossControl < 0){
 			int value = getValue(prevResult[index],prevResult[next_index]);
 			int value1 = Math.max(value, ans[index]);
 			ans[index] = value1;
@@ -75,7 +77,11 @@ public class LaplacianFilter extends WeightMaskFilter {
 	
 	private int getValue(int a, int b){
 		if(pendientControl){
-			return Math.abs(a-b);
+			int value = Math.abs(a-b);
+			if(threshold != null){
+				return value >= threshold ? 255 : 0;
+			}
+			return value;
 		}else{
 			return 255;
 		}

@@ -22,7 +22,11 @@ public class LaplacianFilterButtonListener extends MaskFilterButtonListener {
 	
 	@Override
 	public MaskFilter getFilter() {
-		return new LaplacianFilter(pendientControl);
+		Integer threshold = null;
+		if (thresholdField != null){
+			threshold = Integer.parseInt(thresholdField.getText());
+		}
+		return new LaplacianFilter(pendientControl, threshold);
 	}
 	
 	@Override

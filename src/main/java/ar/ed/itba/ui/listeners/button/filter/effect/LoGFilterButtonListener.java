@@ -8,15 +8,23 @@ import javax.swing.*;
 
 public class LoGFilterButtonListener extends MaskFilterButtonListener{
 	
-	public LoGFilterButtonListener(JTextField maskSideField) {
+	private JTextField thresholdField;
+	
+	public LoGFilterButtonListener(JTextField maskSideField, JTextField thresholdField) {
 		super(maskSideField);
+		this.thresholdField = thresholdField;
 	}
 	
 	@Override
 	public MaskFilter getFilter() {
 		int maskSide = Integer.parseInt(maskSideField.getText());
+		Integer threshold = null;
 		
-		return new LoGFilter(maskSide/2);
+		if (thresholdField != null){
+			threshold = Integer.parseInt(thresholdField.getText());
+		}
+		
+		return new LoGFilter(threshold,maskSide/2);
 	}
 	
 	@Override

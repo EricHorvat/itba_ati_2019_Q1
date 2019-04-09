@@ -15,8 +15,8 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.Y;
 public class LoGFilter extends LaplacianFilter {
 	
 	private final int sigma;
-	public LoGFilter(int sigma) {
-		super(true, 2 * sigma + 1);
+	public LoGFilter(Integer threshold, int sigma) {
+		super(true, threshold,2 * sigma + 1);
 		this.sigma = sigma;
 	}
 	
@@ -38,7 +38,7 @@ public class LoGFilter extends LaplacianFilter {
 				if (values.containsKey(p)){
 					column[j+center] = values.get(p);
 				} else {
-					double value = getGaussianValue(i,j,center);
+					double value = getGaussianValue(i,j,sigma);
 					values.put(p, value);
 					column[j+center] = value;
 				}

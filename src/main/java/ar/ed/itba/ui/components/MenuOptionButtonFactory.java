@@ -323,8 +323,8 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
-	public static JButton logFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new LoGFilterButtonListener(maskSideField));
+	public static JButton logFilterMenuOptionButton(JTextField maskSideField, JTextField thresholdField){
+		return applyButton(new LoGFilterButtonListener(maskSideField,thresholdField));
 	}
 	
 	/* END FILTER */
