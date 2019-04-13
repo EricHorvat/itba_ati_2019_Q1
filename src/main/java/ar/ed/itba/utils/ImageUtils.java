@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.util.*;
+import java.util.List;
 
 public final class ImageUtils {
 	
@@ -289,6 +290,20 @@ public final class ImageUtils {
 			else
 				pixels[i] = (byte) 255;
 		}
+	}
+
+	public static javafx.util.Pair<List<Integer>, List<Integer>> thresholdGroups(final ATIImage image, final int threshold) {
+		final List<Integer> group1 = new LinkedList<>();
+		final List<Integer> group2 = new LinkedList<>();
+		final byte[] pixels = image.getImage();
+		for (int i = 0 ; i < pixels.length ; i++) {
+			final int pixel = pixels[i] & 0xFF;
+			if (pixel <= threshold)
+				group1.add(i);
+			else
+				group2.add(i);
+		}
+		return new javafx.util.Pair(group1, group2);
 	}
 
 	public static PpmImage equalize(final ATIImage image) {
