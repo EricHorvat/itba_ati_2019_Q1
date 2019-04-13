@@ -146,7 +146,7 @@ public final class MenuOptionButtonFactory {
 	
 	/* END GENERATE */
 	/* FILTER */
-	
+
 	public static JButton mediaFilterMenuOptionButton(JTextField maskSideField){
 		return applyButton(new MediaFilterButtonListener(maskSideField));
 	}
@@ -162,7 +162,11 @@ public final class MenuOptionButtonFactory {
 	public static JButton gaussianFilterMenuOptionButton(JTextField maskSideField){
 		return applyButton(new GaussianFilterButtonListener(maskSideField));
 	}
-	
+
+	public static JButton bilateralFilterMenuOptionButton(JTextField maskSideField, JTextField sigmaRField){
+		return applyButton(new BilateralFilterButtonListener(maskSideField, sigmaRField));
+	}
+
 	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
 		return applyButton(new HighlightBorderFilterButtonListener(maskSideField));
 	}

@@ -131,6 +131,10 @@ public final class MenuButtonFactory {
 	public static JButton gaussianFilterMenuButton() {
 		return listeningButton("Gaussian Filter", new GaussianFilterMenuButtonListener());
 	}
+
+	public static JButton bilateralFilterMenuButton() {
+		return listeningButton("Bilateral Filter", new BilateralFilterMenuButtonListener());
+	}
 	
 	public static JButton highlightBorderFilterMenuButton() {
 		return listeningButton("Highlight Border Filter", new HighlightBorderFilterMenuButtonListener());

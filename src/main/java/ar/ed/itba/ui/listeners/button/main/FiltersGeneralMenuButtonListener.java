@@ -17,6 +17,7 @@ public class FiltersGeneralMenuButtonListener extends ATIMenuButtonListener {
 		options.add(MenuButtonFactory.tp2p5aFilterMenuButton());
 		options.add(MenuButtonFactory.laplacianFilterMenuButton());
 		options.add(MenuButtonFactory.logFilterMenuButton());
+		options.add(MenuButtonFactory.bilateralFilterMenuButton());
 	}
 	
 }
