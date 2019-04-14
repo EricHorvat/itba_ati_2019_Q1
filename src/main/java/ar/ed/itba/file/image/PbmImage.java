@@ -223,5 +223,11 @@ public class PbmImage extends PortableImage {
 		Color c = averageColor(oi, oj, w, h);
 		return "Region average : " + c.getBlue();
 	}
+	
+	@Override
+	public ATIImage deepCopy() {
+		return new PbmImage(getImage().clone(), getWidth(), getHeight());
+		/*TODO HEADER, OUTPUT & bytecount*/
+	}
 }
 

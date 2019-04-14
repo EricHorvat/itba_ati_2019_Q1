@@ -250,4 +250,11 @@ public class PpmImage extends PortableImage {
 		Color c = averageColor(oi, oj, w, h);
 		return "Region average : R" + c.getRed() + " G" + c.getGreen() + " B" + c.getBlue();
 	}
+	
+	
+	@Override
+	public ATIImage deepCopy() {
+		return new PpmImage(getImage().clone(), getWidth(), getHeight());
+		/*TODO HEADER, OUTPUT & bytecount*/
+	}
 }

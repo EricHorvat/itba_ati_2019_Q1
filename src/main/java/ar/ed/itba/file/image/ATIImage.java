@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class ATIImage {
 	
@@ -143,6 +144,8 @@ public abstract class ATIImage {
 	public abstract int[] toRGB();
 
 	public abstract void negative();
+	
+	public abstract ATIImage deepCopy();
 }
 
 

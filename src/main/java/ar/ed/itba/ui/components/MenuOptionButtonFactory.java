@@ -1,5 +1,6 @@
 package ar.ed.itba.ui.components;
 
+import ar.ed.itba.ui.frames.EditableImageFrame.ApplyActionListener;
 import ar.ed.itba.ui.listeners.button.edit.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFixedFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.ResetFileButtonListener;
@@ -27,26 +28,26 @@ public final class MenuOptionButtonFactory {
 	/* FILE */
 	
 	public static JButton openFileMenuOptionButton(JTextField filePathField){
-		JButton button = new JButton("Open file");
-		button.addActionListener(new OpenFileButtonListener(filePathField));
+		JButton button = applyButton(new OpenFileButtonListener(filePathField));
+		button.setText("Open file");
 		return button;
 	}
 	
 	public static JButton resetFileMenuOptionButton(){
-		JButton button = new JButton("Reset file");
-		button.addActionListener(new ResetFileButtonListener());
+		JButton button = applyButton(new ResetFileButtonListener());
+		button.setText("Reset file");
 		return button;
 	}
 	
 	public static JButton openTESTFileMenuOptionButton(){
-		JButton button = new JButton("Open Test file");
-		button.addActionListener(new OpenFixedFileButtonListener("./res/TEST.PGM"));
+		JButton button = applyButton(new OpenFixedFileButtonListener("./res/TEST.PGM"));
+		button.setText("Open Test file");
 		return button;
 	}
 	
 	public static JButton openLenaFileMenuOptionButton(){
-		JButton button = new JButton("Open Lena file");
-		button.addActionListener(new OpenFixedFileButtonListener("./res/LENA.RAW"));
+		JButton button = applyButton(new OpenFixedFileButtonListener("./res/LENA.RAW"));
+		button.setText("Open Lena file");
 		return button;
 	}
 	
@@ -351,7 +352,8 @@ public final class MenuOptionButtonFactory {
 	
 	private static JButton applyButton(ActionListener listener){
 		JButton button = new JButton("Apply");
-		button.addActionListener(listener);
+		ApplyActionListener l = new ApplyActionListener(listener);
+		button.addActionListener(l);
 		return button;
 	}
 	

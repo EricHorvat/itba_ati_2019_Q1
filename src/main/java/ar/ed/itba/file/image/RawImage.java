@@ -91,4 +91,11 @@ public class RawImage extends ATIImage {
 	public void negative() {
 		PgmImage.negative(this);
 	}
+	
+	
+	@Override
+	public ATIImage deepCopy() {
+		return new PgmImage(getImage().clone(), getWidth(), getHeight());
+		/*TODO HEADER, OUTPUT & bytecount*/
+	}
 }
