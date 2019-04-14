@@ -73,6 +73,7 @@ public class OtsuThreshold {
             }
         }
         final int threshold = (int) Math.ceil((double) sum/count);
+        System.out.println("Threshold is " + threshold);
         ImageUtils.threshold(image, threshold);
         return threshold;
     }

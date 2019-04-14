@@ -23,6 +23,7 @@ public class GlobalThreshold {
             threshold = (int) (0.5 * (groupMean(thresholdGroups.getKey(), image) + groupMean(thresholdGroups.getValue(), image)));
         }
         ImageUtils.threshold(image, threshold);
+        System.out.println("Threshold is " + threshold);
         return threshold;
     }
 
