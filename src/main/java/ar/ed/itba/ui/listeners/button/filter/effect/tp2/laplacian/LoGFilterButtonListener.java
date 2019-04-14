@@ -1,12 +1,13 @@
-package ar.ed.itba.ui.listeners.button.filter.effect;
+package ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian;
 
+import ar.ed.itba.ui.listeners.button.filter.effect.MaskFilterButtonListener;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
 import ar.ed.itba.utils.filters.mask.laplacian.LoGFilter;
 import ar.ed.itba.utils.filters.mask.weight.GaussianFilter;
 
 import javax.swing.*;
 
-public class LoGFilterButtonListener extends MaskFilterButtonListener{
+public class LoGFilterButtonListener extends MaskFilterButtonListener {
 	
 	private JTextField thresholdField;
 	

@@ -3,7 +3,14 @@ package ar.ed.itba.ui.components;
 import ar.ed.itba.ui.listeners.button.edit.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFixedFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.ResetFileButtonListener;
-import ar.ed.itba.ui.listeners.button.filter.effect.*;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp1.*;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp2.*;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.KirshFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.PrewitFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.SobelFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.TP2P5AFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LaplacianFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
@@ -162,9 +169,17 @@ public final class MenuOptionButtonFactory {
 	public static JButton gaussianFilterMenuOptionButton(JTextField maskSideField){
 		return applyButton(new GaussianFilterButtonListener(maskSideField));
 	}
-
+	
 	public static JButton bilateralFilterMenuOptionButton(JTextField maskSideField, JTextField sigmaRField){
 		return applyButton(new BilateralFilterButtonListener(maskSideField, sigmaRField));
+	}
+	
+	public static JButton anisotropicFilterMenuOptionButton(JTextField maskSideField){
+		return applyButton(new AnisotropicFilterButtonListener(maskSideField));
+	}
+	
+	public static JButton isotropicFilterMenuOptionButton(JTextField maskSideField){
+		return applyButton(new IsotropicFilterButtonListener(maskSideField));
 	}
 
 	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){

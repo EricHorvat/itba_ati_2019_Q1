@@ -4,10 +4,10 @@ import ar.ed.itba.ui.listeners.button.ATIMenuOptionsButtonListener;
 
 import javax.swing.*;
 
-/*package */ abstract class MaskFilterMenuButtonListener extends ATIMenuOptionsButtonListener {
-	/* package */ JTextField maskSideField = new JTextField();
+public abstract class MaskFilterMenuButtonListener extends ATIMenuOptionsButtonListener {
+	protected JTextField maskSideField = new JTextField();
 	
-	/* package */ MaskFilterMenuButtonListener() {
+	protected MaskFilterMenuButtonListener() {
 		options.add(new JLabel("Mask Side"));
 		options.add(maskSideField);
 	}

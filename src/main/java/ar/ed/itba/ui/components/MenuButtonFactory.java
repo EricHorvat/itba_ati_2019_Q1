@@ -2,7 +2,16 @@ package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.SaveGeneralMenuButtonListener;
-import ar.ed.itba.ui.listeners.button.filter.menu.*;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp1.*;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.AnisotropicFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.BilateralFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.IsotropicFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.KirshFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.PrewitFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.SobelFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.TP2P5AFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.laplacian.LaplacianFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp2.laplacian.LoGFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;
 
@@ -131,9 +140,17 @@ public final class MenuButtonFactory {
 	public static JButton gaussianFilterMenuButton() {
 		return listeningButton("Gaussian Filter", new GaussianFilterMenuButtonListener());
 	}
-
+	
 	public static JButton bilateralFilterMenuButton() {
 		return listeningButton("Bilateral Filter", new BilateralFilterMenuButtonListener());
+	}
+	
+	public static JButton anisotropicFilterMenuButton() {
+		return listeningButton("Anisotropic Filter", new AnisotropicFilterMenuButtonListener());
+	}
+	
+	public static JButton isotropicFilterMenuButton() {
+		return listeningButton("Isotropic Filter", new IsotropicFilterMenuButtonListener());
 	}
 	
 	public static JButton highlightBorderFilterMenuButton() {

@@ -1,10 +1,7 @@
-package ar.ed.itba.ui.listeners.button.filter.menu;
+package ar.ed.itba.ui.listeners.button.filter.menu.tp1;
 
 import ar.ed.itba.ui.components.MenuOptionButtonFactory;
-import ar.ed.itba.ui.listeners.button.ATIMenuOptionsButtonListener;
-import ar.ed.itba.ui.listeners.button.filter.effect.MaskFilterButtonListener;
-
-import javax.swing.*;
+import ar.ed.itba.ui.listeners.button.filter.menu.MaskFilterMenuButtonListener;
 
 public class GaussianFilterMenuButtonListener extends MaskFilterMenuButtonListener {
 	
