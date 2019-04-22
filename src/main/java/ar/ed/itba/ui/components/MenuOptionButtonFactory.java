@@ -92,6 +92,14 @@ public final class MenuOptionButtonFactory {
 	public static JButton thresholdMenuOptionButton(JTextField tField){
 		return applyButton(new ThresholdButtonListener(tField));
 	}
+
+	public static JButton globalThresholdMenuOptionButton(){
+		return applyButton(new GlobalThresholdButtonListener());
+	}
+
+	public static JButton otsuThresholdMenuOptionButton(){
+		return applyButton(new OtsuThresholdButtonListener());
+	}
 	
 	public static JButton equalizationMenuOptionButton(){
 		return applyButton(new EqualizationButtonListener());

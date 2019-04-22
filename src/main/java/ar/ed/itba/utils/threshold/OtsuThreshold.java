@@ -10,7 +10,14 @@ import java.util.Map;
 
 public class OtsuThreshold {
 
-    public static int threshold(final ATIImage image) {
+    public static void threshold(final ATIImage image) {
+        if (image instanceof PpmImage)
+            colorThreshold((PpmImage) image);
+        else
+            grayThreshold(image);
+    }
+
+    private static int grayThreshold(final ATIImage image) {
         if (image instanceof PpmImage)
             throw new UnsupportedOperationException("Image must be gray");
 
@@ -73,14 +80,15 @@ public class OtsuThreshold {
             }
         }
         final int threshold = (int) Math.ceil((double) sum/count);
+        System.out.println("Threshold is " + threshold);
         ImageUtils.threshold(image, threshold);
         return threshold;
     }
 
-    public static void colorThreshold(final PpmImage image) {
-        final int redThreshold = threshold(image.getRedChannel());
-        final int blueThreshold = threshold(image.getBlueChannel());
-        final int greenThreshold = threshold(image.getGreenChannel());
+    private static void colorThreshold(final PpmImage image) {
+        final int redThreshold = grayThreshold(image.getRedChannel());
+        final int blueThreshold = grayThreshold(image.getBlueChannel());
+        final int greenThreshold = grayThreshold(image.getGreenChannel());
 
         for (int i = 0 ; i < image.getHeight() ; i++) {
             for (int j = 0 ; j < image.getWidth() ; j++) {

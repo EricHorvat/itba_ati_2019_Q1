@@ -19,6 +19,8 @@ public class EditGeneralMenuButtonListener extends ATIMenuButtonListener {
 		options.add(MenuButtonFactory.setNegativeMenuButton());
 		options.add(MenuButtonFactory.setContrastMenuButton());
 		options.add(MenuButtonFactory.setThresholdMenuButton());
+		options.add(MenuButtonFactory.setGlobalThresholdMenuButton());
+		options.add(MenuButtonFactory.setOtsuThresholdMenuButton());
 		options.add(MenuButtonFactory.setEqualizationMenuButton());
 		options.add(MenuButtonFactory.applyGaussianMenuButton());
 		options.add(MenuButtonFactory.applyRayleighMenuButton());

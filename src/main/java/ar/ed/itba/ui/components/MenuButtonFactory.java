@@ -63,7 +63,15 @@ public final class MenuButtonFactory {
 	public static JButton setThresholdMenuButton() {
 		return listeningButton("Threshold", new ThresholdMenuButtonListener());
 	}
-	
+
+	public static JButton setGlobalThresholdMenuButton() {
+		return listeningButton("Global Threshold", new GlobalThresholdMenuButtonListener());
+	}
+
+	public static JButton setOtsuThresholdMenuButton() {
+		return listeningButton("Otsu Threshold", new OtsuThresholdMenuButtonListener());
+	}
+
 	public static JButton setEqualizationMenuButton() {
 		return listeningButton("Equalization", new EqualizationMenuButtonListener());
 	}
