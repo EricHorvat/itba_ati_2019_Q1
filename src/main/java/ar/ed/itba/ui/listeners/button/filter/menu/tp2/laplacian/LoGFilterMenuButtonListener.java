@@ -8,9 +8,12 @@ import javax.swing.*;
 public class LoGFilterMenuButtonListener extends MaskFilterMenuButtonListener {
 	
 	public LoGFilterMenuButtonListener() {
+		options.add(new JLabel("Sigma"));
+		JTextField sigmaField = new JTextField();
+		options.add(sigmaField);
 		options.add(new JLabel("Threshold"));
 		JTextField thresholdField = new JTextField();
 		options.add(thresholdField);
-		options.add(MenuOptionButtonFactory.logFilterMenuOptionButton(maskSideField,thresholdField));
+		options.add(MenuOptionButtonFactory.logFilterMenuOptionButton(maskSideField,sigmaField,thresholdField));
 	}
 }
