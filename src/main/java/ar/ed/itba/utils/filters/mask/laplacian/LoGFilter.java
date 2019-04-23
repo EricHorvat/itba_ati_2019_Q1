@@ -15,8 +15,8 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.Y;
 public class LoGFilter extends LaplacianFilter {
 	
 	private final int sigma;
-	public LoGFilter(Integer threshold, int sigma) {
-		super(true, threshold,2 * sigma + 1);
+	public LoGFilter(Integer threshold, int sigma, int maskSide) {
+		super(true, threshold, maskSide);
 		this.sigma = sigma;
 	}
 	
@@ -27,7 +27,7 @@ public class LoGFilter extends LaplacianFilter {
 	
 	@Override
 	protected double[][] generateMask() {
-		int center = sigma;
+		int center = maskSide/2;
 		Map<Pair,Double> values = new HashMap<>();
 		double[][] mask = new double[maskSide][];
 		double sum = 0;

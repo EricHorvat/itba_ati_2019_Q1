@@ -5,6 +5,8 @@ import ar.ed.itba.ui.frames.interfaces.EditableImageInterface;
 import ar.ed.itba.utils.Region;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +17,6 @@ public class EditableImageFrame extends ImageFrame {
 	
 	private EditableImageFrame(){
 		super("Editable Image", new EditableImageInterface());
-		moves = new ArrayList<>();
-		index = -1;
 	}
 	
 	private Region region;
@@ -29,15 +29,8 @@ public class EditableImageFrame extends ImageFrame {
 		return instance;
 	}
 	
-	private List<ATIImage> moves;
-	private int index;
-	
-	@Override
-	public void setAtiImage(ATIImage atiImage) {
-		IntStream.range(index+1,moves.size()).forEach(moves::remove);
-		moves.add(atiImage);
-		redo();
-	}
+	private static List<ATIImage> moves = new ArrayList<>();
+	private static int index = -1;
 	
 	public void undo(){
 		if(index > 0) {
@@ -96,5 +89,31 @@ public class EditableImageFrame extends ImageFrame {
 	
 	public Region getRegion() {
 		return region;
+	}
+	
+	
+	public static class ApplyActionListener implements ActionListener {
+		
+		private final ActionListener originalListener;
+		
+		public ApplyActionListener(ActionListener listener) {
+			originalListener = listener;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			EditableImageFrame editableImageFrame = EditableImageFrame.instance();
+			ATIImage atiImage = editableImageFrame.getAtiImage();
+			
+			IntStream.range(index+1,moves.size()).forEach(moves::remove);
+			
+			if(atiImage != null){
+				moves.remove(index);
+				moves.add(atiImage.deepCopy());
+			}
+			originalListener.actionPerformed(actionEvent);
+			moves.add(editableImageFrame.getAtiImage());
+			index++;
+		}
 	}
 }
