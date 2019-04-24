@@ -15,7 +15,7 @@ public abstract class MedianMaskFilter extends MaskFilter {
 	
 	@Override
 	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
-		generateMask();
+		mask = generateMask();
 		int maskCenter = maskSide/2;
 		
 		int imageWidth = sourceAtiImage.getWidth();
