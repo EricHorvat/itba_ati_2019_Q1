@@ -11,6 +11,8 @@ public class TP2P5AFilterMenuButtonListener extends ATIMenuOptionsButtonListener
 		options.add(MenuOptionButtonFactory.tp2p5aMinFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.tp2p5aHorizontalFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.tp2p5aVerticalFilterMenuOptionButton());
-		options.add(MenuOptionButtonFactory.tp2p5aMod2FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.tp2p5aMod2FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.tp2p5aG45FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.tp2p5aG135FilterMenuOptionButton());
 	}
 }

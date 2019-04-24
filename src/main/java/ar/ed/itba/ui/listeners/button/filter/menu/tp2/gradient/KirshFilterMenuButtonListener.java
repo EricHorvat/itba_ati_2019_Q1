@@ -12,5 +12,7 @@ public class KirshFilterMenuButtonListener extends ATIMenuOptionsButtonListener 
 		options.add(MenuOptionButtonFactory.kirshHorizontalFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.kirshVerticalFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.kirshMod2FilterMenuOptionButton());
+		options.add(MenuOptionButtonFactory.kirshG45FilterMenuOptionButton());
+		options.add(MenuOptionButtonFactory.kirshG135FilterMenuOptionButton());
 	}
 }

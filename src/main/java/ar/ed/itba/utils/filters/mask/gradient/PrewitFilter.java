@@ -1,6 +1,7 @@
 package ar.ed.itba.utils.filters.mask.gradient;
 
 import ar.ed.itba.utils.filters.mask.MaskFilter;
+import ar.ed.itba.utils.filters.mask.gradient.prefilter.PrewitPreFilter;
 
 public class PrewitFilter extends GradientFilter {
 	

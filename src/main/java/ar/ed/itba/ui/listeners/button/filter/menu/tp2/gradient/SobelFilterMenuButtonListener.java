@@ -11,6 +11,8 @@ public class SobelFilterMenuButtonListener extends ATIMenuOptionsButtonListener 
 		options.add(MenuOptionButtonFactory.sobelMinFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.sobelHorizontalFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.sobelVerticalFilterMenuOptionButton());
-		options.add(MenuOptionButtonFactory.sobelMod2FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.sobelMod2FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.sobelG45FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.sobelG135FilterMenuOptionButton());
 	}
 }

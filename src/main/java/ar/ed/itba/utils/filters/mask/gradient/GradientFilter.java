@@ -5,8 +5,7 @@ import ar.ed.itba.file.image.PpmImage;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
 
 import static ar.ed.itba.utils.ImageUtils.*;
-import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.X;
-import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.Y;
+import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
 
 public abstract class GradientFilter extends MaskFilter {
 	
@@ -53,6 +52,11 @@ public abstract class GradientFilter extends MaskFilter {
 			default:
 				finalImage = min(xImage,yImage, width, height);
 				break;
+      case G135:
+        finalImage = getPreFilter(G135).applyFilterRaw(sourceAtiImage);
+        break;
+      case G45:
+        finalImage = getPreFilter(G45).applyFilterRaw(sourceAtiImage);
 		}
 		return normalize(finalImage);
 	}

@@ -237,12 +237,24 @@ public final class MenuOptionButtonFactory {
 		button.setText("Vertical");
 		return button;
 	}
+  
+  public static JButton prewitG45FilterMenuOptionButton(){
+    JButton button = applyButton(new PrewitFilterButtonListener(G45));
+    button.setText("45");
+    return button;
+  }
+  
+  public static JButton prewitG135FilterMenuOptionButton(){
+    JButton button = applyButton(new PrewitFilterButtonListener(G135));
+    button.setText("135");
+    return button;
+  }
 	
-	public static JButton sobelMaxFilterMenuOptionButton(){
-		JButton button = applyButton(new SobelFilterButtonListener(MAX));
-		button.setText("Max");
-		return button;
-	}
+  public static JButton sobelMaxFilterMenuOptionButton(){
+    JButton button = applyButton(new SobelFilterButtonListener(MAX));
+    button.setText("Max");
+    return button;
+  }
 	
 	public static JButton sobelAvgFilterMenuOptionButton(){
 		JButton button = applyButton(new SobelFilterButtonListener(AVG));
@@ -273,6 +285,18 @@ public final class MenuOptionButtonFactory {
 		button.setText("Vertical");
 		return button;
 	}
+  
+  public static JButton sobelG45FilterMenuOptionButton(){
+    JButton button = applyButton(new SobelFilterButtonListener(G45));
+    button.setText("45");
+    return button;
+  }
+  
+  public static JButton sobelG135FilterMenuOptionButton(){
+    JButton button = applyButton(new SobelFilterButtonListener(G135));
+    button.setText("135");
+    return button;
+  }
 	
 	public static JButton kirshMaxFilterMenuOptionButton(){
 		JButton button = applyButton(new KirshFilterButtonListener(MAX));
@@ -310,6 +334,18 @@ public final class MenuOptionButtonFactory {
 		return button;
 	}
 	
+  public static JButton kirshG45FilterMenuOptionButton(){
+    JButton button = applyButton(new KirshFilterButtonListener(G45));
+    button.setText("45");
+    return button;
+  }
+  
+  public static JButton kirshG135FilterMenuOptionButton(){
+    JButton button = applyButton(new KirshFilterButtonListener(G135));
+    button.setText("135");
+    return button;
+  }
+	
 	public static JButton tp2p5aMaxFilterMenuOptionButton(){
 		JButton button = applyButton(new TP2P5AFilterButtonListener(MAX));
 		button.setText("Max");
@@ -345,6 +381,18 @@ public final class MenuOptionButtonFactory {
 		button.setText("Vertical");
 		return button;
 	}
+	
+  public static JButton tp2p5aG45FilterMenuOptionButton(){
+    JButton button = applyButton(new TP2P5AFilterButtonListener(G45));
+    button.setText("45");
+    return button;
+  }
+  
+  public static JButton tp2p5aG135FilterMenuOptionButton(){
+    JButton button = applyButton(new TP2P5AFilterButtonListener(G135));
+    button.setText("135");
+    return button;
+  }
 	
 	public static JButton laplacianFilterMenuOptionButton(){
 		JButton button = applyButton(new LaplacianFilterButtonListener(false));

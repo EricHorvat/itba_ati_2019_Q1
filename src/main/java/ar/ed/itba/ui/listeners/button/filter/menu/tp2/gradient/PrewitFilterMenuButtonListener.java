@@ -11,6 +11,8 @@ public class PrewitFilterMenuButtonListener extends ATIMenuOptionsButtonListener
 		options.add(MenuOptionButtonFactory.prewitMinFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.prewitHorizontalFilterMenuOptionButton());
 		options.add(MenuOptionButtonFactory.prewitVerticalFilterMenuOptionButton());
-		options.add(MenuOptionButtonFactory.prewitMod2FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.prewitMod2FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.prewitG45FilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.prewitG135FilterMenuOptionButton());
 	}
 }
