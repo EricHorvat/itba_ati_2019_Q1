@@ -394,7 +394,7 @@ public final class ImageUtils {
 		return ans;
 	}
 	
-	public static int index(int i, int j, int width){
+	public static int indexRGB(int i, int j, int width){
 		return (i * width + j) * 3;
 	}
 }

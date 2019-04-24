@@ -5,6 +5,7 @@ import ar.ed.itba.utils.ImageUtils;
 import ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation;
 import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 
+import static ar.ed.itba.utils.ImageUtils.indexRGB;
 import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.X;
 import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.Y;
 
@@ -49,9 +50,9 @@ public class LaplacianFilter extends WeightMaskFilter {
 	}
 	
 	private void control(PrefilterOrientation orientation, int[] prevResult, int i, int j, int width, int[] ans){
-		int index = ImageUtils.index(i,j,width);
-		int next_index = orientation == Y ? ImageUtils.index(i,j+1,width) : ImageUtils.index(i+1,j,width);
-		int next_next_index = orientation == Y ? ImageUtils.index(i,j+2,width) : ImageUtils.index(i+2,j,width);
+		int index = indexRGB(i,j,width);
+		int next_index = orientation == Y ? indexRGB(i,j+1,width) : indexRGB(i+1,j,width);
+		int next_next_index = orientation == Y ? indexRGB(i,j+2,width) : indexRGB(i+2,j,width);
 		int zeroCrossControl = prevResult[index] * prevResult[next_index];
 		if(zeroCrossControl == 0){
 			zeroCrossControl = prevResult[index] * prevResult[next_next_index];

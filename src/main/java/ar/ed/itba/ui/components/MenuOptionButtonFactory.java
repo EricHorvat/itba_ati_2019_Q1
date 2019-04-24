@@ -15,11 +15,14 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButto
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
+import ar.ed.itba.utils.filters.mask.weight.heat.AnisotropicG;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 import static ar.ed.itba.utils.filters.mask.gradient.GradientFilterType.*;
+import static ar.ed.itba.utils.filters.mask.weight.heat.AnisotropicG.LECLERC;
+import static ar.ed.itba.utils.filters.mask.weight.heat.AnisotropicG.LORENTZ;
 
 public final class MenuOptionButtonFactory {
 	
@@ -182,13 +185,17 @@ public final class MenuOptionButtonFactory {
 	public static JButton bilateralFilterMenuOptionButton(JTextField maskSideField, JTextField sigmaRField){
 		return applyButton(new BilateralFilterButtonListener(maskSideField, sigmaRField));
 	}
+  
+  public static JButton anisotropicLeclercFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField){
+    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, LECLERC));
+  }
+  
+  public static JButton anisotropicLorentzFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField){
+    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, LORENTZ));
+  }
 	
-	public static JButton anisotropicFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new AnisotropicFilterButtonListener(maskSideField));
-	}
-	
-	public static JButton isotropicFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new IsotropicFilterButtonListener(maskSideField));
+	public static JButton isotropicFilterMenuOptionButton(JTextField deltaField){
+		return applyButton(new IsotropicFilterButtonListener(deltaField));
 	}
 
 	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){

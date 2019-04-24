@@ -1,14 +1,17 @@
 package ar.ed.itba.ui.listeners.button.filter.menu.tp2;
 
 import ar.ed.itba.ui.components.MenuOptionButtonFactory;
+import ar.ed.itba.ui.listeners.button.ATIMenuOptionsButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.MaskFilterMenuButtonListener;
 
-public class IsotropicFilterMenuButtonListener extends MaskFilterMenuButtonListener {
-    //TODO PARAMS JTextField sigmaR = new JTextField();
+import javax.swing.*;
 
-    public IsotropicFilterMenuButtonListener() {
-        //options.add(new JLabel("Sigma R"));
-        //options.add(sigmaR);
-        options.add(MenuOptionButtonFactory.isotropicFilterMenuOptionButton(maskSideField));//, sigmaR));
-    }
+public class IsotropicFilterMenuButtonListener extends ATIMenuOptionsButtonListener {
+  
+  public IsotropicFilterMenuButtonListener() {
+    options.add(new JLabel("Delta"));
+    JTextField deltaField = new JTextField();
+    options.add(deltaField);
+    options.add(MenuOptionButtonFactory.isotropicFilterMenuOptionButton(deltaField));
+  }
 }

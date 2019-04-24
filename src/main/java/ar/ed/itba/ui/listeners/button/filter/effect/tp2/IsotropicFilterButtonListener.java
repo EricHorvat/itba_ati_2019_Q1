@@ -7,21 +7,24 @@ import ar.ed.itba.utils.filters.mask.weight.heat.IsotropicFilter;
 import javax.swing.*;
 
 public class IsotropicFilterButtonListener extends MaskFilterButtonListener {
-    // TODO PARAMS protected JTextField gammaRField;
-
-    public IsotropicFilterButtonListener(JTextField maskSideField) {
-        super(maskSideField);
+  
+  private final JTextField deltaField;
+  
+  public IsotropicFilterButtonListener(JTextField deltaField) {
+        super(null);
+        this.deltaField = deltaField;
     }
 
-    @Override
-    public MaskFilter getFilter() {
-        int maskSide = Integer.parseInt(maskSideField.getText());
+  @Override
+  public MaskFilter getFilter() {
+    
+    double delta = Double.parseDouble(deltaField.getText());
 
-        return new IsotropicFilter(maskSide);
-    }
+    return new IsotropicFilter(delta);
+  }
 
-    @Override
-    public String getName() {
-        return "Anisotropic Filter";
-    }
+  @Override
+  public String getName() {
+    return "Anisotropic Filter";
+  }
 }
