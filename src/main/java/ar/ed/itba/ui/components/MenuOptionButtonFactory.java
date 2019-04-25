@@ -188,12 +188,16 @@ public final class MenuOptionButtonFactory {
   
   public static JButton anisotropicLeclercFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField,
                                                                  JTextField tField){
-    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LECLERC));
+    JButton button = applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LECLERC));
+    button.setText("Apply Leclerc");
+    return button;
   }
   
   public static JButton anisotropicLorentzFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField,
                                                                  JTextField tField){
-    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LORENTZ));
+    JButton button = applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LORENTZ));
+    button.setText("Apply Lorentz");
+    return button;
   }
 	
 	public static JButton isotropicFilterMenuOptionButton(JTextField deltaField, JTextField tField){
