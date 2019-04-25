@@ -23,7 +23,7 @@ public class AnisotropicFilter extends HeatFilter {
   }
   
   private double lorentz(double x){
-		return 1 / ((x * x / (sigma * sigma))+1);
+		return 1.0 / ((x * x / (sigma * sigma))+1);
 	}
 	
 	private double leclerc(double x){
