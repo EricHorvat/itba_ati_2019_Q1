@@ -12,25 +12,28 @@ import static ar.ed.itba.utils.filters.mask.weight.heat.AnisotropicG.LECLERC;
 
 public class AnisotropicFilterButtonListener extends MaskFilterButtonListener {
   
-  private final JTextField deltaSideField;
-  private final JTextField sigmaSideField;
+  private final JTextField deltaField;
+  private final JTextField sigmaField;
+  private final JTextField tField;
   private final AnisotropicG g;
   
-  public AnisotropicFilterButtonListener(JTextField deltaSideField, JTextField sigmaSideField, AnisotropicG g) {
+  public AnisotropicFilterButtonListener(JTextField deltaField, JTextField sigmaField, JTextField tField, AnisotropicG g) {
     super(null);
   
-    this.deltaSideField = deltaSideField;
-    this.sigmaSideField = sigmaSideField;
+    this.deltaField = deltaField;
+    this.sigmaField = sigmaField;
+    this.tField = tField;
     this.g = g == null ? LECLERC : g;
   }
 
   @Override
   public MaskFilter getFilter() {
   
-    double delta = Double.parseDouble(deltaSideField.getText());
-    double sigma = Double.parseDouble(sigmaSideField.getText());
+    double delta = Double.parseDouble(deltaField.getText());
+    double sigma = Double.parseDouble(sigmaField.getText());
+    int t = Integer.parseInt(tField.getText());
     
-    return new AnisotropicFilter(g, delta, sigma);
+    return new AnisotropicFilter(g, t, delta, sigma);
   }
 
   @Override

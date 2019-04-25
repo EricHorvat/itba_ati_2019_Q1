@@ -18,10 +18,8 @@ public abstract class WeightMaskFilter extends MaskFilter {
 	@Override
 	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
 		
-		mask = generateMask();
-		int maskCenter = maskSide/2;
-		
-
+		mask = mask == null?generateMask():mask;
+    int maskCenter = maskSide/2;
 		int imageWidth = sourceAtiImage.getWidth();
 		int imageHeight = sourceAtiImage.getHeight();
 		int[] sourceRGBArray = sourceAtiImage.toRGB();

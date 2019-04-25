@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class IsotropicFilter extends HeatFilter {
   
-  public IsotropicFilter(double delta) {
-    super(delta);
+  public IsotropicFilter(double delta, int t) {
+    super(delta, t);
   }
   
   @Override

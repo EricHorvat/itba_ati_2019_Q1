@@ -186,16 +186,18 @@ public final class MenuOptionButtonFactory {
 		return applyButton(new BilateralFilterButtonListener(maskSideField, sigmaRField));
 	}
   
-  public static JButton anisotropicLeclercFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField){
-    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, LECLERC));
+  public static JButton anisotropicLeclercFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField,
+                                                                 JTextField tField){
+    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LECLERC));
   }
   
-  public static JButton anisotropicLorentzFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField){
-    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, LORENTZ));
+  public static JButton anisotropicLorentzFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField,
+                                                                 JTextField tField){
+    return applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LORENTZ));
   }
 	
-	public static JButton isotropicFilterMenuOptionButton(JTextField deltaField){
-		return applyButton(new IsotropicFilterButtonListener(deltaField));
+	public static JButton isotropicFilterMenuOptionButton(JTextField deltaField, JTextField tField){
+		return applyButton(new IsotropicFilterButtonListener(deltaField, tField));
 	}
 
 	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){

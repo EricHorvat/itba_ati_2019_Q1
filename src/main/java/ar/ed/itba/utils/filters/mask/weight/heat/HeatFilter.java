@@ -3,15 +3,19 @@ package ar.ed.itba.utils.filters.mask.weight.heat;
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 
+import java.util.*;
+
 import static ar.ed.itba.utils.ImageUtils.indexRGB;
 
 public abstract class HeatFilter extends WeightMaskFilter {
   
   private final double delta;
+  private final double finalT;
   
-  public HeatFilter(double delta) {
+  public HeatFilter(double delta, int finalT) {
     super(3);
     this.delta = delta;
+    this.finalT = finalT;
   }
   
   
@@ -57,14 +61,25 @@ public abstract class HeatFilter extends WeightMaskFilter {
   
   @Override
   public int[] applyFilterRaw(ATIImage sourceAtiImage) {
-    
-    mask = generateMask();
+  
+    mask = mask == null?generateMask():mask;
     int maskCenter = maskSide / 2;
     int imageWidth = sourceAtiImage.getWidth();
     int imageHeight = sourceAtiImage.getHeight();
     int[] sourceRGBArray = sourceAtiImage.toRGB();
-    int[] finalRGBArray = new int[sourceRGBArray.length];
+    Deque<int[]> imageArrayList = new ArrayDeque<>();
+    imageArrayList.add(sourceRGBArray);
+    for (int it = 0; it < finalT; it++){
+      int[] appliedResult = basicLoop(imageArrayList.getLast(), imageWidth, imageHeight, maskCenter);
+      imageArrayList.add(appliedResult);
+    }
     
+    return imageArrayList.getLast();
+  }
+  
+  private int[] basicLoop(int[] sourceRGBArray, int imageWidth, int imageHeight, int maskCenter){
+    int[] finalRGBArray = new int[sourceRGBArray.length];
+  
     for (int i = 0; i < imageWidth; i++) {
       for (int j = 0; j < imageHeight; j++) {
         int indexRed = indexRGB(i,j,imageWidth);
@@ -75,9 +90,9 @@ public abstract class HeatFilter extends WeightMaskFilter {
           finalRGBArray[indexGreen] = sourceRGBArray[indexGreen];
           finalRGBArray[indexBlue] = sourceRGBArray[indexBlue];
         } else {
-          final double[][] variableMaskRed = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), indexRed);
-          final double[][] variableMaskGreen = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), indexGreen);
-          final double[][] variableMaskBlue = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), indexBlue);
+          final double[][] variableMaskRed = generateVariableMask(sourceRGBArray, imageWidth, indexRed);
+          final double[][] variableMaskGreen = generateVariableMask(sourceRGBArray, imageWidth, indexGreen);
+          final double[][] variableMaskBlue = generateVariableMask(sourceRGBArray, imageWidth, indexBlue);
           double sumRed = 0, sumGreen = 0, sumBlue = 0;
           for (int k = -maskCenter; k < maskCenter + 1; k++) {
             for (int l = -maskCenter; l < maskCenter + 1; l++) {
@@ -87,7 +102,7 @@ public abstract class HeatFilter extends WeightMaskFilter {
               sumBlue += sourceRGBArray[indexBlue + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskBlue[k + maskCenter][l + maskCenter];
             }
           }
-          
+        
           /* HERE DO OLD + DELTA*/
           finalRGBArray[indexRed] = sourceRGBArray[indexRed] + (int) (sumRed);
           finalRGBArray[indexBlue] = sourceRGBArray[indexBlue] + (int) (sumBlue);

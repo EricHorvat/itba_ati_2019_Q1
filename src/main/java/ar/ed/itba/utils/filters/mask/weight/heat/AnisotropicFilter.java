@@ -5,8 +5,8 @@ public class AnisotropicFilter extends HeatFilter {
 	private final AnisotropicG g;
 	private final double sigma;
 	
-	public AnisotropicFilter(final AnisotropicG g, final double delta, final double sigma) {
-		super(delta);
+	public AnisotropicFilter(final AnisotropicG g, final int t, final double delta, final double sigma) {
+		super(delta, t);
 		this.g = g;
 		this.sigma = sigma;
 	}

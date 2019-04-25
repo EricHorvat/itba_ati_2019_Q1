@@ -15,7 +15,10 @@ public class AnisotropicFilterMenuButtonListener extends ATIMenuOptionsButtonLis
     options.add(new JLabel("Sigma"));
     JTextField sigmaField = new JTextField();
     options.add(sigmaField);
-    options.add(MenuOptionButtonFactory.anisotropicLeclercFilterMenuOptionButton(deltaField, sigmaField));
-    options.add(MenuOptionButtonFactory.anisotropicLorentzFilterMenuOptionButton(deltaField, sigmaField));
+    options.add(new JLabel("T"));
+    JTextField tField = new JTextField();
+    options.add(tField);
+    options.add(MenuOptionButtonFactory.anisotropicLeclercFilterMenuOptionButton(deltaField, sigmaField, tField));
+    options.add(MenuOptionButtonFactory.anisotropicLorentzFilterMenuOptionButton(deltaField, sigmaField, tField));
   }
 }

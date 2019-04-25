@@ -12,6 +12,9 @@ public class IsotropicFilterMenuButtonListener extends ATIMenuOptionsButtonListe
     options.add(new JLabel("Delta"));
     JTextField deltaField = new JTextField();
     options.add(deltaField);
-    options.add(MenuOptionButtonFactory.isotropicFilterMenuOptionButton(deltaField));
+    options.add(new JLabel("T"));
+    JTextField tField = new JTextField();
+    options.add(tField);
+    options.add(MenuOptionButtonFactory.isotropicFilterMenuOptionButton(deltaField, tField));
   }
 }
