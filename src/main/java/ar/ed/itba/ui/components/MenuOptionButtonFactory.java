@@ -15,7 +15,6 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButto
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
-import ar.ed.itba.utils.filters.mask.weight.heat.AnisotropicG;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;

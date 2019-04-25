@@ -105,7 +105,7 @@ public class EditableImageFrame extends ImageFrame {
 			EditableImageFrame editableImageFrame = EditableImageFrame.instance();
 			ATIImage atiImage = editableImageFrame.getAtiImage();
 			
-			IntStream.range(index+1,moves.size()).forEach(moves::remove);
+			IntStream.range(index+1,moves.size()).map(i->index+1).forEach(moves::remove);
 			
 			if(atiImage != null){
 				moves.remove(index);
