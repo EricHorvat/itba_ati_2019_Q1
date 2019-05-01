@@ -59,9 +59,10 @@ public final class ImageUtils {
 		final int[] pixels = image.toRGB();
 		for (int i = 0 ; i < image.getWidth() ; i++) {
 			for (int j = 0 ; j < image.getHeight() ; j++) {
-				pixels[(i * image.getWidth() + j) * 3] += modifier[(i * image.getWidth() + j) * 3];
-				pixels[(i * image.getWidth() + j) * 3 + 1] += modifier[(i * image.getWidth() + j) * 3 + 1];
-				pixels[(i * image.getWidth() + j) * 3 + 2] += modifier[(i * image.getWidth() + j) * 3 + 2];
+			  int indexRGB = indexRGB(i,j, image.getWidth());
+				pixels[indexRGB] += modifier[indexRGB];
+				pixels[indexRGB + 1] += modifier[indexRGB + 1];
+				pixels[indexRGB + 2] += modifier[indexRGB + 2];
 			}
 		}
 		normalize(pixels);
@@ -93,10 +94,10 @@ public final class ImageUtils {
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
-				int index = (i * width + j) * 3;
-				pixels[index] = (image[index] + modifier[index]) / 2;
-				pixels[index + 1] = (image[index + 1] + modifier[index + 1]) / 2;
-				pixels[index + 2] = (image[index + 2] + modifier[index + 2]) / 2;
+				int indexRGB = indexRGB(i,j,width);
+				pixels[indexRGB] = (image[indexRGB] + modifier[indexRGB]) / 2;
+				pixels[indexRGB + 1] = (image[indexRGB + 1] + modifier[indexRGB + 1]) / 2;
+				pixels[indexRGB + 2] = (image[indexRGB + 2] + modifier[indexRGB + 2]) / 2;
 			}
 		}
 		return pixels;
@@ -397,6 +398,19 @@ public final class ImageUtils {
   public static int indexRGB(int i, int j, int width){
     return indexGray(i,j,width) * 3;
   }
+  
+  public static int red(int indexRGB){
+    return indexRGB;
+  }
+  
+  public static int green(int indexRGB){
+    return indexRGB + 1;
+  }
+  
+  public static int blue(int indexRGB){
+    return indexRGB + 2;
+  }
+  
   public static int indexGray(int i, int j, int width){
     return i * width + j;
   }

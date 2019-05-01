@@ -55,7 +55,7 @@ public class NoiseImageFactory {
 	}
 	
 	private static void copyValue(double[] image, int x, int y, int width, double value){
-		int index = (x * width + y) * 3;
+		int index = indexRGB(x,y,width);
 		image[index] = value;
 		image[index + 1] = value;
 		image[index + 2] = value;
