@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.io.IOException;
 
+import static ar.ed.itba.utils.ImageUtils.*;
+
 public class PbmImage extends PortableImage {
 
     private static final int MAX_COLOR = 1;
@@ -39,13 +41,14 @@ public class PbmImage extends PortableImage {
 
     @Override
     public int[] toRGB() {
-        final int[] aux = new int[getWidth() * getHeight() * 3];
+        final int[] aux = new int[lengthRGB(getWidth(), getHeight())];
         for (int i = 0 ; i < getHeight() ; i++) {
             for (int j = 0 ; j < getWidth() ; j++) {
              final RGBPixel rgbPixel = PpmImage.binToColor((BitPixel) getPixel(i, j));
-             aux[(i * getWidth() + j) * 3] = rgbPixel.getRed() & 0xFF;
-             aux[(i * getWidth() + j) * 3 + 1] = rgbPixel.getGreen() & 0xFF;
-             aux[(i * getWidth() + j) * 3 + 2] = rgbPixel.getBlue() & 0xFF;
+             int indexRGB = indexRGB(i,j,getWidth());
+             aux[red(indexRGB)] = rgbPixel.getRed() & 0xFF;
+             aux[green(indexRGB)] = rgbPixel.getGreen() & 0xFF;
+             aux[blue(indexRGB)] = rgbPixel.getBlue() & 0xFF;
             }
         }
         return aux;

@@ -5,7 +5,7 @@ import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 
 import java.util.*;
 
-import static ar.ed.itba.utils.ImageUtils.indexRGB;
+import static ar.ed.itba.utils.ImageUtils.*;
 
 public abstract class HeatFilter extends WeightMaskFilter {
   
@@ -50,9 +50,11 @@ public abstract class HeatFilter extends WeightMaskFilter {
                                   final int width) {
     if (Math.abs(i) + Math.abs(j) == 1) {
       double DIij = sourceRGBArray[x + indexRGB(i, j, width)] - sourceRGBArray[x];
-      return delta * DIij * getCij(DIij);
+      double ans = delta * DIij * getCij(DIij);
+      //System.out.println(ans);
+      return ans;
     } else if (i == 0 && j == 0) {
-      return 1;
+      return 0;
     }
     return 0;
   }
@@ -60,7 +62,7 @@ public abstract class HeatFilter extends WeightMaskFilter {
   protected abstract double getCij(double dIij);
   
   @Override
-  public int[] applyFilterRaw(ATIImage sourceAtiImage) {
+  public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
   
     mask = mask == null?generateMask():mask;
     int maskCenter = maskSide / 2;
@@ -79,39 +81,54 @@ public abstract class HeatFilter extends WeightMaskFilter {
   
   private int[] basicLoop(int[] sourceRGBArray, int imageWidth, int imageHeight, int maskCenter){
     int[] finalRGBArray = new int[sourceRGBArray.length];
+    int[] variableRGBArray = new int[sourceRGBArray.length];
+  
+    double max = 0;
+    double min = 0;
+    double max2 = 0;
+    double min2 = 0;
   
     for (int i = 0; i < imageWidth; i++) {
       for (int j = 0; j < imageHeight; j++) {
-        int indexRed = indexRGB(i,j,imageWidth);
-        int indexGreen = indexRed + 1;
-        int indexBlue = indexGreen + 1;
+        int indexRGB = indexRGB(i,j,imageWidth);
         if (i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter - 1) {
-          finalRGBArray[indexRed] = sourceRGBArray[indexRed];
-          finalRGBArray[indexGreen] = sourceRGBArray[indexGreen];
-          finalRGBArray[indexBlue] = sourceRGBArray[indexBlue];
+          variableRGBArray[red(indexRGB)] = 0;
+          variableRGBArray[green(indexRGB)] = 0;
+          variableRGBArray[blue(indexRGB)] = 0;
         } else {
-          final double[][] variableMaskRed = generateVariableMask(sourceRGBArray, imageWidth, indexRed);
-          final double[][] variableMaskGreen = generateVariableMask(sourceRGBArray, imageWidth, indexGreen);
-          final double[][] variableMaskBlue = generateVariableMask(sourceRGBArray, imageWidth, indexBlue);
+          final double[][] variableMaskRed = generateVariableMask(sourceRGBArray, imageWidth, red(indexRGB));
+          final double[][] variableMaskGreen = generateVariableMask(sourceRGBArray, imageWidth, green(indexRGB));
+          final double[][] variableMaskBlue = generateVariableMask(sourceRGBArray, imageWidth, blue(indexRGB));
           double sumRed = 0, sumGreen = 0, sumBlue = 0;
           for (int k = -maskCenter; k < maskCenter + 1; k++) {
             for (int l = -maskCenter; l < maskCenter + 1; l++) {
-              int deltaIndex = (k * imageWidth + l) * 3;
-              sumRed += sourceRGBArray[indexRed + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskRed[k + maskCenter][l + maskCenter];
-              sumGreen += sourceRGBArray[indexGreen + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskGreen[k + maskCenter][l + maskCenter];
-              sumBlue += sourceRGBArray[indexBlue + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskBlue[k + maskCenter][l + maskCenter];
+              int deltaIndex = indexRGB(k,l,imageWidth);
+              sumRed += sourceRGBArray[red(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskRed[k + maskCenter][l + maskCenter];
+              sumGreen += sourceRGBArray[green(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskGreen[k + maskCenter][l + maskCenter];
+              sumBlue += sourceRGBArray[blue(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskBlue[k + maskCenter][l + maskCenter];
+              max2 = Math.max(max2, variableMaskRed[k+maskCenter][l+maskCenter]);
+              min2 = Math.min(min2, variableMaskRed[k+maskCenter][l+maskCenter]);
             }
           }
         
           /* HERE DO OLD + DELTA*/
-          finalRGBArray[indexRed] = sourceRGBArray[indexRed] + (int) (sumRed);
-          finalRGBArray[indexBlue] = sourceRGBArray[indexBlue] + (int) (sumBlue);
-          finalRGBArray[indexGreen] = sourceRGBArray[indexGreen] + (int) (sumGreen);
+          /*finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)] + (int) (sumRed);
+          finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)] + (int) (sumGreen);
+          finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)] + (int) (sumBlue);*/
+          variableRGBArray[red(indexRGB)] = (int) (sumRed);
+          variableRGBArray[green(indexRGB)] = (int) (sumGreen);
+          variableRGBArray[blue(indexRGB)] = (int) (sumBlue);
+          max = Math.max(max, sumRed);
+          min = Math.min(min, sumRed);
         }
       }
     }
-    return finalRGBArray;
+    if(hasToNormalize())
+      normalize(variableRGBArray, imageWidth);
+    return sum(variableRGBArray,sourceRGBArray, imageWidth, imageHeight);
   }
+  
+  protected abstract boolean hasToNormalize();
   
   @Override
   protected int maskDivisor() {

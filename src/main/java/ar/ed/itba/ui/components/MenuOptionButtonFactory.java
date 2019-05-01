@@ -166,253 +166,253 @@ public final class MenuOptionButtonFactory {
 	/* FILTER */
 
 	public static JButton mediaFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new MediaFilterButtonListener(maskSideField));
+		return generateButton(new MediaFilterButtonListener(maskSideField));
 	}
 	
 	public static JButton medianFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new MedianFilterButtonListener(maskSideField));
+		return generateButton(new MedianFilterButtonListener(maskSideField));
 	}
 	
 	public static JButton ponderedMedianFilterMenuOptionButton(){
-		return applyButton(new PonderedMedianFilterButtonListener());
+		return generateButton(new PonderedMedianFilterButtonListener());
 	}
 	
 	public static JButton gaussianFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new GaussianFilterButtonListener(maskSideField));
+		return generateButton(new GaussianFilterButtonListener(maskSideField));
 	}
 	
 	public static JButton bilateralFilterMenuOptionButton(JTextField maskSideField, JTextField sigmaRField){
-		return applyButton(new BilateralFilterButtonListener(maskSideField, sigmaRField));
+		return generateButton(new BilateralFilterButtonListener(maskSideField, sigmaRField));
 	}
   
   public static JButton anisotropicLeclercFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField,
                                                                  JTextField tField){
-    JButton button = applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LECLERC));
+    JButton button = generateButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LECLERC));
     button.setText("Apply Leclerc");
     return button;
   }
   
   public static JButton anisotropicLorentzFilterMenuOptionButton(JTextField deltaField, JTextField sigmaField,
                                                                  JTextField tField){
-    JButton button = applyButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LORENTZ));
+    JButton button = generateButton(new AnisotropicFilterButtonListener(deltaField, sigmaField, tField, LORENTZ));
     button.setText("Apply Lorentz");
     return button;
   }
 	
 	public static JButton isotropicFilterMenuOptionButton(JTextField deltaField, JTextField tField){
-		return applyButton(new IsotropicFilterButtonListener(deltaField, tField));
+		return generateButton(new IsotropicFilterButtonListener(deltaField, tField));
 	}
 
 	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
-		return applyButton(new HighlightBorderFilterButtonListener(maskSideField));
+		return generateButton(new HighlightBorderFilterButtonListener(maskSideField));
 	}
 	
 	public static JButton prewitMaxFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(MAX));
+		JButton button = generateButton(new PrewitFilterButtonListener(MAX));
 		button.setText("Max");
 		return button;
 	}
 	
 	public static JButton prewitAvgFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(AVG));
+		JButton button = generateButton(new PrewitFilterButtonListener(AVG));
 		button.setText("Average");
 		return button;
 	}
 	
 	public static JButton prewitMod2FilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(MOD));
+		JButton button = generateButton(new PrewitFilterButtonListener(MOD));
 		button.setText("Mod2");
 		return button;
 	}
 	
 	public static JButton prewitMinFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(MIN));
+		JButton button = generateButton(new PrewitFilterButtonListener(MIN));
 		button.setText("Min");
 		return button;
 	}
 	
 	public static JButton prewitHorizontalFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(HOR));
+		JButton button = generateButton(new PrewitFilterButtonListener(HOR));
 		button.setText("Horizontal");
 		return button;
 	}
 	
 	public static JButton prewitVerticalFilterMenuOptionButton(){
-		JButton button = applyButton(new PrewitFilterButtonListener(VER));
+		JButton button = generateButton(new PrewitFilterButtonListener(VER));
 		button.setText("Vertical");
 		return button;
 	}
   
   public static JButton prewitG45FilterMenuOptionButton(){
-    JButton button = applyButton(new PrewitFilterButtonListener(G45));
+    JButton button = generateButton(new PrewitFilterButtonListener(G45));
     button.setText("45");
     return button;
   }
   
   public static JButton prewitG135FilterMenuOptionButton(){
-    JButton button = applyButton(new PrewitFilterButtonListener(G135));
+    JButton button = generateButton(new PrewitFilterButtonListener(G135));
     button.setText("135");
     return button;
   }
 	
   public static JButton sobelMaxFilterMenuOptionButton(){
-    JButton button = applyButton(new SobelFilterButtonListener(MAX));
+    JButton button = generateButton(new SobelFilterButtonListener(MAX));
     button.setText("Max");
     return button;
   }
 	
 	public static JButton sobelAvgFilterMenuOptionButton(){
-		JButton button = applyButton(new SobelFilterButtonListener(AVG));
+		JButton button = generateButton(new SobelFilterButtonListener(AVG));
 		button.setText("Average");
 		return button;
 	}
 	
 	public static JButton sobelMod2FilterMenuOptionButton(){
-		JButton button = applyButton(new SobelFilterButtonListener(MOD));
+		JButton button = generateButton(new SobelFilterButtonListener(MOD));
 		button.setText("Mod2");
 		return button;
 	}
 	
 	public static JButton sobelMinFilterMenuOptionButton(){
-		JButton button = applyButton(new SobelFilterButtonListener(MIN));
+		JButton button = generateButton(new SobelFilterButtonListener(MIN));
 		button.setText("Min");
 		return button;
 	}
 	
 	public static JButton sobelHorizontalFilterMenuOptionButton(){
-		JButton button = applyButton(new SobelFilterButtonListener(HOR));
+		JButton button = generateButton(new SobelFilterButtonListener(HOR));
 		button.setText("Horizontal");
 		return button;
 	}
 	
 	public static JButton sobelVerticalFilterMenuOptionButton(){
-		JButton button = applyButton(new SobelFilterButtonListener(VER));
+		JButton button = generateButton(new SobelFilterButtonListener(VER));
 		button.setText("Vertical");
 		return button;
 	}
   
   public static JButton sobelG45FilterMenuOptionButton(){
-    JButton button = applyButton(new SobelFilterButtonListener(G45));
+    JButton button = generateButton(new SobelFilterButtonListener(G45));
     button.setText("45");
     return button;
   }
   
   public static JButton sobelG135FilterMenuOptionButton(){
-    JButton button = applyButton(new SobelFilterButtonListener(G135));
+    JButton button = generateButton(new SobelFilterButtonListener(G135));
     button.setText("135");
     return button;
   }
 	
 	public static JButton kirshMaxFilterMenuOptionButton(){
-		JButton button = applyButton(new KirshFilterButtonListener(MAX));
+		JButton button = generateButton(new KirshFilterButtonListener(MAX));
 		button.setText("Max");
 		return button;
 	}
 	
 	public static JButton kirshAvgFilterMenuOptionButton(){
-		JButton button = applyButton(new KirshFilterButtonListener(AVG));
+		JButton button = generateButton(new KirshFilterButtonListener(AVG));
 		button.setText("Average");
 		return button;
 	}
 	
 	public static JButton kirshMod2FilterMenuOptionButton(){
-		JButton button = applyButton(new KirshFilterButtonListener(MOD));
+		JButton button = generateButton(new KirshFilterButtonListener(MOD));
 		button.setText("Mod2");
 		return button;
 	}
 	
 	public static JButton kirshMinFilterMenuOptionButton(){
-		JButton button = applyButton(new KirshFilterButtonListener(MIN));
+		JButton button = generateButton(new KirshFilterButtonListener(MIN));
 		button.setText("Min");
 		return button;
 	}
 	
 	public static JButton kirshHorizontalFilterMenuOptionButton(){
-		JButton button = applyButton(new KirshFilterButtonListener(HOR));
+		JButton button = generateButton(new KirshFilterButtonListener(HOR));
 		button.setText("Horizontal");
 		return button;
 	}
 	
 	public static JButton kirshVerticalFilterMenuOptionButton(){
-		JButton button = applyButton(new KirshFilterButtonListener(VER));
+		JButton button = generateButton(new KirshFilterButtonListener(VER));
 		button.setText("Vertical");
 		return button;
 	}
 	
   public static JButton kirshG45FilterMenuOptionButton(){
-    JButton button = applyButton(new KirshFilterButtonListener(G45));
+    JButton button = generateButton(new KirshFilterButtonListener(G45));
     button.setText("45");
     return button;
   }
   
   public static JButton kirshG135FilterMenuOptionButton(){
-    JButton button = applyButton(new KirshFilterButtonListener(G135));
+    JButton button = generateButton(new KirshFilterButtonListener(G135));
     button.setText("135");
     return button;
   }
 	
 	public static JButton tp2p5aMaxFilterMenuOptionButton(){
-		JButton button = applyButton(new TP2P5AFilterButtonListener(MAX));
+		JButton button = generateButton(new TP2P5AFilterButtonListener(MAX));
 		button.setText("Max");
 		return button;
 	}
 	
 	public static JButton tp2p5aAvgFilterMenuOptionButton(){
-		JButton button = applyButton(new TP2P5AFilterButtonListener(AVG));
+		JButton button = generateButton(new TP2P5AFilterButtonListener(AVG));
 		button.setText("Average");
 		return button;
 	}
 	
 	public static JButton tp2p5aMod2FilterMenuOptionButton(){
-		JButton button = applyButton(new TP2P5AFilterButtonListener(MOD));
+		JButton button = generateButton(new TP2P5AFilterButtonListener(MOD));
 		button.setText("Mod2");
 		return button;
 	}
 	
 	public static JButton tp2p5aMinFilterMenuOptionButton(){
-		JButton button = applyButton(new TP2P5AFilterButtonListener(MIN));
+		JButton button = generateButton(new TP2P5AFilterButtonListener(MIN));
 		button.setText("Min");
 		return button;
 	}
 	
 	public static JButton tp2p5aHorizontalFilterMenuOptionButton(){
-		JButton button = applyButton(new TP2P5AFilterButtonListener(HOR));
+		JButton button = generateButton(new TP2P5AFilterButtonListener(HOR));
 		button.setText("Horizontal");
 		return button;
 	}
 	
 	public static JButton tp2p5aVerticalFilterMenuOptionButton(){
-		JButton button = applyButton(new TP2P5AFilterButtonListener(VER));
+		JButton button = generateButton(new TP2P5AFilterButtonListener(VER));
 		button.setText("Vertical");
 		return button;
 	}
 	
   public static JButton tp2p5aG45FilterMenuOptionButton(){
-    JButton button = applyButton(new TP2P5AFilterButtonListener(G45));
+    JButton button = generateButton(new TP2P5AFilterButtonListener(G45));
     button.setText("45");
     return button;
   }
   
   public static JButton tp2p5aG135FilterMenuOptionButton(){
-    JButton button = applyButton(new TP2P5AFilterButtonListener(G135));
+    JButton button = generateButton(new TP2P5AFilterButtonListener(G135));
     button.setText("135");
     return button;
   }
 	
 	public static JButton laplacianFilterMenuOptionButton(){
-		JButton button = applyButton(new LaplacianFilterButtonListener(false));
+		JButton button = generateButton(new LaplacianFilterButtonListener(false));
 		button.setText("Basic");
 		return button;
 	}
 	
 	public static JButton laplacianPendientFilterMenuOptionButton(JTextField thresholdField){
-		JButton button = applyButton(new LaplacianFilterButtonListener(true, thresholdField));
+		JButton button = generateButton(new LaplacianFilterButtonListener(true, thresholdField));
 		button.setText("Pendient control");
 		return button;
 	}
 	
 	public static JButton logFilterMenuOptionButton(JTextField maskSideField, JTextField sigmaField, JTextField thresholdField){
-		return applyButton(new LoGFilterButtonListener(maskSideField,sigmaField,thresholdField));
+		return generateButton(new LoGFilterButtonListener(maskSideField,sigmaField,thresholdField));
 	}
 	
 	/* END FILTER */

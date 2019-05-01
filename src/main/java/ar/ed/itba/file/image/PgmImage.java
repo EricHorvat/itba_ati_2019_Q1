@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.*;
 
+import static ar.ed.itba.utils.ImageUtils.*;
+
 
 public class PgmImage extends PortableImage {
 
@@ -54,9 +56,11 @@ public class PgmImage extends PortableImage {
         final int[] aux = new int[pixels.length * 3];
         for (int i = 0 ; i < image.getHeight() ; i++) {
             for (int j= 0 ; j < image.getWidth() ; j++) {
-                aux[(i * image.getWidth() + j) * 3] = pixels[i * image.getWidth() + j] & 0xFF;
-                aux[(i * image.getWidth() + j) * 3 + 1] = pixels[i * image.getWidth() + j] & 0xFF;
-                aux[(i * image.getWidth() + j) * 3 + 2] = pixels[i * image.getWidth() + j] & 0xFF;
+                int indexRGB = indexRGB(i,j,image.getWidth());
+                int index = indexGray(i,j,image.getWidth());
+                aux[red(indexRGB)] = pixels[index] & 0xFF;
+                aux[green(indexRGB)] = pixels[index] & 0xFF;
+                aux[blue(indexRGB)] = pixels[index] & 0xFF;
             }
         }
         return aux;
@@ -69,12 +73,12 @@ public class PgmImage extends PortableImage {
 
     @Override
     public Pixel getPixel(final int i, final int j) {
-        return new GrayPixel(getImage()[i * getWidth() + j]);
+        return new GrayPixel(getImage()[indexGray(i,j,getWidth())]);
     }
 
     @Override
     public void setPixel(final int i, final int j, final Pixel pixel) {
-        getImage()[i * getWidth() + j] = ((GrayPixel) pixel).getGray();
+        getImage()[indexGray(i,j,getWidth())] = ((GrayPixel) pixel).getGray();
     }
 
     @Override

@@ -23,7 +23,7 @@ public abstract class MaskFilterButtonListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		ATIImage resultImage = getFilter().applyFilter(EditableImageFrame.instance().getAtiImage());
+		ATIImage resultImage = getFilter().applyFilter(EditableImageFrame.instance().getAtiImage(),false);
 		
 		String text = maskSideField!=null?" "+maskSideField.getText() + "x"+maskSideField.getText():"";
 		

@@ -53,20 +53,29 @@ public final class ImageUtils {
 	}
 	
 	public static PpmImage sum(final ATIImage image, final int[] modifier){
-		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+		if (lengthRGB(image.getWidth(), image.getHeight()) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
-		
 		final int[] pixels = image.toRGB();
-		for (int i = 0 ; i < image.getWidth() ; i++) {
-			for (int j = 0 ; j < image.getHeight() ; j++) {
-				pixels[(i * image.getWidth() + j) * 3] += modifier[(i * image.getWidth() + j) * 3];
-				pixels[(i * image.getWidth() + j) * 3 + 1] += modifier[(i * image.getWidth() + j) * 3 + 1];
-				pixels[(i * image.getWidth() + j) * 3 + 2] += modifier[(i * image.getWidth() + j) * 3 + 2];
-			}
-		}
-		normalize(pixels);
-		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+		return new PpmImage(sum(pixels,modifier,image.getWidth(),image.getWidth()), image.getWidth(), image.getHeight());
 	}
+  
+  public static int[] sum(final int[] image, final int[] modifier, int width, int height){
+    if (lengthRGB(width, height) != modifier.length)
+      throw new IllegalArgumentException("modifier must have width*height*3 length");
+  
+    final int[] pixels = new int[lengthRGB(width, height)];
+    
+    for (int i = 0 ; i < width ; i++) {
+      for (int j = 0 ; j < height ; j++) {
+        int indexRGB = indexRGB(i,j,width) ;
+        pixels[red(indexRGB)] = image[red(indexRGB)] + modifier[red(indexRGB)];
+        pixels[green(indexRGB)] =  image[green(indexRGB)] + modifier[green(indexRGB)];
+        pixels[blue(indexRGB)] = image[blue(indexRGB)] + modifier[blue(indexRGB)];
+      }
+    }
+    normalize(pixels, width);
+    return pixels;
+  }
 	
 	public static PpmImage avg(final ATIImage image1, final ATIImage image2) {
 		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
@@ -78,7 +87,7 @@ public final class ImageUtils {
 	}
 	
 	public static PpmImage avg(final ATIImage image, final int[] modifier) {
-		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+		if (lengthRGB(image.getWidth(), image.getHeight()) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		final int[] pixels = image.toRGB();
 		
@@ -86,17 +95,17 @@ public final class ImageUtils {
 	}
 	
 	public static int[] avg(final int[] image, final int[] modifier, int width, int height){
-		if (width * height * 3 != modifier.length)
+		if (lengthRGB(width,height) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
-		
-		final int pixels[] = new int[width * height * 3];
+    
+    final int[] pixels = new int[lengthRGB(width, height)];
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
-				int index = (i * width + j) * 3;
-				pixels[index] = (image[index] + modifier[index]) / 2;
-				pixels[index + 1] = (image[index + 1] + modifier[index + 1]) / 2;
-				pixels[index + 2] = (image[index + 2] + modifier[index + 2]) / 2;
+				int indexRGB = indexRGB(i,j,width);
+				pixels[red(indexRGB)] = (image[red(indexRGB)] + modifier[red(indexRGB)]) / 2;
+				pixels[green(indexRGB)] = (image[green(indexRGB)] + modifier[green(indexRGB)]) / 2;
+				pixels[blue(indexRGB)] = (image[blue(indexRGB)] + modifier[blue(indexRGB)]) / 2;
 			}
 		}
 		return pixels;
@@ -112,7 +121,7 @@ public final class ImageUtils {
 	}
 	
 	public static PpmImage mod2(final ATIImage image, final int[] modifier) {
-		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+		if (lengthRGB(image.getWidth(), image.getHeight())!= modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		final int[] pixels = image.toRGB();
 		
@@ -120,20 +129,20 @@ public final class ImageUtils {
 	}
 	
 	public static int[] mod2(final int[] image, final int[] modifier, int width, int height){
-		if (width * height * 3 != modifier.length)
+		if (lengthRGB(width, height) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
-		
-		final int pixels[] = new int[width * height * 3];
+    
+    final int[] pixels = new int[lengthRGB(width, height)];
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
-				int index = (i * width + j) * 3;
-				pixels[index] = (int) Math.sqrt(Math.pow(image[index],2) + Math.pow(modifier[index],2));
-				pixels[index + 1] = (int) Math.sqrt(Math.pow(image[index+1],2) + Math.pow(modifier[index+1],2));
-				pixels[index + 2] = (int) Math.sqrt(Math.pow(image[index+2],2) + Math.pow(modifier[index+2],2));
+				int indexRGB = indexRGB(i,j,width);
+				pixels[red(indexRGB)] = (int) (Math.sqrt(Math.pow(image[red(indexRGB)],2) + Math.pow(modifier[red(indexRGB)],2)));
+				pixels[green(indexRGB)] = (int) (Math.sqrt(Math.pow(image[green(indexRGB)],2) + Math.pow(modifier[green(indexRGB)],2)));
+				pixels[blue(indexRGB)] = (int) (Math.sqrt(Math.pow(image[blue(indexRGB)],2) + Math.pow(modifier[blue(indexRGB)],2)));
 			}
 		}
-		return pixels;
+		return normalize(pixels, width);
 	}
 	
 	public static PpmImage max(final ATIImage image1, final ATIImage image2) {
@@ -146,7 +155,7 @@ public final class ImageUtils {
 	}
 	
 	public static PpmImage max(final ATIImage image, final int[] modifier) {
-		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+		if (lengthRGB(image.getWidth(), image.getHeight()) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		final int[] pixels = image.toRGB();
 		
@@ -156,17 +165,17 @@ public final class ImageUtils {
 	public static int[] max(final int[] image, final int[] modifier, int width, int height ){
 		if (image.length != modifier.length)
 			throw new IllegalArgumentException("modifier must have same length as image array");
-		if (width * height * 3 != modifier.length){
+		if (lengthRGB(width, height) != modifier.length){
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		}
-		int pixels[] = new int[width * height * 3 ];
+		int pixels[] = new int[lengthRGB(width, height)];
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
-				int index = (i * width + j) * 3;
-				pixels[index] = image[index] > modifier[index] ? image[index] : modifier[index];
-				pixels[index + 1] = image[index + 1] > modifier[index + 1] ? image[index + 1] : modifier[index + 1];
-				pixels[index + 2] = image[index + 2] > modifier[index + 2] ? image[index + 2] : modifier[index + 2];
+				int indexRGB = indexRGB(i,j,width);
+				pixels[red(indexRGB)] = image[red(indexRGB)] > modifier[red(indexRGB)] ? image[red(indexRGB)] : modifier[red(indexRGB)];
+				pixels[green(indexRGB)] = image[green(indexRGB)] > modifier[green(indexRGB)] ? image[green(indexRGB)] : modifier[green(indexRGB)];
+				pixels[blue(indexRGB)] = image[blue(indexRGB)] > modifier[blue(indexRGB)] ? image[blue(indexRGB)] : modifier[blue(indexRGB)];
 			}
 		}
 		return pixels;
@@ -182,25 +191,25 @@ public final class ImageUtils {
 	}
 	
 	public static PpmImage min(final ATIImage image, final int[] modifier) {
-		if (image.getWidth() * image.getHeight() * 3 != modifier.length)
+		if (lengthRGB(image.getWidth(), image.getHeight()) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		final int[] pixels = image.toRGB();
 		
-		return new PpmImage(normalize(min(pixels,modifier, image.getWidth(), image.getHeight())),image.getWidth(), image.getHeight());
+		return new PpmImage(normalize(min(pixels,modifier, image.getWidth(), image.getHeight()), image.getWidth()),image.getWidth(), image.getHeight());
 	}
 	
 	public static int[] min(final int[] image, final int[] modifier, int width, int height ){
-		if (width * height * 3 != modifier.length)
+		if (lengthRGB(width,height)!= modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		
-		int pixels[] = new int[width*height*3];
+		int pixels[] = new int[lengthRGB(width,height)];
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height; j++) {
-				int index = (i * width + j) * 3;
-				pixels[index] = image[index] < modifier[index] ? image[index] : modifier[index];
-				pixels[index + 1] = image[index + 1] < modifier[index + 1] ? image[index + 1] : modifier[index + 1];
-				pixels[index + 2] = image[index + 2] < modifier[index + 2] ? image[index + 2] : modifier[index + 2];
+				int indexRGB = indexRGB(i,j,width);
+        pixels[red(indexRGB)] = Math.min(image[red(indexRGB)], modifier[red(indexRGB)]);
+        pixels[green(indexRGB)] = Math.min(image[green(indexRGB)], modifier[green(indexRGB)]);
+        pixels[blue(indexRGB)] = Math.min(image[blue(indexRGB)], modifier[blue(indexRGB)]);
 			}
 		}
 		return pixels;
@@ -215,29 +224,41 @@ public final class ImageUtils {
 
 		for (int i = 0 ; i < image2.getWidth() ; i++) {
 			for (int j = 0 ; j < image2.getHeight() ; j++) {
-				pixels1[(i * image1.getWidth() + j) * 3] -= pixels2[(i * image2.getWidth() + j) * 3];
-				pixels1[(i * image1.getWidth() + j) * 3 + 1] -= pixels2[(i * image2.getWidth() + j) * 3 + 1];
-				pixels1[(i * image1.getWidth() + j) * 3 + 2] -= pixels2[(i * image2.getWidth() + j) * 3 + 2];
+        int indexRGB1 = indexRGB(i,j,image1.getWidth());
+        int indexRGB2 = indexRGB(i,j,image2.getWidth());
+				pixels1[red(indexRGB1)] -= pixels2[red(indexRGB2)];
+				pixels1[green(indexRGB1)] -= pixels2[green(indexRGB2)];
+				pixels1[blue(indexRGB1)] -= pixels2[blue(indexRGB2)];
 			}
 		}
-		normalize(pixels1);
+		normalize(pixels1, image1.getWidth());
 		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
 	}
-
-	public static int[] normalize(final int[] pixels) {
-		int minValue = pixels[0];
-		int maxValue = pixels[0];
-		for (int i = 0 ; i < pixels.length ; i++) {
-			if (pixels[i] < minValue)
-				minValue = pixels[i];
-			else if (pixels[i] > maxValue)
-				maxValue = pixels[i];
-		}
-		System.out.println("Normalizing between " + minValue + " and " +maxValue);
-		for (int i = 0 ; i < pixels.length ; i++)
-			pixels[i] = normalize(pixels[i], minValue, maxValue);
-		return pixels;
-	}
+  
+  public static int[] normalize(final int[] pixels, int width, int borderWidth) {
+    int minValue = pixels[0];
+    int maxValue = pixels[0];
+    int height = pixels.length / width / 3;
+    for (int i = borderWidth ; i < width - borderWidth - 1 ; i++) {
+      for (int j = borderWidth ; j < height - borderWidth -1 ; j++) {
+        minValue = Math.min(pixels[indexRGB(i, j, width)], minValue);
+        maxValue = Math.max(pixels[indexRGB(i, j, width)], maxValue);
+      }
+    }
+    System.out.println("Normalizing between " + minValue + " and " +maxValue);
+    for (int i = borderWidth ; i < width - borderWidth - 1 ; i++) {
+      for (int j = borderWidth ; j < height - borderWidth -1 ; j++) {
+        pixels[red(indexRGB(i,j,width))] = normalize(pixels[red(indexRGB(i,j,width))], minValue, maxValue);
+        pixels[green(indexRGB(i,j,width))] = normalize(pixels[green(indexRGB(i,j,width))], minValue, maxValue);
+        pixels[blue(indexRGB(i,j,width))] = normalize(pixels[blue(indexRGB(i,j,width))], minValue, maxValue);
+      }
+    }
+    return pixels;
+  }
+  
+  public static int[] normalize(final int[] pixels, int width) {
+    return normalize(pixels, width, 0);
+  }
 
 	private static int normalize(double value, double minValue, double maxValue) {
 		return (int) (((value - minValue) / (maxValue - minValue)) * 255);
@@ -358,7 +379,7 @@ public final class ImageUtils {
 		for (int i = 0 ; i < noiseImage.length ; i++){
 			pixels[i] = (int) (pixels[i] * noiseImage[i]);
 		}
-		normalize(pixels);
+		normalize(pixels, image.getWidth());
 		return new PpmImage(pixels, image.getWidth(), image.getHeight());
 	}
 
@@ -393,8 +414,28 @@ public final class ImageUtils {
 		}
 		return ans;
 	}
-	
-	public static int indexRGB(int i, int j, int width){
-		return (i * width + j) * 3;
-	}
+  
+  public static int indexRGB(int i, int j, int width){
+    return indexGray(i,j,width) * 3;
+  }
+  
+  public static int red(int indexRGB){
+    return indexRGB;
+  }
+  
+  public static int green(int indexRGB){
+    return indexRGB + 1;
+  }
+  
+  public static int blue(int indexRGB){
+    return indexRGB + 2;
+  }
+  
+  public static int indexGray(int i, int j, int width){
+    return i * width + j;
+  }
+  
+  public static int lengthRGB(int width, int heigth){
+	  return width * heigth * 3;
+  }
 }

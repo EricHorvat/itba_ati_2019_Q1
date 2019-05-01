@@ -7,6 +7,8 @@ import ar.ed.itba.utils.filters.mask.MaskFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ar.ed.itba.utils.ImageUtils.*;
+
 public abstract class MedianMaskFilter extends MaskFilter {
 	
 	public MedianMaskFilter(int maskSide) {
@@ -14,7 +16,7 @@ public abstract class MedianMaskFilter extends MaskFilter {
 	}
 	
 	@Override
-	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
+	public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
 		mask = mask == null?generateMask():mask;
 		int maskCenter = maskSide/2;
 		
@@ -25,13 +27,11 @@ public abstract class MedianMaskFilter extends MaskFilter {
 		
 		for (int i = 0; i < imageWidth; i++) {
 			for (int j = 0; j < imageHeight; j++) {
-				int indexRed = (i * imageWidth + j) * 3;
-				int indexGreen = indexRed + 1;
-				int indexBlue = indexGreen + 1;
+				int indexRGB = indexRGB(i,j,imageWidth);
 				if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1){
-					finalRGBArray[indexRed] = sourceRGBArray[indexRed];
-					finalRGBArray[indexGreen] = sourceRGBArray[indexGreen];
-					finalRGBArray[indexBlue] = sourceRGBArray[indexBlue];
+					finalRGBArray[red(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[red(indexRGB)];
+					finalRGBArray[green(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[green(indexRGB)];
+					finalRGBArray[blue(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[blue(indexRGB)];
 				}else{
 					List<Integer> redList = new ArrayList<>();
 					List<Integer> greenList = new ArrayList<>();
@@ -39,11 +39,11 @@ public abstract class MedianMaskFilter extends MaskFilter {
 					
 					for (int k = -maskCenter; k < maskCenter + 1; k++) {
 						for (int l = -maskCenter; l < maskCenter + 1; l++) {
-							int deltaIndex = (k * imageWidth + l) * 3;
+							int deltaIndex = indexRGB(k,l, imageWidth);
 							for (int m = 0; m < mask[k+maskCenter][l+maskCenter]; m++) {
-								redList.add(sourceRGBArray[indexRed + deltaIndex]);
-								greenList.add(sourceRGBArray[indexGreen + deltaIndex]);
-								blueList.add(sourceRGBArray[indexBlue + deltaIndex]);
+								redList.add(sourceRGBArray[red(indexRGB) + deltaIndex]);
+								greenList.add(sourceRGBArray[green(indexRGB) + deltaIndex]);
+								blueList.add(sourceRGBArray[blue(indexRGB) + deltaIndex]);
 								
 							}
 						}
@@ -52,13 +52,13 @@ public abstract class MedianMaskFilter extends MaskFilter {
 					greenList.sort(Integer::compareTo);
 					blueList.sort(Integer::compareTo);
 					if(redList.size() % 2 == 1) {
-						finalRGBArray[indexRed] = redList.get(redList.size() / 2);
-						finalRGBArray[indexGreen] = greenList.get(greenList.size() / 2);
-						finalRGBArray[indexBlue] = blueList.get(blueList.size() / 2);
+						finalRGBArray[red(indexRGB)] = redList.get(redList.size() / 2);
+						finalRGBArray[green(indexRGB)] = greenList.get(greenList.size() / 2);
+						finalRGBArray[blue(indexRGB)] = blueList.get(blueList.size() / 2);
 					}else{
-						finalRGBArray[indexRed] = (int)((redList.get(redList.size() / 2) + redList.get((redList.size() / 2) -1))/2.0);
-						finalRGBArray[indexGreen] = (int)((greenList.get(greenList.size() / 2) + greenList.get((greenList.size() / 2) -1))/2.0);
-						finalRGBArray[indexBlue] = (int)((blueList.get(blueList.size() / 2) + greenList.get((blueList.size() / 2) -1))/2.0);
+						finalRGBArray[red(indexRGB)] = (int)((redList.get(redList.size() / 2) + redList.get((redList.size() / 2) -1))/2.0);
+						finalRGBArray[green(indexRGB)] = (int)((greenList.get(greenList.size() / 2) + greenList.get((greenList.size() / 2) -1))/2.0);
+						finalRGBArray[blue(indexRGB)] = (int)((blueList.get(blueList.size() / 2) + greenList.get((blueList.size() / 2) -1))/2.0);
 					}
 				}
 			}

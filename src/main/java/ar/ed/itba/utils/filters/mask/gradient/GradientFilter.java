@@ -24,11 +24,11 @@ public abstract class GradientFilter extends MaskFilter {
 	protected abstract MaskFilter getPreFilter(PrefilterOrientation orientation);
 	
 	@Override
-	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
+	public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
 		MaskFilter xFilter = getPreFilter(X);
 		MaskFilter yFilter = getPreFilter(Y);
-		int[] xImage = xFilter.applyFilterRaw(sourceAtiImage);
-		int[] yImage = yFilter.applyFilterRaw(sourceAtiImage);
+		int[] xImage = xFilter.applyFilterRaw(sourceAtiImage, ignoreBordersValue);
+		int[] yImage = yFilter.applyFilterRaw(sourceAtiImage, ignoreBordersValue);
 		int[] finalImage;
 		int width = sourceAtiImage.getWidth();
 		int height = sourceAtiImage.getHeight();
@@ -43,6 +43,8 @@ public abstract class GradientFilter extends MaskFilter {
 				finalImage = avg(xImage,yImage, width, height);
 				break;
 			case MOD:
+        xImage = xFilter.applyFilterRaw(sourceAtiImage, true);
+        yImage = yFilter.applyFilterRaw(sourceAtiImage, true);
 				finalImage = mod2(xImage,yImage, width, height);
 				break;
 			case MAX:
@@ -53,12 +55,12 @@ public abstract class GradientFilter extends MaskFilter {
 				finalImage = min(xImage,yImage, width, height);
 				break;
       case G135:
-        finalImage = getPreFilter(G135).applyFilterRaw(sourceAtiImage);
+        finalImage = getPreFilter(G135).applyFilterRaw(sourceAtiImage, ignoreBordersValue);
         break;
       case G45:
-        finalImage = getPreFilter(G45).applyFilterRaw(sourceAtiImage);
+        finalImage = getPreFilter(G45).applyFilterRaw(sourceAtiImage, ignoreBordersValue);
 		}
-		return normalize(finalImage);
+		return finalImage;
 	}
 	
 }

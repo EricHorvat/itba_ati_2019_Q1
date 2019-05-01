@@ -16,10 +16,10 @@ public abstract class MaskFilter {
 		this.maskSide = maskSide;
 	}
 	
-	public ATIImage applyFilter(ATIImage sourceAtiImage){
-		return new PpmImage(applyFilterRaw(sourceAtiImage), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
+	public ATIImage applyFilter(ATIImage sourceAtiImage, boolean ignoreBordersValue){
+		return new PpmImage(applyFilterRaw(sourceAtiImage, ignoreBordersValue), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
 	}
 	
-	public abstract int[] applyFilterRaw(ATIImage sourceAtiImage);
+	public abstract int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue);
 	
 }

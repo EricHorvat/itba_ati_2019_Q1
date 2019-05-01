@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static ar.ed.itba.utils.ImageUtils.*;
+
 public class NoiseImageFactory {
 
 	private static Random random = new Random(System.currentTimeMillis());
@@ -34,14 +36,15 @@ public class NoiseImageFactory {
 	}
 	
 	private static double[] imageGenerator(NoiseGenerator noiseGenerator, int width, int height, double percentage, Map params, int defaultValue){
-		double[] imageRGB = new double[width*height*3];
+		double[] imageRGB = new double[lengthRGB(width,height)];
 		List<Pair> pairs = new ArrayList<>();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				pairs.add(new Pair(i,j));
-				imageRGB[(i * width + j) * 3] = defaultValue;
-				imageRGB[(i * width + j) * 3+1] = defaultValue;
-				imageRGB[(i * width + j) * 3+2] = defaultValue;
+				int indexRGB = indexRGB(i,j, width);
+				imageRGB[red(indexRGB)] = defaultValue;
+				imageRGB[green(indexRGB)] = defaultValue;
+				imageRGB[blue(indexRGB)] = defaultValue;
 			}
 		}
 		List<Pair> pairList = IntStream.range(0, width * height).mapToObj(pairs::get).collect(Collectors.toList());
@@ -52,9 +55,9 @@ public class NoiseImageFactory {
 	}
 	
 	private static void copyValue(double[] image, int x, int y, int width, double value){
-		int index = (x * width + y) * 3;
-		image[index] = value;
-		image[index + 1] = value;
-		image[index + 2] = value;
+		int index = indexRGB(x,y,width);
+		image[red(index)] = value;
+		image[green(index)] = value;
+		image[blue(index)] = value;
 	}
 }

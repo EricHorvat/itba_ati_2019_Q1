@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import static ar.ed.itba.utils.ImageUtils.*;
+
 public class PpmImage extends PortableImage {
 
     private static final int MAX_COLOR = 255;
@@ -59,15 +61,17 @@ public class PpmImage extends PortableImage {
 
     @Override
     public Pixel getPixel(final int i, final int j) {
-        return new RGBPixel(getImage()[(i * getWidth() + j) * 3], getImage()[(i * getWidth() + j) * 3 + 1],
-                getImage()[(i * getWidth() + j) * 3 + 2]);
+        int indexRGB = indexRGB(i,j,getWidth());
+        return new RGBPixel(getImage()[red(indexRGB)], getImage()[green(indexRGB)],
+                getImage()[blue(indexRGB)]);
     }
 
     @Override
     public void setPixel(final int i, final int j, final Pixel pixel) {
-        getImage()[(i * getWidth() + j) * 3] = ((RGBPixel) pixel).getRed();
-        getImage()[(i * getWidth() + j) * 3 + 1] = ((RGBPixel) pixel).getGreen();
-        getImage()[(i * getWidth() + j) * 3 + 2] = ((RGBPixel) pixel).getBlue();
+        int indexRGB = indexRGB(i,j,getWidth());
+        getImage()[red(indexRGB)] = ((RGBPixel) pixel).getRed();
+        getImage()[green(indexRGB)] = ((RGBPixel) pixel).getGreen();
+        getImage()[blue(indexRGB)] = ((RGBPixel) pixel).getBlue();
     }
 
     @Override
@@ -124,7 +128,7 @@ public class PpmImage extends PortableImage {
         final byte[] image = getImage();
         for (int i = 0; i < getHeight() ; i++) {
             for (int j = 0 ; j < getWidth() ; j++)
-                aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3];
+                aux[indexGray(i,j,getWidth())] = image[red(indexRGB(i,j,getWidth()))];
         }
         return new PgmImage(aux, getWidth(), getHeight());
     }
@@ -134,7 +138,7 @@ public class PpmImage extends PortableImage {
         final byte[] image = getImage();
         for (int i = 0; i < getHeight() ; i++) {
             for (int j = 0 ; j < getWidth() ; j++)
-                aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 1];
+                aux[indexGray(i,j,getWidth())] = image[green(indexRGB(i,j,getWidth()) )];
         }
         return new PgmImage(aux, getWidth(), getHeight());
     }
@@ -144,7 +148,7 @@ public class PpmImage extends PortableImage {
         final byte[] image = getImage();
         for (int i = 0; i < getHeight() ; i++) {
             for (int j = 0 ; j < getWidth() ; j++)
-                aux[i * getWidth() + j] = image[(i * getWidth() + j) * 3 + 2];
+                aux[indexGray(i,j,getWidth())] = image[blue(indexRGB(i,j,getWidth()))];
         }
         return new PgmImage(aux, getWidth(), getHeight());
     }

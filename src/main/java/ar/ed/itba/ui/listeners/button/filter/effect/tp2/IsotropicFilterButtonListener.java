@@ -28,6 +28,6 @@ public class IsotropicFilterButtonListener extends MaskFilterButtonListener {
 
   @Override
   public String getName() {
-    return "Anisotropic Filter";
+    return "Isotropic Filter";
   }
 }
