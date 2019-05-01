@@ -393,8 +393,11 @@ public final class ImageUtils {
 		}
 		return ans;
 	}
-	
-	public static int indexRGB(int i, int j, int width){
-		return (i * width + j) * 3;
-	}
+  
+  public static int indexRGB(int i, int j, int width){
+    return indexGray(i,j,width) * 3;
+  }
+  public static int indexGray(int i, int j, int width){
+    return i * width + j;
+  }
 }
