@@ -55,19 +55,27 @@ public final class ImageUtils {
 	public static PpmImage sum(final ATIImage image, final int[] modifier){
 		if (lengthRGB(image.getWidth(), image.getHeight()) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
-		
 		final int[] pixels = image.toRGB();
-		for (int i = 0 ; i < image.getWidth() ; i++) {
-			for (int j = 0 ; j < image.getHeight() ; j++) {
-			  int indexRGB = indexRGB(i,j, image.getWidth());
-				pixels[red(indexRGB)] += modifier[red(indexRGB)];
-				pixels[green(indexRGB )] += modifier[green(indexRGB)];
-				pixels[blue(indexRGB)] += modifier[blue(indexRGB)];
-			}
-		}
-		normalize(pixels);
-		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+		return new PpmImage(sum(pixels,modifier,image.getWidth(),image.getWidth()), image.getWidth(), image.getHeight());
 	}
+  
+  public static int[] sum(final int[] image, final int[] modifier, int width, int height){
+    if (lengthRGB(width, height) != modifier.length)
+      throw new IllegalArgumentException("modifier must have width*height*3 length");
+  
+    final int[] pixels = new int[lengthRGB(width, height)];
+    
+    for (int i = 0 ; i < width ; i++) {
+      for (int j = 0 ; j < height ; j++) {
+        int indexRGB = indexRGB(i,j,width) ;
+        pixels[red(indexRGB)] = image[red(indexRGB)] + modifier[red(indexRGB)];
+        pixels[green(indexRGB)] =  image[green(indexRGB)] + modifier[green(indexRGB)];
+        pixels[blue(indexRGB)] = image[blue(indexRGB)] + modifier[blue(indexRGB)];
+      }
+    }
+    normalize(pixels);
+    return pixels;
+  }
 	
 	public static PpmImage avg(final ATIImage image1, final ATIImage image2) {
 		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
@@ -89,8 +97,8 @@ public final class ImageUtils {
 	public static int[] avg(final int[] image, final int[] modifier, int width, int height){
 		if (lengthRGB(width,height) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
-		
-		final int pixels[] = new int[lengthRGB(width, height)];
+    
+    final int[] pixels = new int[lengthRGB(width, height)];
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
@@ -123,15 +131,15 @@ public final class ImageUtils {
 	public static int[] mod2(final int[] image, final int[] modifier, int width, int height){
 		if (lengthRGB(width, height) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
-		
-		final int pixels[] = new int[lengthRGB(width, height)];
+    
+    final int[] pixels = new int[lengthRGB(width, height)];
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
 				int indexRGB = indexRGB(i,j,width) ;
-				pixels[red(indexRGB)] = (int) Math.sqrt(Math.pow(image[red(indexRGB)],2) + Math.pow(modifier[red(indexRGB)],2));
-				pixels[green(indexRGB)] = (int) Math.sqrt(Math.pow(image[green(indexRGB)],2) + Math.pow(modifier[green(indexRGB)],2));
-				pixels[blue(indexRGB)] = (int) Math.sqrt(Math.pow(image[blue(indexRGB)],2) + Math.pow(modifier[blue(indexRGB)],2));
+				pixels[red(indexRGB)] = (int) (Math.sqrt(Math.pow(image[red(indexRGB)],2) + Math.pow(modifier[red(indexRGB)],2))/2);
+				pixels[green(indexRGB)] = (int) (Math.sqrt(Math.pow(image[green(indexRGB)],2) + Math.pow(modifier[green(indexRGB)],2))/2);
+				pixels[blue(indexRGB)] = (int) (Math.sqrt(Math.pow(image[blue(indexRGB)],2) + Math.pow(modifier[blue(indexRGB)],2))/2);
 			}
 		}
 		return pixels;

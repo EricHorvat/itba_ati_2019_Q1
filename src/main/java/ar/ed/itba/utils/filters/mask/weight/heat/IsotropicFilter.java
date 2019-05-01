@@ -17,4 +17,9 @@ public class IsotropicFilter extends HeatFilter {
   protected double getCij(double dIij) {
     return 1;
   }
+  
+  @Override
+  protected boolean hasToNormalize() {
+    return true;
+  }
 }

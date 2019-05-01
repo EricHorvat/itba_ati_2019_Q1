@@ -29,5 +29,9 @@ public class AnisotropicFilter extends HeatFilter {
 	private double leclerc(double x){
 		return Math.pow(Math.E, - (x * x / (sigma * sigma)));
 	}
-
+  
+  @Override
+  protected boolean hasToNormalize() {
+    return false;
+  }
 }
