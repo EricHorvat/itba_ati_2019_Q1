@@ -103,9 +103,12 @@ public abstract class HeatFilter extends WeightMaskFilter {
           for (int k = -maskCenter; k < maskCenter + 1; k++) {
             for (int l = -maskCenter; l < maskCenter + 1; l++) {
               int deltaIndex = indexRGB(k,l,imageWidth);
-              sumRed += sourceRGBArray[red(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskRed[k + maskCenter][l + maskCenter];
+              sumRed += variableMaskRed[k + maskCenter][l + maskCenter];
+              sumGreen += variableMaskGreen[k + maskCenter][l + maskCenter];
+              sumBlue += variableMaskBlue[k + maskCenter][l + maskCenter];
+              /*sumRed += sourceRGBArray[red(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskRed[k + maskCenter][l + maskCenter];
               sumGreen += sourceRGBArray[green(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskGreen[k + maskCenter][l + maskCenter];
-              sumBlue += sourceRGBArray[blue(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskBlue[k + maskCenter][l + maskCenter];
+              sumBlue += sourceRGBArray[blue(indexRGB) + deltaIndex] * mask[k + maskCenter][l + maskCenter] * variableMaskBlue[k + maskCenter][l + maskCenter];*/
               max2 = Math.max(max2, variableMaskRed[k+maskCenter][l+maskCenter]);
               min2 = Math.min(min2, variableMaskRed[k+maskCenter][l+maskCenter]);
             }
