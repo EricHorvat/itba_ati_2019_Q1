@@ -136,13 +136,13 @@ public final class ImageUtils {
 		
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
-				int indexRGB = indexRGB(i,j,width) ;
-				pixels[red(indexRGB)] = (int) (Math.sqrt(Math.pow(image[red(indexRGB)],2) + Math.pow(modifier[red(indexRGB)],2))/2);
-				pixels[green(indexRGB)] = (int) (Math.sqrt(Math.pow(image[green(indexRGB)],2) + Math.pow(modifier[green(indexRGB)],2))/2);
-				pixels[blue(indexRGB)] = (int) (Math.sqrt(Math.pow(image[blue(indexRGB)],2) + Math.pow(modifier[blue(indexRGB)],2))/2);
+				int indexRGB = indexRGB(i,j,width);
+				pixels[red(indexRGB)] = (int) (Math.sqrt(Math.pow(image[red(indexRGB)],2) + Math.pow(modifier[red(indexRGB)],2)));
+				pixels[green(indexRGB)] = (int) (Math.sqrt(Math.pow(image[green(indexRGB)],2) + Math.pow(modifier[green(indexRGB)],2)));
+				pixels[blue(indexRGB)] = (int) (Math.sqrt(Math.pow(image[blue(indexRGB)],2) + Math.pow(modifier[blue(indexRGB)],2)));
 			}
 		}
-		return pixels;
+		return normalize(pixels);
 	}
 	
 	public static PpmImage max(final ATIImage image1, final ATIImage image2) {

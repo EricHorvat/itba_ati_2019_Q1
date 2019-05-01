@@ -16,7 +16,7 @@ public abstract class MedianMaskFilter extends MaskFilter {
 	}
 	
 	@Override
-	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
+	public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
 		mask = mask == null?generateMask():mask;
 		int maskCenter = maskSide/2;
 		
@@ -29,9 +29,9 @@ public abstract class MedianMaskFilter extends MaskFilter {
 			for (int j = 0; j < imageHeight; j++) {
 				int indexRGB = indexRGB(i,j,imageWidth);
 				if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1){
-					finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
-					finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
-					finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
+					finalRGBArray[red(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[red(indexRGB)];
+					finalRGBArray[green(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[green(indexRGB)];
+					finalRGBArray[blue(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[blue(indexRGB)];
 				}else{
 					List<Integer> redList = new ArrayList<>();
 					List<Integer> greenList = new ArrayList<>();

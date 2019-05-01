@@ -35,8 +35,8 @@ public class LaplacianFilter extends WeightMaskFilter {
 	}
 	
 	@Override
-	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
-		int[] prevResult = super.applyFilterRaw(sourceAtiImage);
+	public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
+		int[] prevResult = super.applyFilterRaw(sourceAtiImage, ignoreBordersValue);
 		int[] ans = new int[lengthRGB(sourceAtiImage.getWidth(), sourceAtiImage.getHeight())];
 		int width = sourceAtiImage.getWidth();
 		for (int i = mask.length / 2; i < sourceAtiImage.getWidth() - mask.length / 2 - 1; i++) {

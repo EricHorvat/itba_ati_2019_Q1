@@ -62,7 +62,7 @@ public abstract class HeatFilter extends WeightMaskFilter {
   protected abstract double getCij(double dIij);
   
   @Override
-  public int[] applyFilterRaw(ATIImage sourceAtiImage) {
+  public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
   
     mask = mask == null?generateMask():mask;
     int maskCenter = maskSide / 2;

@@ -57,7 +57,7 @@ public class BilateralFilter extends WeightMaskFilter {
   }
 
   @Override
-  public int[] applyFilterRaw(ATIImage sourceAtiImage) {
+  public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
   
     mask = mask == null?generateMask():mask;
     int maskCenter = maskSide /2;
@@ -71,9 +71,9 @@ public class BilateralFilter extends WeightMaskFilter {
       for (int j = 0; j < imageHeight; j++) {
         int indexRGB = indexRGB(i, j, imageWidth);
         if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1) {
-          finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
-          finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
-          finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
+          finalRGBArray[red(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[red(indexRGB)];
+          finalRGBArray[green(indexRGB)] = ignoreBordersValue ? 0 : sourceRGBArray[green(indexRGB)];
+          finalRGBArray[blue(indexRGB)] = ignoreBordersValue ? 0: sourceRGBArray[blue(indexRGB)];
         }else{
           final double[][] variableMaskRed = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), red(indexRGB));
           final double[][] variableMaskGreen = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), green(indexRGB));
