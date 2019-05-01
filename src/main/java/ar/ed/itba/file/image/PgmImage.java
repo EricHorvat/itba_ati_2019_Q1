@@ -9,8 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.*;
 
-import static ar.ed.itba.utils.ImageUtils.indexRGB;
-import static ar.ed.itba.utils.ImageUtils.indexGray;
+import static ar.ed.itba.utils.ImageUtils.*;
 
 
 public class PgmImage extends PortableImage {
@@ -59,9 +58,9 @@ public class PgmImage extends PortableImage {
             for (int j= 0 ; j < image.getWidth() ; j++) {
                 int indexRGB = indexRGB(i,j,image.getWidth());
                 int index = indexGray(i,j,image.getWidth());
-                aux[indexRGB] = pixels[index] & 0xFF;
-                aux[indexRGB + 1] = pixels[index] & 0xFF;
-                aux[indexRGB + 2] = pixels[index] & 0xFF;
+                aux[red(indexRGB)] = pixels[index] & 0xFF;
+                aux[green(indexRGB)] = pixels[index] & 0xFF;
+                aux[blue(indexRGB)] = pixels[index] & 0xFF;
             }
         }
         return aux;

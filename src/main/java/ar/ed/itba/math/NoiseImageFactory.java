@@ -8,8 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static ar.ed.itba.utils.ImageUtils.indexRGB;
-import static ar.ed.itba.utils.ImageUtils.lengthRGB;
+import static ar.ed.itba.utils.ImageUtils.*;
 
 public class NoiseImageFactory {
 
@@ -43,9 +42,9 @@ public class NoiseImageFactory {
 			for (int j = 0; j < height; j++) {
 				pairs.add(new Pair(i,j));
 				int indexRGB = indexRGB(i,j, width);
-				imageRGB[indexRGB] = defaultValue;
-				imageRGB[indexRGB + 1] = defaultValue;
-				imageRGB[indexRGB + 2] = defaultValue;
+				imageRGB[red(indexRGB)] = defaultValue;
+				imageRGB[green(indexRGB)] = defaultValue;
+				imageRGB[blue(indexRGB)] = defaultValue;
 			}
 		}
 		List<Pair> pairList = IntStream.range(0, width * height).mapToObj(pairs::get).collect(Collectors.toList());
@@ -57,8 +56,8 @@ public class NoiseImageFactory {
 	
 	private static void copyValue(double[] image, int x, int y, int width, double value){
 		int index = indexRGB(x,y,width);
-		image[index] = value;
-		image[index + 1] = value;
-		image[index + 2] = value;
+		image[red(index)] = value;
+		image[green(index)] = value;
+		image[blue(index)] = value;
 	}
 }

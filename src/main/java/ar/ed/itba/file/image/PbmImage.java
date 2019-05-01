@@ -41,7 +41,7 @@ public class PbmImage extends PortableImage {
 
     @Override
     public int[] toRGB() {
-        final int[] aux = new int[getWidth() * getHeight() * 3];
+        final int[] aux = new int[lengthRGB(getWidth(), getHeight())];
         for (int i = 0 ; i < getHeight() ; i++) {
             for (int j = 0 ; j < getWidth() ; j++) {
              final RGBPixel rgbPixel = PpmImage.binToColor((BitPixel) getPixel(i, j));

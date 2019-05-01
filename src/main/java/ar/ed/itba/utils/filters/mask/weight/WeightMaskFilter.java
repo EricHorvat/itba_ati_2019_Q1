@@ -4,7 +4,7 @@ import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
 
-import static ar.ed.itba.utils.ImageUtils.indexRGB;
+import static ar.ed.itba.utils.ImageUtils.*;
 
 public abstract class WeightMaskFilter extends MaskFilter {
 	
@@ -29,26 +29,24 @@ public abstract class WeightMaskFilter extends MaskFilter {
 		
 		for (int i = 0; i < imageWidth; i++) {
 			for (int j = 0; j < imageHeight; j++) {
-				int indexRed = indexRGB(i,j,imageWidth);
-				int indexGreen = indexRed + 1;
-				int indexBlue = indexGreen + 1;
+				int indexRGB = indexRGB(i,j,imageWidth);
 				if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1){
-					finalRGBArray[indexRed] = sourceRGBArray[indexRed];
-					finalRGBArray[indexGreen] = sourceRGBArray[indexGreen];
-					finalRGBArray[indexBlue] = sourceRGBArray[indexBlue];
+					finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
+					finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
+					finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
 				}else{
 					double sumRed = 0, sumGreen = 0, sumBlue = 0;
 					for (int k = -maskCenter; k < maskCenter + 1; k++) {
 						for (int l = -maskCenter; l < maskCenter + 1; l++) {
 							int deltaIndex = indexRGB(k,l,imageWidth);
-							sumRed += sourceRGBArray[indexRed + deltaIndex] * mask[k+maskCenter][l+maskCenter];
-							sumGreen += sourceRGBArray[indexGreen + deltaIndex] * mask[k+maskCenter][l+maskCenter];
-							sumBlue += sourceRGBArray[indexBlue + deltaIndex] * mask[k+maskCenter][l+maskCenter];
+							sumRed += sourceRGBArray[red(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter];
+							sumGreen += sourceRGBArray[green(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter];
+							sumBlue += sourceRGBArray[blue(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter];
 						}
 					}
-					finalRGBArray[indexRed] = (int)(sumRed/maskDivisor);
-					finalRGBArray[indexGreen] = (int)(sumGreen/maskDivisor);
-					finalRGBArray[indexBlue] = (int)(sumBlue/maskDivisor);
+					finalRGBArray[red(indexRGB)] = (int)(sumRed/maskDivisor);
+					finalRGBArray[green(indexRGB)] = (int)(sumGreen/maskDivisor);
+					finalRGBArray[blue(indexRGB)] = (int)(sumBlue/maskDivisor);
 				}
 			}
 		}

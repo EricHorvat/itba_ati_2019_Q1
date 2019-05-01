@@ -3,7 +3,7 @@ package ar.ed.itba.noise;
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
 
-import static ar.ed.itba.utils.ImageUtils.indexRGB;
+import static ar.ed.itba.utils.ImageUtils.*;
 
 public class SaltAndPepper {
 
@@ -20,15 +20,15 @@ public class SaltAndPepper {
               int indexRGB = indexRGB(i,j,image.getWidth());
             	// 0.05 > x
             	if (p > x) {
-            		pixels[indexRGB] = 255;
-            		pixels[indexRGB + 1] = 255;
-            		pixels[indexRGB + 2] = 255;
+            		pixels[red(indexRGB)] = 255;
+            		pixels[green(indexRGB)] = 255;
+            		pixels[blue(indexRGB)] = 255;
             		count++;
             	} else if (x > (1 - p)){
             		// x > 0.95
-            		pixels[indexRGB] = 0;
-            		pixels[indexRGB + 1] = 0;
-            		pixels[indexRGB + 2] = 0;
+                pixels[red(indexRGB)] = 0;
+                pixels[green(indexRGB)] = 0;
+                pixels[blue(indexRGB)] = 0;
             		count++;
             	}
             }

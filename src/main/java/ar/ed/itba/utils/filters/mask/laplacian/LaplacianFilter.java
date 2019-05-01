@@ -5,7 +5,7 @@ import ar.ed.itba.utils.ImageUtils;
 import ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation;
 import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 
-import static ar.ed.itba.utils.ImageUtils.indexRGB;
+import static ar.ed.itba.utils.ImageUtils.*;
 import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.X;
 import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.Y;
 
@@ -37,7 +37,7 @@ public class LaplacianFilter extends WeightMaskFilter {
 	@Override
 	public int[] applyFilterRaw(ATIImage sourceAtiImage) {
 		int[] prevResult = super.applyFilterRaw(sourceAtiImage);
-		int[] ans = new int[sourceAtiImage.getWidth() * sourceAtiImage.getHeight() * 3];
+		int[] ans = new int[lengthRGB(sourceAtiImage.getWidth(), sourceAtiImage.getHeight())];
 		int width = sourceAtiImage.getWidth();
 		for (int i = mask.length / 2; i < sourceAtiImage.getWidth() - mask.length / 2 - 1; i++) {
 			for (int j = mask.length / 2; j < sourceAtiImage.getHeight() - mask.length / 2 - 1; j++) {
@@ -59,21 +59,21 @@ public class LaplacianFilter extends WeightMaskFilter {
 			if(zeroCrossControl < 0){
 				int value = getValue(prevResult[index],prevResult[next_next_index]);
 				int value1 = Math.max(value, ans[index]);
-				ans[index] = value1;
-				ans[index + 1] = value1;
-				ans[index + 2] = value1;
+				ans[red(index)] = value1;
+				ans[green(index)] = value1;
+				ans[blue(index)] = value1;
 				int value2 = Math.max(value, ans[next_index]);
-				ans[next_index] = value2;
-				ans[next_index + 1] = value2;
-				ans[next_index + 2] = value2;
+				ans[red(next_index)] = value2;
+				ans[green(next_index)] = value2;
+				ans[blue(next_index)] = value2;
 			}
 		}else if(zeroCrossControl < 0){
 			int value = getValue(prevResult[index],prevResult[next_index]);
 			int value1 = Math.max(value, ans[index]);
-			ans[index] = value1;
-			ans[index + 1] = value1;
-			ans[index + 2] = value1;
-		}
+      ans[red(index)] = value1;
+      ans[green(index)] = value1;
+      ans[blue(index)] = value1;
+    }
 	}
 	
 	private int getValue(int a, int b){

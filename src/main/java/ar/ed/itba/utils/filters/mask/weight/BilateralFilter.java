@@ -81,7 +81,7 @@ public class BilateralFilter extends WeightMaskFilter {
           double sumRed = 0, sumGreen = 0, sumBlue = 0;
           for (int k = -maskCenter; k < maskCenter + 1; k++) {
             for (int l = -maskCenter; l < maskCenter + 1; l++) {
-              int deltaIndex = (k * imageWidth + l) * 3;
+              int deltaIndex = indexRGB(k, l, imageWidth);
               sumRed += sourceRGBArray[red(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskRed[k+maskCenter][l+maskCenter];
               sumGreen += sourceRGBArray[green(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskGreen[k+maskCenter][l+maskCenter];
               sumBlue += sourceRGBArray[blue(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskBlue[k+maskCenter][l+maskCenter];
