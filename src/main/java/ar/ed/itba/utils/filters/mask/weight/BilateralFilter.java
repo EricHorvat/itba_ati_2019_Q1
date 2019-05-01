@@ -7,6 +7,8 @@ import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static ar.ed.itba.utils.ImageUtils.*;
+
 public class BilateralFilter extends WeightMaskFilter {
 
   private final int sigmaR;
@@ -47,7 +49,7 @@ public class BilateralFilter extends WeightMaskFilter {
     for (int i = -center; i < center+1; i++) {
       double[] column = new double[maskSide];
       for (int j = -center; j < center+1; j++) {
-        column[j + center] = getIntensityDifference(sourceRGBArray, x, x + (i * width + j) * 3);
+        column[j + center] = getIntensityDifference(sourceRGBArray, x, x + indexRGB(i,j,width));
       }
       mask[i+center]=column;
     }
@@ -67,29 +69,27 @@ public class BilateralFilter extends WeightMaskFilter {
   
     for (int i = 0; i < imageWidth; i++) {
       for (int j = 0; j < imageHeight; j++) {
-        int indexRed = (i * imageWidth + j) * 3;
-        int indexGreen = indexRed + 1;
-        int indexBlue = indexGreen + 1;
+        int indexRGB = indexRGB(i, j, imageWidth);
         if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1) {
-          finalRGBArray[indexRed] = sourceRGBArray[indexRed];
-          finalRGBArray[indexGreen] = sourceRGBArray[indexGreen];
-          finalRGBArray[indexBlue] = sourceRGBArray[indexBlue];
+          finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
+          finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
+          finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
         }else{
-          final double[][] variableMaskRed = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), indexRed);
-          final double[][] variableMaskGreen = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), indexGreen);
-          final double[][] variableMaskBlue = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), indexBlue);
+          final double[][] variableMaskRed = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), red(indexRGB));
+          final double[][] variableMaskGreen = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), green(indexRGB));
+          final double[][] variableMaskBlue = generateVariableMask(sourceRGBArray, sourceAtiImage.getWidth(), blue(indexRGB));
           double sumRed = 0, sumGreen = 0, sumBlue = 0;
           for (int k = -maskCenter; k < maskCenter + 1; k++) {
             for (int l = -maskCenter; l < maskCenter + 1; l++) {
               int deltaIndex = (k * imageWidth + l) * 3;
-              sumRed += sourceRGBArray[indexRed + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskRed[k+maskCenter][l+maskCenter];
-              sumGreen += sourceRGBArray[indexGreen + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskGreen[k+maskCenter][l+maskCenter];
-              sumBlue += sourceRGBArray[indexBlue + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskBlue[k+maskCenter][l+maskCenter];
+              sumRed += sourceRGBArray[red(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskRed[k+maskCenter][l+maskCenter];
+              sumGreen += sourceRGBArray[green(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskGreen[k+maskCenter][l+maskCenter];
+              sumBlue += sourceRGBArray[blue(indexRGB) + deltaIndex] * mask[k+maskCenter][l+maskCenter] * variableMaskBlue[k+maskCenter][l+maskCenter];
             }
           }
-          finalRGBArray[indexRed] = (int)(sumRed/normalizationScalar(variableMaskRed));
-          finalRGBArray[indexGreen] = (int)(sumGreen/normalizationScalar(variableMaskGreen));
-          finalRGBArray[indexBlue] = (int)(sumBlue/normalizationScalar(variableMaskBlue));
+          finalRGBArray[red(indexRGB)] = (int)(sumRed/normalizationScalar(variableMaskRed));
+          finalRGBArray[green(indexRGB)] = (int)(sumGreen/normalizationScalar(variableMaskGreen));
+          finalRGBArray[blue(indexRGB)] = (int)(sumBlue/normalizationScalar(variableMaskBlue));
         }
       }
     }

@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static ar.ed.itba.utils.ImageUtils.indexRGB;
+import static ar.ed.itba.utils.ImageUtils.lengthRGB;
 
 public class NoiseImageFactory {
 
@@ -36,7 +37,7 @@ public class NoiseImageFactory {
 	}
 	
 	private static double[] imageGenerator(NoiseGenerator noiseGenerator, int width, int height, double percentage, Map params, int defaultValue){
-		double[] imageRGB = new double[width*height*3];
+		double[] imageRGB = new double[lengthRGB(width,height)];
 		List<Pair> pairs = new ArrayList<>();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {

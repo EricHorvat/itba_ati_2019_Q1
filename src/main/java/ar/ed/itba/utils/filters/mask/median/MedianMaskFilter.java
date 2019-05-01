@@ -39,7 +39,7 @@ public abstract class MedianMaskFilter extends MaskFilter {
 					
 					for (int k = -maskCenter; k < maskCenter + 1; k++) {
 						for (int l = -maskCenter; l < maskCenter + 1; l++) {
-							int deltaIndex = (k * imageWidth + l) * 3;
+							int deltaIndex = indexRGB(k,l, imageWidth);
 							for (int m = 0; m < mask[k+maskCenter][l+maskCenter]; m++) {
 								redList.add(sourceRGBArray[red(indexRGB) + deltaIndex]);
 								greenList.add(sourceRGBArray[green(indexRGB) + deltaIndex]);
