@@ -124,7 +124,7 @@ public abstract class HeatFilter extends WeightMaskFilter {
       }
     }
     if(hasToNormalize())
-      normalize(variableRGBArray);
+      normalize(variableRGBArray, imageWidth);
     return sum(variableRGBArray,sourceRGBArray, imageWidth, imageHeight);
   }
   

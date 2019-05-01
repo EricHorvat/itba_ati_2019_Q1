@@ -73,7 +73,7 @@ public final class ImageUtils {
         pixels[blue(indexRGB)] = image[blue(indexRGB)] + modifier[blue(indexRGB)];
       }
     }
-    normalize(pixels);
+    normalize(pixels, width);
     return pixels;
   }
 	
@@ -142,7 +142,7 @@ public final class ImageUtils {
 				pixels[blue(indexRGB)] = (int) (Math.sqrt(Math.pow(image[blue(indexRGB)],2) + Math.pow(modifier[blue(indexRGB)],2)));
 			}
 		}
-		return normalize(pixels);
+		return normalize(pixels, width);
 	}
 	
 	public static PpmImage max(final ATIImage image1, final ATIImage image2) {
@@ -195,7 +195,7 @@ public final class ImageUtils {
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		final int[] pixels = image.toRGB();
 		
-		return new PpmImage(normalize(min(pixels,modifier, image.getWidth(), image.getHeight())),image.getWidth(), image.getHeight());
+		return new PpmImage(normalize(min(pixels,modifier, image.getWidth(), image.getHeight()), image.getWidth()),image.getWidth(), image.getHeight());
 	}
 	
 	public static int[] min(final int[] image, final int[] modifier, int width, int height ){
@@ -231,24 +231,34 @@ public final class ImageUtils {
 				pixels1[blue(indexRGB1)] -= pixels2[blue(indexRGB2)];
 			}
 		}
-		normalize(pixels1);
+		normalize(pixels1, image1.getWidth());
 		return new PpmImage(pixels1, image1.getWidth(), image1.getHeight());
 	}
-
-	public static int[] normalize(final int[] pixels) {
-		int minValue = pixels[0];
-		int maxValue = pixels[0];
-		for (int i = 0 ; i < pixels.length ; i++) {
-			if (pixels[i] < minValue)
-				minValue = pixels[i];
-			else if (pixels[i] > maxValue)
-				maxValue = pixels[i];
-		}
-		System.out.println("Normalizing between " + minValue + " and " +maxValue);
-		for (int i = 0 ; i < pixels.length ; i++)
-			pixels[i] = normalize(pixels[i], minValue, maxValue);
-		return pixels;
-	}
+  
+  public static int[] normalize(final int[] pixels, int width, int borderWidth) {
+    int minValue = pixels[0];
+    int maxValue = pixels[0];
+    int height = pixels.length / width / 3;
+    for (int i = borderWidth ; i < width - borderWidth - 1 ; i++) {
+      for (int j = borderWidth ; j < height - borderWidth -1 ; j++) {
+        minValue = Math.min(pixels[indexRGB(i, j, width)], minValue);
+        maxValue = Math.max(pixels[indexRGB(i, j, width)], maxValue);
+      }
+    }
+    System.out.println("Normalizing between " + minValue + " and " +maxValue);
+    for (int i = borderWidth ; i < width - borderWidth - 1 ; i++) {
+      for (int j = borderWidth ; j < height - borderWidth -1 ; j++) {
+        pixels[red(indexRGB(i,j,width))] = normalize(pixels[red(indexRGB(i,j,width))], minValue, maxValue);
+        pixels[green(indexRGB(i,j,width))] = normalize(pixels[green(indexRGB(i,j,width))], minValue, maxValue);
+        pixels[blue(indexRGB(i,j,width))] = normalize(pixels[blue(indexRGB(i,j,width))], minValue, maxValue);
+      }
+    }
+    return pixels;
+  }
+  
+  public static int[] normalize(final int[] pixels, int width) {
+    return normalize(pixels, width, 0);
+  }
 
 	private static int normalize(double value, double minValue, double maxValue) {
 		return (int) (((value - minValue) / (maxValue - minValue)) * 255);
@@ -369,7 +379,7 @@ public final class ImageUtils {
 		for (int i = 0 ; i < noiseImage.length ; i++){
 			pixels[i] = (int) (pixels[i] * noiseImage[i]);
 		}
-		normalize(pixels);
+		normalize(pixels, image.getWidth());
 		return new PpmImage(pixels, image.getWidth(), image.getHeight());
 	}
 
