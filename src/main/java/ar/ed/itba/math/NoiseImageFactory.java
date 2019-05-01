@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static ar.ed.itba.utils.ImageUtils.indexRGB;
+
 public class NoiseImageFactory {
 
 	private static Random random = new Random(System.currentTimeMillis());
@@ -39,9 +41,10 @@ public class NoiseImageFactory {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				pairs.add(new Pair(i,j));
-				imageRGB[(i * width + j) * 3] = defaultValue;
-				imageRGB[(i * width + j) * 3+1] = defaultValue;
-				imageRGB[(i * width + j) * 3+2] = defaultValue;
+				int indexRGB = indexRGB(i,j, width);
+				imageRGB[indexRGB] = defaultValue;
+				imageRGB[indexRGB + 1] = defaultValue;
+				imageRGB[indexRGB + 2] = defaultValue;
 			}
 		}
 		List<Pair> pairList = IntStream.range(0, width * height).mapToObj(pairs::get).collect(Collectors.toList());

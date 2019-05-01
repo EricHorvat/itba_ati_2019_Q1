@@ -4,6 +4,8 @@ import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
 
+import static ar.ed.itba.utils.ImageUtils.indexRGB;
+
 public abstract class WeightMaskFilter extends MaskFilter {
 	
 	protected final int maskDivisor;
@@ -27,7 +29,7 @@ public abstract class WeightMaskFilter extends MaskFilter {
 		
 		for (int i = 0; i < imageWidth; i++) {
 			for (int j = 0; j < imageHeight; j++) {
-				int indexRed = (i * imageWidth + j) * 3;
+				int indexRed = indexRGB(i,j,imageWidth);
 				int indexGreen = indexRed + 1;
 				int indexBlue = indexGreen + 1;
 				if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1){
@@ -38,7 +40,7 @@ public abstract class WeightMaskFilter extends MaskFilter {
 					double sumRed = 0, sumGreen = 0, sumBlue = 0;
 					for (int k = -maskCenter; k < maskCenter + 1; k++) {
 						for (int l = -maskCenter; l < maskCenter + 1; l++) {
-							int deltaIndex = (k * imageWidth + l) * 3;
+							int deltaIndex = indexRGB(k,l,imageWidth);
 							sumRed += sourceRGBArray[indexRed + deltaIndex] * mask[k+maskCenter][l+maskCenter];
 							sumGreen += sourceRGBArray[indexGreen + deltaIndex] * mask[k+maskCenter][l+maskCenter];
 							sumBlue += sourceRGBArray[indexBlue + deltaIndex] * mask[k+maskCenter][l+maskCenter];
