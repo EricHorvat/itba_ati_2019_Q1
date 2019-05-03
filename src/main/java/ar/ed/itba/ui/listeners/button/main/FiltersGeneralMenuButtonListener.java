@@ -19,7 +19,9 @@ public class FiltersGeneralMenuButtonListener extends ATIMenuButtonListener {
 		options.add(MenuButtonFactory.logFilterMenuButton());
 		options.add(MenuButtonFactory.bilateralFilterMenuButton());
 		options.add(MenuButtonFactory.anisotropicFilterMenuButton());
-		options.add(MenuButtonFactory.isotropicFilterMenuButton());
+    options.add(MenuButtonFactory.isotropicFilterMenuButton());
+    options.add(MenuButtonFactory.cannyFilterMenuButton());
+    options.add(MenuButtonFactory.susanFilterMenuButton());
 	}
 	
 }

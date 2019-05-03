@@ -12,6 +12,8 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.SobelFilterButt
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.TP2P5AFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LaplacianFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp3.CannyFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp3.SusanFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
@@ -198,10 +200,18 @@ public final class MenuOptionButtonFactory {
     button.setText("Apply Lorentz");
     return button;
   }
-	
-	public static JButton isotropicFilterMenuOptionButton(JTextField deltaField, JTextField tField){
-		return generateButton(new IsotropicFilterButtonListener(deltaField, tField));
-	}
+  
+  public static JButton isotropicFilterMenuOptionButton(JTextField deltaField, JTextField tField){
+    return generateButton(new IsotropicFilterButtonListener(deltaField, tField));
+  }
+  
+  public static JButton cannyFilterMenuOptionButton(JTextField deltaField, JTextField tField){
+    return generateButton(new CannyFilterButtonListener(deltaField, tField));
+  }
+  
+  public static JButton susanFilterMenuOptionButton(JTextField epsField){
+    return generateButton(new SusanFilterButtonListener(epsField));
+  }
 
 	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
 		return generateButton(new HighlightBorderFilterButtonListener(maskSideField));

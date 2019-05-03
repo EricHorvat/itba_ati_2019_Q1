@@ -12,6 +12,8 @@ import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.SobelFilterMenuBu
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.TP2P5AFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.laplacian.LaplacianFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.laplacian.LoGFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp3.CannyFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp3.SusanFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;
 
@@ -152,14 +154,22 @@ public final class MenuButtonFactory {
 	public static JButton bilateralFilterMenuButton() {
 		return listeningButton("Bilateral Filter", new BilateralFilterMenuButtonListener());
 	}
-	
-	public static JButton anisotropicFilterMenuButton() {
-		return listeningButton("Anisotropic Filter", new AnisotropicFilterMenuButtonListener());
-	}
-	
-	public static JButton isotropicFilterMenuButton() {
-		return listeningButton("Isotropic Filter", new IsotropicFilterMenuButtonListener());
-	}
+  
+  public static JButton anisotropicFilterMenuButton() {
+    return listeningButton("Anisotropic Filter", new AnisotropicFilterMenuButtonListener());
+  }
+  
+  public static JButton isotropicFilterMenuButton() {
+    return listeningButton("Isotropic Filter", new IsotropicFilterMenuButtonListener());
+  }
+  
+  public static JButton cannyFilterMenuButton() {
+    return listeningButton("Canny Filter", new CannyFilterMenuButtonListener());
+  }
+  
+  public static JButton susanFilterMenuButton() {
+    return listeningButton("Susan Filter", new SusanFilterMenuButtonListener());
+  }
 	
 	public static JButton highlightBorderFilterMenuButton() {
 		return listeningButton("Highlight Border Filter", new HighlightBorderFilterMenuButtonListener());
