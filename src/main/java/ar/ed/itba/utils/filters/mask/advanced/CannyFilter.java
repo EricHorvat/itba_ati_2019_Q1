@@ -41,8 +41,8 @@ public class CannyFilter extends MaskFilter {
     
     List<GaussianFilter> gaussianFilters = new ArrayList<>();
     gaussianFilters.add(new GaussianFilter(3)); // sigma = 1 ->  mask side 3
-    gaussianFilters.add(new GaussianFilter(5)); // sigma = 3 ->  mask side 7
-    gaussianFilters.add(new GaussianFilter(7));// sigma = 5 ->  mask side 11
+    gaussianFilters.add(new GaussianFilter(7)); // sigma = 3 ->  mask side 7
+    gaussianFilters.add(new GaussianFilter(11));// sigma = 5 ->  mask side 11
     
     List<int[]> gaussianResultList =
       gaussianFilters.
