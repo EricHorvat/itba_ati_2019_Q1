@@ -77,7 +77,13 @@ public class CannyFilter extends MaskFilter {
     List<Boolean[]> isBorderBList =
       isBorderAList.
         stream().
-        map(elem -> histeresisUmbralization(elem, sobelResultList.get(isBorderAList.indexOf(elem)), imageWidth)).
+        map(elem -> histeresisUmbralization(
+          elem,
+          sobelResultList.get(isBorderAList.indexOf(elem)),
+          imageWidth,
+          imageHeight,
+          2 * isBorderAList.indexOf(elem) + 1 // 0 -> 1; 1 -> 3; 2 -> 5
+        )).
         collect(Collectors.toList());
   
     Boolean[] booleans = isBorderBList.stream().reduce((elem1,elem2)-> {
@@ -180,23 +186,37 @@ public class CannyFilter extends MaskFilter {
     return isBorder;
   }
   
-  private Boolean[] histeresisUmbralization(Boolean[] originalArray, int[] sobelArray, int imageWidth){
+  private Boolean[] histeresisUmbralization(Boolean[] originalArray, int[] sobelArray, int imageWidth, int imageHeight, int maskCenter){
     Boolean[] isBorder = new Boolean[originalArray.length];
   
-    for (int i = 0; i < originalArray.length; i++) {
-      int sobelValue = sobelArray[i];
-      if (sobelValue < t1) {
-        isBorder[i] = false;
-      } else if (sobelValue > t2) {
-        isBorder[i] = true;
-      } else {
-        isBorder[i] =
-          originalArray[i + indexRGB(-1,0, imageWidth)]
-            || originalArray[i + indexRGB(1,0, imageWidth)]
-            || originalArray[i + indexRGB(0,1, imageWidth)]
-            || originalArray[i + indexRGB(0,-1, imageWidth)];
+    for (int i = 0; i < imageWidth; i++) {
+      for (int j = 0; j < imageHeight; j++) {
+        int indexRGB = indexRGB(i, j, imageWidth);
+        if (i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter - 1) {
+          isBorder[red(indexRGB)] = false;
+          isBorder[green(indexRGB)] = false;
+          isBorder[blue(indexRGB)] = false;
+        } else {
+          int sobelValue = sobelArray[red(indexRGB)];
+          if (sobelValue < t1) {
+            isBorder[red(indexRGB)] = false;
+          } else if (sobelValue > t2) {
+            isBorder[red(indexRGB)] = true;
+          } else {
+            isBorder[red(indexRGB)] =
+              originalArray[red(indexRGB) + indexRGB(-1, 0, imageWidth)]
+                || originalArray[red(indexRGB) + indexRGB(1, 0, imageWidth)]
+                || originalArray[red(indexRGB) + indexRGB(0, 1, imageWidth)]
+                || originalArray[red(indexRGB) + indexRGB(0, -1, imageWidth)];
+          }
+          isBorder[red(indexRGB)] &= originalArray[red(indexRGB)];
+          isBorder[green(indexRGB)] = isBorder[red(indexRGB)] && originalArray[green(indexRGB)];
+          isBorder[blue(indexRGB)] = isBorder[red(indexRGB)] && originalArray[blue(indexRGB)];
+        }
       }
-      isBorder[i] &= originalArray[i];
+    }
+    for (int i = 0; i < originalArray.length; i++) {
+    
     }
     return isBorder;
   }
