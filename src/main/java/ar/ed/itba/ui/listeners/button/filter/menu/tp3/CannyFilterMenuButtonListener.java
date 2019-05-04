@@ -8,12 +8,12 @@ import javax.swing.*;
 public class CannyFilterMenuButtonListener extends ATIMenuOptionsButtonListener {
   
   public CannyFilterMenuButtonListener() {
-    options.add(new JLabel("Delta"));
-    JTextField deltaField = new JTextField();
-    options.add(deltaField);
-    options.add(new JLabel("T"));
-    JTextField tField = new JTextField();
-    options.add(tField);
-    options.add(MenuOptionButtonFactory.cannyFilterMenuOptionButton(deltaField, tField));
+    options.add(new JLabel("T1"));
+    JTextField t1Field = new JTextField();
+    options.add(t1Field);
+    options.add(new JLabel("T2"));
+    JTextField t2Field = new JTextField();
+    options.add(t2Field);
+    options.add(MenuOptionButtonFactory.cannyFilterMenuOptionButton(t1Field, t2Field));
   }
 }

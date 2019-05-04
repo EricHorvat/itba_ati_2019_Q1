@@ -34,13 +34,10 @@ public class SusanFilter extends MaskFilter {
   }
   
   @Override
-  public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
+  public int[] applyFilterRaw(int[] sourceRGBArray, boolean ignoreBordersValue, int imageWidth, int imageHeight) {
   
     int maskCenter = maskSide /2;
     
-    int imageWidth = sourceAtiImage.getWidth();
-    int imageHeight = sourceAtiImage.getHeight();
-    int[] sourceRGBArray = sourceAtiImage.toRGB();
     int[] finalRGBArray = new int[sourceRGBArray.length];
   
   

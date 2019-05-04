@@ -2,28 +2,29 @@ package ar.ed.itba.ui.listeners.button.filter.effect.tp3;
 
 import ar.ed.itba.ui.listeners.button.filter.effect.MaskFilterButtonListener;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
+import ar.ed.itba.utils.filters.mask.advanced.CannyFilter;
 import ar.ed.itba.utils.filters.mask.weight.heat.IsotropicFilter;
 
 import javax.swing.*;
 
 public class CannyFilterButtonListener extends MaskFilterButtonListener {
   
-  private final JTextField deltaField;
-  private final JTextField tField;
+  private final JTextField t1Field;
+  private final JTextField t2Field;
   
-  public CannyFilterButtonListener(JTextField deltaField, JTextField tField) {
+  public CannyFilterButtonListener(JTextField t1Field, JTextField t2Field) {
     super(null);
-    this.deltaField = deltaField;
-    this.tField = tField;
+    this.t1Field = t1Field;
+    this.t2Field = t2Field;
   }
 
   @Override
   public MaskFilter getFilter() {
-    
-    double delta = Double.parseDouble(deltaField.getText());
-    int t = Integer.parseInt(tField.getText());
+  
+    int t1 = Integer.parseInt(t1Field.getText());
+    int t2 = Integer.parseInt(t2Field.getText());
 
-    return new IsotropicFilter(delta, t);
+    return new CannyFilter(t1, t2);
   }
 
   @Override

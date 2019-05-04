@@ -24,14 +24,12 @@ public abstract class GradientFilter extends MaskFilter {
 	protected abstract MaskFilter getPreFilter(PrefilterOrientation orientation);
 	
 	@Override
-	public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue) {
+	public int[] applyFilterRaw(int[] sourceAtiRGBArray, boolean ignoreBordersValue, int width, int height) {
 		MaskFilter xFilter = getPreFilter(X);
 		MaskFilter yFilter = getPreFilter(Y);
-		int[] xImage = xFilter.applyFilterRaw(sourceAtiImage, ignoreBordersValue);
-		int[] yImage = yFilter.applyFilterRaw(sourceAtiImage, ignoreBordersValue);
+		int[] xImage = xFilter.applyFilterRaw(sourceAtiRGBArray, ignoreBordersValue, width, height);
+		int[] yImage = yFilter.applyFilterRaw(sourceAtiRGBArray, ignoreBordersValue, width, height);
 		int[] finalImage;
-		int width = sourceAtiImage.getWidth();
-		int height = sourceAtiImage.getHeight();
 		switch (type){
 			case HOR:
 				finalImage = xImage;
@@ -43,8 +41,8 @@ public abstract class GradientFilter extends MaskFilter {
 				finalImage = avg(xImage,yImage, width, height);
 				break;
 			case MOD:
-        xImage = xFilter.applyFilterRaw(sourceAtiImage, true);
-        yImage = yFilter.applyFilterRaw(sourceAtiImage, true);
+        xImage = xFilter.applyFilterRaw(sourceAtiRGBArray, true, width, height);
+        yImage = yFilter.applyFilterRaw(sourceAtiRGBArray, true, width, height);
 				finalImage = mod2(xImage,yImage, width, height);
 				break;
 			case MAX:
@@ -55,10 +53,10 @@ public abstract class GradientFilter extends MaskFilter {
 				finalImage = min(xImage,yImage, width, height);
 				break;
       case G135:
-        finalImage = getPreFilter(G135).applyFilterRaw(sourceAtiImage, ignoreBordersValue);
+        finalImage = getPreFilter(G135).applyFilterRaw(sourceAtiRGBArray, ignoreBordersValue, width, height);
         break;
       case G45:
-        finalImage = getPreFilter(G45).applyFilterRaw(sourceAtiImage, ignoreBordersValue);
+        finalImage = getPreFilter(G45).applyFilterRaw(sourceAtiRGBArray, ignoreBordersValue, width, height);
 		}
 		return finalImage;
 	}
