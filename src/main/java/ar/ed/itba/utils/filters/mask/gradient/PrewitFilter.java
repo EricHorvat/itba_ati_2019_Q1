@@ -6,7 +6,7 @@ import ar.ed.itba.utils.filters.mask.gradient.prefilter.PrewitPreFilter;
 public class PrewitFilter extends GradientFilter {
 	
 	public PrewitFilter(GradientFilterType type) {
-		super(type);
+		super(type, true);
 	}
 	
 	@Override

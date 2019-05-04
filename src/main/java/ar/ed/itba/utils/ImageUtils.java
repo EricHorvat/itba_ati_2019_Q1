@@ -127,8 +127,13 @@ public final class ImageUtils {
 		
 		return new PpmImage(mod2(pixels,modifier, image.getWidth(), image.getHeight()),image.getWidth(), image.getHeight());
 	}
-	
-	public static int[] mod2(final int[] image, final int[] modifier, int width, int height){
+  
+  public static int[] mod2(final int[] image, final int[] modifier, int width, int height){
+	  return mod2(image, modifier, width, height, true);
+	  
+  }
+  
+  public static int[] mod2(final int[] image, final int[] modifier, int width, int height, boolean normalize){
 		if (lengthRGB(width, height) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
     
@@ -142,7 +147,11 @@ public final class ImageUtils {
 				pixels[blue(indexRGB)] = (int) (Math.sqrt(Math.pow(image[blue(indexRGB)],2) + Math.pow(modifier[blue(indexRGB)],2)));
 			}
 		}
-		return normalize(pixels, width);
+		if(normalize){
+		  return normalize(pixels, width);
+		} else {
+		  return pixels;
+    }
 	}
 	
 	public static PpmImage max(final ATIImage image1, final ATIImage image2) {
@@ -161,8 +170,12 @@ public final class ImageUtils {
 		
 		return new PpmImage(max(pixels,modifier, image.getWidth(), image.getHeight()),image.getWidth(), image.getHeight());
 	}
-	
-	public static int[] max(final int[] image, final int[] modifier, int width, int height ){
+
+  public static int[] max(final int[] image, final int[] modifier, int width, int height ) {
+	  return max(image, modifier, width, height, true);
+  }
+  
+  public static int[] max(final int[] image, final int[] modifier, int width, int height, boolean normalize){
 		if (image.length != modifier.length)
 			throw new IllegalArgumentException("modifier must have same length as image array");
 		if (lengthRGB(width, height) != modifier.length){
@@ -173,11 +186,14 @@ public final class ImageUtils {
 		for (int i = 0 ; i < width ; i++) {
 			for (int j = 0 ; j < height ; j++) {
 				int indexRGB = indexRGB(i,j,width);
-				pixels[red(indexRGB)] = image[red(indexRGB)] > modifier[red(indexRGB)] ? image[red(indexRGB)] : modifier[red(indexRGB)];
-				pixels[green(indexRGB)] = image[green(indexRGB)] > modifier[green(indexRGB)] ? image[green(indexRGB)] : modifier[green(indexRGB)];
-				pixels[blue(indexRGB)] = image[blue(indexRGB)] > modifier[blue(indexRGB)] ? image[blue(indexRGB)] : modifier[blue(indexRGB)];
+				pixels[red(indexRGB)] = Math.max(image[red(indexRGB)], modifier[red(indexRGB)]);
+				pixels[green(indexRGB)] = Math.max(image[green(indexRGB)], modifier[green(indexRGB)]);
+				pixels[blue(indexRGB)] = Math.max(image[blue(indexRGB)], modifier[blue(indexRGB)]);
 			}
 		}
+		if (normalize){
+		  return normalize(pixels,width);
+    }
 		return pixels;
 	}
 	
@@ -197,8 +213,12 @@ public final class ImageUtils {
 		
 		return new PpmImage(normalize(min(pixels,modifier, image.getWidth(), image.getHeight()), image.getWidth()),image.getWidth(), image.getHeight());
 	}
-	
-	public static int[] min(final int[] image, final int[] modifier, int width, int height ){
+  
+  public static int[] min(final int[] image, final int[] modifier, int width, int height ) {
+	  return min(image, modifier, width, height, true);
+  }
+  
+  public static int[] min(final int[] image, final int[] modifier, int width, int height, boolean normalize){
 		if (lengthRGB(width,height)!= modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		
@@ -212,6 +232,9 @@ public final class ImageUtils {
         pixels[blue(indexRGB)] = Math.min(image[blue(indexRGB)], modifier[blue(indexRGB)]);
 			}
 		}
+    if (normalize){
+      return normalize(pixels,width);
+    }
 		return pixels;
 	}
 

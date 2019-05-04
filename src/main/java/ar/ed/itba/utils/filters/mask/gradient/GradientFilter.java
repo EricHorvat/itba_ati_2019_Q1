@@ -8,12 +8,14 @@ import static ar.ed.itba.utils.ImageUtils.*;
 import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
 
 public abstract class GradientFilter extends MaskFilter {
+  
+  final private GradientFilterType type;
+  final private boolean normalize;
 	
-	final private GradientFilterType type;
-	
-	public GradientFilter(GradientFilterType type) {
+	public GradientFilter(GradientFilterType type, boolean normalize) {
 		super(3);
 		this.type = type;
+		this.normalize = normalize;
 	}
 	
 	@Override
@@ -43,14 +45,14 @@ public abstract class GradientFilter extends MaskFilter {
 			case MOD:
         xImage = xFilter.applyFilterRaw(sourceAtiRGBArray, true, width, height);
         yImage = yFilter.applyFilterRaw(sourceAtiRGBArray, true, width, height);
-				finalImage = mod2(xImage,yImage, width, height);
+				finalImage = mod2(xImage,yImage, width, height, normalize);
 				break;
 			case MAX:
-				finalImage = max(xImage,yImage, width, height);
+				finalImage = max(xImage,yImage, width, height, normalize);
 				break;
 			case MIN:
 			default:
-				finalImage = min(xImage,yImage, width, height);
+				finalImage = min(xImage,yImage, width, height, normalize);
 				break;
       case G135:
         finalImage = getPreFilter(G135).applyFilterRaw(sourceAtiRGBArray, ignoreBordersValue, width, height);

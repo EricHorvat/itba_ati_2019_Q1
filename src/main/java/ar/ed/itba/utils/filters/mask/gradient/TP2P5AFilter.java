@@ -6,7 +6,7 @@ import ar.ed.itba.utils.filters.mask.gradient.prefilter.TP2P5APreFilter;
 public class TP2P5AFilter extends GradientFilter {
 	
 	public TP2P5AFilter(GradientFilterType type) {
-		super(type);
+		super(type, true);
 	}
 	
 	@Override

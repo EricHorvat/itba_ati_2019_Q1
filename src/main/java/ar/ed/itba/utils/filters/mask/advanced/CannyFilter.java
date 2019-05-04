@@ -53,7 +53,7 @@ public class CannyFilter extends MaskFilter {
     List<int[]> sobelResultList =
       gaussianResultList.
         stream().
-        map(gaussianResult -> new SobelFilter(MOD).applyFilterRaw(gaussianResult, true, imageWidth, imageHeight)).
+        map(gaussianResult -> new SobelFilter(MOD, false).applyFilterRaw(gaussianResult, true, imageWidth, imageHeight)).
         collect(Collectors.toList());
     
     List<PrefilterOrientation[]> angleResultList =
@@ -118,7 +118,7 @@ public class CannyFilter extends MaskFilter {
   
   private boolean controlIsMax(int[] RGBArray, final int i, final int delta1, final int delta2) {
     System.out.println(RGBArray[i] + " " + RGBArray[i+delta1] + " "+ RGBArray[i+delta2]);
-    return Math.max(RGBArray[i], Math.max(RGBArray[i + delta1], RGBArray[i + delta2])) == RGBArray[i];
+    return Math.max(RGBArray[i], Math.max(RGBArray[i + delta1], RGBArray[i + delta2])) == RGBArray[i] && RGBArray[i] != 0;
   }
   
   private PrefilterOrientation[] getGradientAngles(int[] gaussianResult, int imageWidth, int imageHeight){
@@ -131,7 +131,7 @@ public class CannyFilter extends MaskFilter {
     
     for (int i = 0; i < gxArray.length; i++) {
       if (gxArray[i] == 0) {
-        angleResult[i] = X;
+        angleResult[i] = Y;
       } else {
         angleResult[i] = getAngle(Math.atan2(gyArray[i], gxArray[i]));
       }
@@ -152,7 +152,7 @@ public class CannyFilter extends MaskFilter {
           isBorder[green(indexRGB)] = false;
           isBorder[blue(indexRGB)] = false;
         }else {
-          PrefilterOrientation prefilterOrientation = anglesArray[indexRGB];
+          PrefilterOrientation prefilterOrientation = anglesArray[red(indexRGB)];
           switch (prefilterOrientation) {
             case G45:
               delta1 = indexRGB(1, 1, imageWidth);

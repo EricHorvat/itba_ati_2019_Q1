@@ -6,7 +6,7 @@ import ar.ed.itba.utils.filters.mask.gradient.prefilter.KirshPreFilter;
 public class KirshFilter extends GradientFilter {
 	
 	public KirshFilter(GradientFilterType type) {
-		super(type);
+		super(type, true);
 	}
 	
 	@Override
