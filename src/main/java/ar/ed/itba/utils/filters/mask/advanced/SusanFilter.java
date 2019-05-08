@@ -56,18 +56,18 @@ public class SusanFilter extends MaskFilter {
             }
           }
           double sumRelative = sum / N;
-          if (sumRelative < (0.5 - epsilon)) {
-            finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
-            finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
-            finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
-          } else if (sumRelative < (0.75 + epsilon)) {
+          if ((0.5 - epsilon) <= sumRelative && sumRelative <= 0.625) {
+            finalRGBArray[red(indexRGB)] = 0;
+            finalRGBArray[green(indexRGB)] = 255;
+            finalRGBArray[blue(indexRGB)] = 255;
+          } else if (0.625 < sumRelative && sumRelative < (0.75 + epsilon)) {
             finalRGBArray[red(indexRGB)] = 255;
             finalRGBArray[green(indexRGB)] = 0;
             finalRGBArray[blue(indexRGB)] = 0;
           } else {
-            finalRGBArray[red(indexRGB)] = 0;
-            finalRGBArray[green(indexRGB)] = 255;
-            finalRGBArray[blue(indexRGB)] = 255;
+            finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
+            finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
+            finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
           }
         }
       }
