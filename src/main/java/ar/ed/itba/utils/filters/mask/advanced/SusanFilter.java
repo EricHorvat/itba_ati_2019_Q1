@@ -57,13 +57,13 @@ public class SusanFilter extends MaskFilter {
           }
           double sumRelative = sum / N;
           if ((0.5 - epsilon) <= sumRelative && sumRelative <= 0.625) {
-            finalRGBArray[red(indexRGB)] = 0;
-            finalRGBArray[green(indexRGB)] = 255;
-            finalRGBArray[blue(indexRGB)] = 255;
-          } else if (0.625 < sumRelative && sumRelative < (0.75 + epsilon)) {
             finalRGBArray[red(indexRGB)] = 255;
             finalRGBArray[green(indexRGB)] = 0;
             finalRGBArray[blue(indexRGB)] = 0;
+          } else if (0.625 < sumRelative && sumRelative < (0.75 + epsilon)) {
+            finalRGBArray[red(indexRGB)] = 0;
+            finalRGBArray[green(indexRGB)] = 128;
+            finalRGBArray[blue(indexRGB)] = 255;
           } else {
             finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
             finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
