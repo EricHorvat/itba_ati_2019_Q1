@@ -1,5 +1,8 @@
 package ar.ed.itba.utils.filters.mask.advanced;
 
+import ar.ed.itba.file.image.ATIImage;
+import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.ui.frames.FrameFactory;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
 import ar.ed.itba.utils.filters.mask.gradient.GradientFilterType;
 import ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation;
@@ -36,6 +39,8 @@ public class CannyFilter extends MaskFilter {
     return mask;
   }
   
+  static int[] intList = {3, 7, 11};
+  
   @Override
   public int[] applyFilterRaw(int[] sourceRGBArray, boolean ignoreBordersValue, int imageWidth, int imageHeight) {
     
@@ -49,18 +54,24 @@ public class CannyFilter extends MaskFilter {
         stream().
         map(gaussianFilter -> gaussianFilter.applyFilterRaw(sourceRGBArray, true, imageWidth, imageHeight)).
         collect(Collectors.toList());
+  
+    showInt(gaussianResultList, imageWidth, imageHeight, "Gauss");
     
     List<int[]> sobelResultList =
       gaussianResultList.
         stream().
-        map(gaussianResult -> new SobelFilter(MOD, false).applyFilterRaw(gaussianResult, true, imageWidth, imageHeight)).
+        map(gaussianResult -> new SobelFilter(MOD, true).applyFilterRaw(gaussianResult, true, imageWidth, imageHeight)).
         collect(Collectors.toList());
-    
+
+    showInt(sobelResultList, imageWidth, imageHeight, "Sobel");
+  
     List<PrefilterOrientation[]> angleResultList =
-      gaussianResultList.
+      sobelResultList.
         stream().
         map(gaussianResultArray -> getGradientAngles(gaussianResultArray, imageWidth, imageHeight)).
         collect(Collectors.toList());
+
+    showOri(angleResultList, imageWidth, imageHeight, "Angle");
     
     List<Boolean[]> isBorderAList =
       angleResultList.
@@ -73,7 +84,9 @@ public class CannyFilter extends MaskFilter {
           elem)
         )
         .collect(Collectors.toList());
-    
+  
+    showBoolean(isBorderAList, imageWidth, imageHeight, "BorderA");
+  
     List<Boolean[]> isBorderBList =
       isBorderAList.
         stream().
@@ -86,24 +99,26 @@ public class CannyFilter extends MaskFilter {
         )).
         collect(Collectors.toList());
   
-    Boolean[] booleans = isBorderBList.stream().reduce((elem1,elem2)-> {
+    showBoolean(isBorderBList, imageWidth, imageHeight, "BorderB");
+    
+    Boolean[] booleans = isBorderBList.stream().reduce((elem1, elem2) -> {
       for (int i = 0; i < elem1.length; i++) {
         elem1[i] &= elem2[i];
       }
       return elem1;
     })
-    .orElse(new Boolean[0]);
+      .orElse(new Boolean[0]);
   
     int[] finalRGBArray = new int[booleans.length];
   
     for (int i = 0; i < booleans.length; i++) {
-      finalRGBArray[i] = booleans[i]?255:0;
+      finalRGBArray[i] = booleans[i] ? 255 : 0;
     }
     return finalRGBArray;
   }
   
   private PrefilterOrientation getAngle(double angle) {
-    if (angle < 0){
+    if (angle < 0) {
       angle += Math.PI;
     }
     if (PIDIV8 < angle && angle <= PI3DIV8) {
@@ -117,29 +132,31 @@ public class CannyFilter extends MaskFilter {
   }
   
   private boolean controlIsMax(int[] RGBArray, final int i, final int delta1, final int delta2) {
-    System.out.println(RGBArray[i] + " " + RGBArray[i+delta1] + " "+ RGBArray[i+delta2]);
+    //System.out.println(RGBArray[i] + " " + RGBArray[i + delta1] + " " + RGBArray[i + delta2]);
     return Math.max(RGBArray[i], Math.max(RGBArray[i + delta1], RGBArray[i + delta2])) == RGBArray[i] && RGBArray[i] != 0;
   }
   
-  private PrefilterOrientation[] getGradientAngles(int[] gaussianResult, int imageWidth, int imageHeight){
+  private PrefilterOrientation[] getGradientAngles(int[] gaussianResult, int imageWidth, int imageHeight) {
     
     SobelFilter xSobelFilter = new SobelFilter(GradientFilterType.HOR);
     SobelFilter ySobelFilter = new SobelFilter(GradientFilterType.VER);
-    int[] gxArray = xSobelFilter.applyFilterRaw(gaussianResult, true, imageWidth, imageHeight);
-    int[] gyArray = ySobelFilter.applyFilterRaw(gaussianResult, true, imageWidth, imageHeight);
+    int[] gxArray = normalize(xSobelFilter.applyFilterRaw(gaussianResult, true, imageWidth, imageHeight),imageWidth);
+    int[] gyArray = normalize(ySobelFilter.applyFilterRaw(gaussianResult, true, imageWidth, imageHeight),imageWidth);
     PrefilterOrientation[] angleResult = new PrefilterOrientation[gxArray.length];
     
     for (int i = 0; i < gxArray.length; i++) {
       if (gxArray[i] == 0) {
         angleResult[i] = Y;
       } else {
-        angleResult[i] = getAngle(Math.atan2(gyArray[i], gxArray[i]));
+        double angle = Math.atan2(gyArray[i], gxArray[i]);
+        angleResult[i] = getAngle(angle);
+        System.out.println(Math.toDegrees(angle) + " " + angleResult[i].name());
       }
     }
     return angleResult;
   }
   
-  private Boolean[] nonMaximumSuppresion(int[] sobelValues, int maskCenter /*sigma*/, int imageWidth, int imageHeight, PrefilterOrientation[] anglesArray){
+  private Boolean[] nonMaximumSuppresion(int[] sobelValues, int maskCenter /*sigma*/, int imageWidth, int imageHeight, PrefilterOrientation[] anglesArray) {
     
     int delta1;
     int delta2;
@@ -147,11 +164,11 @@ public class CannyFilter extends MaskFilter {
     for (int i = 0; i < imageWidth; i++) {
       for (int j = 0; j < imageHeight; j++) {
         int indexRGB = indexRGB(i, j, imageWidth);
-        if ( i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter -1){
+        if (i < maskCenter || j < maskCenter || i > imageWidth - maskCenter - 1 || j > imageHeight - maskCenter - 1) {
           isBorder[red(indexRGB)] = false;
           isBorder[green(indexRGB)] = false;
           isBorder[blue(indexRGB)] = false;
-        }else {
+        } else {
           PrefilterOrientation prefilterOrientation = anglesArray[red(indexRGB)];
           switch (prefilterOrientation) {
             case G45:
@@ -186,7 +203,7 @@ public class CannyFilter extends MaskFilter {
     return isBorder;
   }
   
-  private Boolean[] histeresisUmbralization(Boolean[] originalArray, int[] sobelArray, int imageWidth, int imageHeight, int maskCenter){
+  private Boolean[] histeresisUmbralization(Boolean[] originalArray, int[] sobelArray, int imageWidth, int imageHeight, int maskCenter) {
     Boolean[] isBorder = new Boolean[originalArray.length];
   
     for (int i = 0; i < imageWidth; i++) {
@@ -209,7 +226,7 @@ public class CannyFilter extends MaskFilter {
                 || originalArray[red(indexRGB) + indexRGB(0, 1, imageWidth)]
                 || originalArray[red(indexRGB) + indexRGB(0, -1, imageWidth)];
           }
-          isBorder[red(indexRGB)] &= originalArray[red(indexRGB)];
+          isBorder[red(indexRGB)] = isBorder[red(indexRGB)] && originalArray[red(indexRGB)];
           isBorder[green(indexRGB)] = isBorder[red(indexRGB)] && originalArray[green(indexRGB)];
           isBorder[blue(indexRGB)] = isBorder[red(indexRGB)] && originalArray[blue(indexRGB)];
         }
@@ -220,4 +237,44 @@ public class CannyFilter extends MaskFilter {
     }
     return isBorder;
   }
+  
+  private int[] toRGBArray(PrefilterOrientation[] angleImage) {
+    int[] ansArr = new int[angleImage.length];
+    for (int i = 0; i < angleImage.length; i++) {
+      int ans = 0;
+      switch (angleImage[i]) {
+        case G45:
+          ans = 84;
+          break;
+        case Y:
+          ans = 167;
+          break;
+        case G135:
+          ans = 255;
+      }
+      ansArr[i] = ans;
+    }
+    return ansArr;
+  }
+  
+  private int[] toRGBArray(Boolean[] booleanImage) {
+    int[] ansArr = new int[booleanImage.length];
+    for (int i = 0; i < booleanImage.length; i++) {
+      ansArr[i] = booleanImage[i] ? 255 : 0;
+    }
+    return ansArr;
+  }
+  
+  private void showInt(List<int[]> imageList, int imageWidth, int imageHeight, String maskName){
+    imageList.forEach(a -> FrameFactory.fixedImageFrame(maskName +" result " + intList[imageList.indexOf(a)], new PpmImage(a, imageWidth, imageHeight)).buildAndShow());
+  }
+  
+  private void showOri(List<PrefilterOrientation[]> imageList, int imageWidth, int imageHeight, String maskName){
+    imageList.forEach(a -> FrameFactory.fixedImageFrame(maskName +" result " + intList[imageList.indexOf(a)], new PpmImage(toRGBArray(a), imageWidth, imageHeight)).buildAndShow());
+  }
+  
+  private void showBoolean(List<Boolean[]> imageList, int imageWidth, int imageHeight, String maskName){
+    imageList.forEach(a -> FrameFactory.fixedImageFrame(maskName +" result " + intList[imageList.indexOf(a)], new PpmImage(toRGBArray(a), imageWidth, imageHeight)).buildAndShow());
+  }
+  
 }
