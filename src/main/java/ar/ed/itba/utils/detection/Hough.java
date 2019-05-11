@@ -10,7 +10,7 @@ import java.util.*;
 public class Hough {
     private static final double EPSILON = 0.9;
     private static final double THETA_MIN = 0;
-    private static final double THETA_MAX = 360;
+    private static final double THETA_MAX = 180;
     private static final Map<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
     private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
 
@@ -72,7 +72,7 @@ public class Hough {
         for (int i = 0 ; i < image.getHeight() ; i++) {
             for (int j = 0 ; j < image.getWidth() ; j++) {
                 // image must be binary
-                if (isSinusoidal(j - image.getWidth()/2, image.getHeight()/2 - i, fromTheta + storageX * thetaStep,
+                if (isSinusoidal(j, i, fromTheta + storageX * thetaStep,
                         fromPhi + storageY * phiStep)) {
                     if (imageArray[(i * image.getWidth() + j) * 3] == 255)
                         storageMatrix[storageX][storageY]++;
