@@ -12,14 +12,13 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.SobelFilterButt
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.TP2P5AFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LaplacianFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButtonListener;
-import ar.ed.itba.ui.listeners.button.filter.effect.tp3.ActiveContourFilterButtonListener;
-import ar.ed.itba.ui.listeners.button.filter.effect.tp3.CannyFilterButtonListener;
-import ar.ed.itba.ui.listeners.button.filter.effect.tp3.SusanFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp3.*;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 import static ar.ed.itba.utils.filters.mask.gradient.GradientFilterType.*;
@@ -215,10 +214,23 @@ public final class MenuOptionButtonFactory {
   }
   
   public static JButton activeContourFilterMenuOptionButton(JTextField nField){
-    return generateButton(new ActiveContourFilterButtonListener(nField));
+    return applyButton(new ActiveContourFilterButtonListener(nField));
   }
 
-	public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
+  public static JButton setOuterActiveContourFilterMenuOptionButton(){
+    JButton b = generateButton(new SetOuterActiveContourFilterButtonListener());
+    b.setText("Set Outer");
+    return b;
+    
+  }
+
+  public static JButton setInnerActiveContourFilterMenuOptionButton(){
+    JButton b = generateButton(new SetInnerActiveContourFilterButtonListener());
+    b.setText("Set Inner");
+    return b;
+  }
+  
+  public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
 		return generateButton(new HighlightBorderFilterButtonListener(maskSideField));
 	}
 	

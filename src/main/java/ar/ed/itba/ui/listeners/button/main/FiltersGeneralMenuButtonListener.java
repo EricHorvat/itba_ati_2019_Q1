@@ -1,6 +1,7 @@
 package ar.ed.itba.ui.listeners.button.main;
 
 import ar.ed.itba.ui.components.MenuButtonFactory;
+import ar.ed.itba.ui.components.MenuOptionButtonFactory;
 import ar.ed.itba.ui.listeners.button.ATIMenuButtonListener;
 
 public class FiltersGeneralMenuButtonListener extends ATIMenuButtonListener {
@@ -22,6 +23,7 @@ public class FiltersGeneralMenuButtonListener extends ATIMenuButtonListener {
     options.add(MenuButtonFactory.isotropicFilterMenuButton());
     options.add(MenuButtonFactory.cannyFilterMenuButton());
     options.add(MenuButtonFactory.susanFilterMenuButton());
+    options.add(MenuButtonFactory.activecontourFilterMenuButton());
 	}
 	
 }

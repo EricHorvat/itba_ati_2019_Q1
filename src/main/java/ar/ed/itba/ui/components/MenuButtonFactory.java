@@ -12,6 +12,7 @@ import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.SobelFilterMenuBu
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.gradient.TP2P5AFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.laplacian.LaplacianFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.laplacian.LoGFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp3.ActiveContourFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp3.CannyFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp3.SusanFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
@@ -169,6 +170,10 @@ public final class MenuButtonFactory {
   
   public static JButton susanFilterMenuButton() {
     return listeningButton("Susan Filter", new SusanFilterMenuButtonListener());
+  }
+  
+  public static JButton activecontourFilterMenuButton() {
+    return listeningButton("Active Contour Filter", new ActiveContourFilterMenuButtonListener());
   }
 	
 	public static JButton highlightBorderFilterMenuButton() {

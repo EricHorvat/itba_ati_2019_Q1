@@ -8,9 +8,11 @@ import javax.swing.*;
 public class ActiveContourFilterMenuButtonListener extends ATIMenuOptionsButtonListener {
   
   public ActiveContourFilterMenuButtonListener() {
-    options.add(new JLabel("Max iterations"));
+    options.add(new JLabel("Iterations"));
     JTextField nField = new JTextField();
     options.add(nField);
+    options.add(MenuOptionButtonFactory.setOuterActiveContourFilterMenuOptionButton());
+    options.add(MenuOptionButtonFactory.setInnerActiveContourFilterMenuOptionButton());
     options.add(MenuOptionButtonFactory.activeContourFilterMenuOptionButton(nField));
   }
 }
