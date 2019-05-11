@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class MaskFilterButtonListener implements ActionListener {
+public abstract class MaskFilterButtonListener extends FilterButtonListener {
 	
 	protected JTextField maskSideField;
 	
@@ -17,16 +17,13 @@ public abstract class MaskFilterButtonListener implements ActionListener {
 		this.maskSideField = maskSideField;
 	}
 	
-	public abstract MaskFilter getFilter();
-	
 	public abstract String getName();
-	
-	@Override
-	public void actionPerformed(ActionEvent actionEvent) {
-		ATIImage resultImage = getFilter().applyFilter(EditableImageFrame.instance().getAtiImage(),false);
-		
-		String text = maskSideField!=null?" "+maskSideField.getText() + "x"+maskSideField.getText():"";
-		
-		FrameFactory.fixedImageFrame(getName() + text, resultImage).buildAndShow();
-	}
+  
+  @Override
+  public String getTitle() {
+    String text = maskSideField!=null?" "+maskSideField.getText() + "x"+maskSideField.getText():"";
+  
+    return
+      getName() + text;
+  }
 }

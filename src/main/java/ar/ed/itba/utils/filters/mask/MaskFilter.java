@@ -2,10 +2,11 @@ package ar.ed.itba.utils.filters.mask;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.utils.filters.Filter;
 
 import java.awt.image.BufferedImage;
 
-public abstract class MaskFilter {
+public abstract class MaskFilter extends Filter {
 	
 	protected double[][] mask;
 	protected final int maskSide;
@@ -15,16 +16,5 @@ public abstract class MaskFilter {
 	public MaskFilter(int maskSide) {
 		this.maskSide = maskSide;
 	}
-	
-	public ATIImage applyFilter(ATIImage sourceAtiImage, boolean ignoreBordersValue){
-		return new PpmImage(applyFilterRaw(sourceAtiImage, ignoreBordersValue), sourceAtiImage.getWidth(), sourceAtiImage.getHeight());
-	}
-  
-  public int[] applyFilterRaw(ATIImage sourceAtiImage, boolean ignoreBordersValue){
-	  return applyFilterRaw(sourceAtiImage.toRGB(), ignoreBordersValue, sourceAtiImage.getWidth(),
-      sourceAtiImage.getHeight());
-  }
-	
-  public abstract int[] applyFilterRaw(int[] sourceAtiRGBArray, boolean ignoreBordersValue, int width, int height);
 	
 }
