@@ -1,76 +1,87 @@
 package ar.ed.itba.utils.detection;
 
 import ar.ed.itba.file.image.ATIImage;
+import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.utils.ImageUtils;
 import javafx.util.Pair;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Hough {
     private static final double EPSILON = 0.9;
-    private static final double GAMMA_MIN = -90;
-    private static final double GAMMA_MAX = 90;
-    private static final Map<Integer, List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
+    private static final double THETA_MIN = -90;
+    private static final double THETA_MAX = 90;
+    private static final Map<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
+    private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
 
-    public static void transform(final ATIImage image, final int sinusoidalThreshold,
-                                 final int fromGamma, final int toGamma, final int gammaStep,
+    public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
+                                 final int fromTheta, final int toTheta, final int thetaStep,
                                  final int fromPhi, final int toPhi, final int phiStep) {
         // [min, max] in each case
-        if ((toGamma - fromGamma) % gammaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
+        if ((toTheta - fromTheta) % thetaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
             throw new IllegalArgumentException("One of the steps is not valid for their interval");
 
-        if (fromGamma < GAMMA_MIN || toGamma > GAMMA_MAX)
-            throw new IllegalArgumentException("Gamma is out of bounds");
+        if (fromTheta < THETA_MIN || toTheta > THETA_MAX)
+            throw new IllegalArgumentException("Theta is out of bounds");
 
         final int d = Math.max(image.getWidth(), image.getHeight());
         if (fromPhi < - Math.sqrt(2) * d || toPhi > Math.sqrt(2) * d)
             throw new IllegalArgumentException("Phi is out of bounds");
 
-        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(((toGamma - fromGamma) / gammaStep) + 1, ((toPhi - fromPhi) / phiStep) + 1);
+        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(((toTheta - fromTheta) / thetaStep), ((toPhi - fromPhi) / phiStep));
         final int storageMatrix[][] = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue()];
-
         for (int i = 0 ; i < storageMatrixDim.getKey() ; i++) {
             for (int j = 0 ; j < storageMatrixDim.getValue() ; j++)
-                findSinusoidalPoints(image, storageMatrix, fromGamma, i, gammaStep, fromPhi, j, phiStep);
+                calculateStorageMatrix(image, storageMatrix, fromTheta, i, thetaStep, fromPhi, j, phiStep);
         }
 
-        LinkedList<Pair<Integer, Integer>> curves = new LinkedList<>();
-        for (int i = 0 ; i < storageMatrixDim.getKey() ; i++) {
-            for (int j = 0 ; j < storageMatrixDim.getValue() ; j++) {
-                if (storageMatrix[i][j] > sinusoidalThreshold)
-                    curves.add(new Pair(i, j));
-            }
-        }
-
-        for (final Pair<Integer, Integer> curve : curves) {
-            final int hash = curve.getKey() * 21 + curve.getValue();
-            final List<Pair<Integer, Integer>> points = candidatesPoints.get(hash);
-            points.stream().min((p1, p2) -> )
-        }
-    }
-
-    private static void findSinusoidalPoints(final ATIImage image, final int[][] storageMatrix,
-                                             final int fromGamma, final int storageX, final int gammaStep,
-                                             final int fromPhi, final int storageY, final int phiStep) {
-        final int[] imageArray = image.toRGB();
-        final int hash = storageX * 21 + storageY;
-        candidatesPoints.put(hash, new LinkedList<>());
-        for (int i = 0 ; i < image.getHeight() ; i++) {
-            for (int j = 0 ; j < image.getWidth() ; j++) {
-                // image must be binary
-                if (imageArray[(i * image.getWidth() + j) * 3] == 255
-                        && isSinusoidal(i, j, fromGamma + storageX * gammaStep,
-                        fromPhi + storageY * phiStep)) {
-                    storageMatrix[storageX][storageY]++;
-                    candidatesPoints.get(hash).add(new Pair<>(storageX, storageY));
+        //take top N storage values
+        final Set<Pair<Integer, Integer>> sinusoidals = new HashSet<>();
+        for (int k = 0 ; k < sinusoidalCount ; k++) {
+            for (int i = 0; i < storageMatrixDim.getKey(); i++) {
+                for (int j = 0; j < storageMatrixDim.getValue(); j++) {
+                    if (!storageMaxValues.isEmpty() && storageMatrix[i][j] == storageMaxValues.peek()
+                            && !sinusoidals.contains(new Pair<>(i, j))) {
+                        storageMaxValues.poll();
+                        sinusoidals.add(new Pair(i, j));
+                        //search for next sinusoidal
+                        j = storageMatrixDim.getValue();
+                        i = storageMatrixDim.getKey();
+                    }
                 }
             }
         }
+
+        final int[] imageArray = new int[image.getHeight() * image.getWidth() * 3];
+        for (final Pair<Integer, Integer> sinusoidal : sinusoidals) {
+            final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(sinusoidal.getKey(), sinusoidal.getValue()));
+            ImageUtils.drawLine(imageArray, image.getWidth(), points.get(0), points.get(points.size() - 1));
+        }
+
+        return new PpmImage(imageArray, image.getWidth(), image.getHeight());
     }
 
-    private static boolean isSinusoidal(final int currentPixelX, final int currentPixelY, final int currentGamma, final int currentPhi) {
-        return Math.abs(currentPhi - currentPixelX * Math.cos(currentGamma) - currentPixelY * Math.sin(currentGamma)) < EPSILON;
+    private static void calculateStorageMatrix(final ATIImage image, final int[][] storageMatrix,
+                                               final int fromTheta, final int storageX, final int thetaStep,
+                                               final int fromPhi, final int storageY, final int phiStep) {
+        final int[] imageArray = image.toRGB();
+        final Pair<Integer, Integer> storageXY = new Pair<>(storageX, storageY);
+        candidatesPoints.put(new Pair<>(storageX, storageY), new LinkedList<>());
+        for (int i = 0 ; i < image.getHeight() ; i++) {
+            for (int j = 0 ; j < image.getWidth() ; j++) {
+                // image must be binary
+                if (isSinusoidal(i, j, fromTheta + storageX * thetaStep,
+                        fromPhi + storageY * phiStep)) {
+                    if (imageArray[(i * image.getWidth() + j) * 3] == 255)
+                        storageMatrix[storageX][storageY]++;
+                    candidatesPoints.get(storageXY).add(new Pair<>(i, j));
+                }
+            }
+        }
+        storageMaxValues.add(storageMatrix[storageX][storageY]);
+    }
+
+    private static boolean isSinusoidal(final int currentPixelX, final int currentPixelY, final int currentTheta, final int currentPhi) {
+        return Math.abs(currentPhi - currentPixelX * Math.cos(currentTheta) - currentPixelY * Math.sin(currentTheta)) < EPSILON;
     }
 }
