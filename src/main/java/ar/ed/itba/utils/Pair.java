@@ -33,4 +33,8 @@ public class Pair {
 		
 		return y;
 	}
+	
+	public Pair reverse(){
+	  return new Pair(y,x);
+  }
 }

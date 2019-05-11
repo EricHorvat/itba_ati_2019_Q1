@@ -18,7 +18,7 @@ public class SetInnerActiveContourFilterButtonListener implements ActionListener
     Pair p1 = new Pair(e.getRegion().getX(), e.getRegion().getY());
     Pair p2 = new Pair(e.getRegion().getX() + e.getRegion().getW(), e.getRegion().getY() + e.getRegion().getH());
     
-    ActiveContourFilter.getInstance().setInPairs(p1,p2);
+    ActiveContourFilter.getInstance().setInPairs(p1.reverse(),p2.reverse());
     ActiveContourFilter.getInstance().set(e.getAtiImage(),100);
     /*TODO CHANGE N*/
   }
