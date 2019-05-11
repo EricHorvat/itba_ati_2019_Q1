@@ -467,7 +467,6 @@ public final class ImageUtils {
 		int y = y0;
 
 		for (int x = x0 ; x <= x1 ; x++) {
-			//Magenta point
 			image[(y * width + x) * 3] = 255;
 			image[(y * width + x) * 3 + 1] = 0;
 			image[(y * width + x) * 3 + 2] = 0;
@@ -493,7 +492,6 @@ public final class ImageUtils {
 		int x = x0;
 
 		for (int y = y0 ; y <= y1 ; y++) {
-			//Magenta point
 			image[(y * width + x) * 3] = 255;
 			image[(y * width + x) * 3 + 1] = 0;
 			image[(y * width + x) * 3 + 2] = 0;

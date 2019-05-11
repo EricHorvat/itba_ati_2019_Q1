@@ -9,8 +9,8 @@ import java.util.*;
 
 public class Hough {
     private static final double EPSILON = 0.9;
-    private static final double THETA_MIN = -90;
-    private static final double THETA_MAX = 90;
+    private static final double THETA_MIN = 0;
+    private static final double THETA_MAX = 360;
     private static final Map<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
     private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
 
@@ -55,6 +55,8 @@ public class Hough {
         final int[] imageArray = new int[image.getHeight() * image.getWidth() * 3];
         for (final Pair<Integer, Integer> sinusoidal : sinusoidals) {
             final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(sinusoidal.getKey(), sinusoidal.getValue()));
+            Pair<Integer, Integer> min = points.get(0);
+            Pair<Integer, Integer> max = points.get(points.size() - 1);
             ImageUtils.drawLine(imageArray, image.getWidth(), points.get(0), points.get(points.size() - 1));
         }
 
@@ -66,11 +68,11 @@ public class Hough {
                                                final int fromPhi, final int storageY, final int phiStep) {
         final int[] imageArray = image.toRGB();
         final Pair<Integer, Integer> storageXY = new Pair<>(storageX, storageY);
-        candidatesPoints.put(new Pair<>(storageX, storageY), new LinkedList<>());
+        candidatesPoints.put(storageXY, new LinkedList<>());
         for (int i = 0 ; i < image.getHeight() ; i++) {
             for (int j = 0 ; j < image.getWidth() ; j++) {
                 // image must be binary
-                if (isSinusoidal(i, j, fromTheta + storageX * thetaStep,
+                if (isSinusoidal(j - image.getWidth()/2, image.getHeight()/2 - i, fromTheta + storageX * thetaStep,
                         fromPhi + storageY * phiStep)) {
                     if (imageArray[(i * image.getWidth() + j) * 3] == 255)
                         storageMatrix[storageX][storageY]++;
