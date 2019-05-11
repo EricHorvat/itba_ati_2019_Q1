@@ -28,7 +28,7 @@ public class Hough {
         if (fromPhi < - Math.sqrt(2) * d || toPhi > Math.sqrt(2) * d)
             throw new IllegalArgumentException("Phi is out of bounds");
 
-        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(((toTheta - fromTheta) / thetaStep), ((toPhi - fromPhi) / phiStep));
+        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(((toTheta - fromTheta) / thetaStep) + 1, ((toPhi - fromPhi) / phiStep) + 1);
         final int storageMatrix[][] = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue()];
         for (int i = 0 ; i < storageMatrixDim.getKey() ; i++) {
             for (int j = 0 ; j < storageMatrixDim.getValue() ; j++)
