@@ -55,11 +55,12 @@ public class Hough {
         final int[] imageArray = new int[image.getHeight() * image.getWidth() * 3];
         for (final Pair<Integer, Integer> sinusoidal : sinusoidals) {
             final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(sinusoidal.getKey(), sinusoidal.getValue()));
-            Pair<Integer, Integer> min = points.get(0);
-            Pair<Integer, Integer> max = points.get(points.size() - 1);
-            ImageUtils.drawLine(imageArray, image.getWidth(), points.get(0), points.get(points.size() - 1));
+//            Pair<Integer, Integer> min = points.get(0);
+//            Pair<Integer, Integer> max = points.get(points.size() - 1);
+//            ImageUtils.drawLine(imageArray, image.getWidth(), points.get(0), points.get(points.size() - 1));
+            for (Pair<Integer, Integer> point : points)
+                imageArray[(point.getKey() * image.getWidth() + point.getValue()) * 3] = 255;
         }
-
         return new PpmImage(imageArray, image.getWidth(), image.getHeight());
     }
 
