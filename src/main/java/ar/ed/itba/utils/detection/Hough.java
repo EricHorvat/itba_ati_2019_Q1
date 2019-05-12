@@ -19,20 +19,20 @@ public class Hough {
     private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
   
     public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
-                                   final int thetaParts,
-                                   final int phiParts) {
+                                   final int thetaIntervals,
+                                   final int phiIntervals) {
       double toPhi = Math.max(image.getWidth(), image.getHeight()) * Math.sqrt(2) * 1;
-      return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaParts, -toPhi, toPhi, phiParts);
+      return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaIntervals, -toPhi, toPhi, phiIntervals);
     }
     
     public static PpmImage transform( final ATIImage image, final int sinusoidalCount,
-                                      final double fromTheta, final double toTheta, final int thetaParts,
-                                      final double fromPhi, final double toPhi, final int phiParts) {
+                                      final double fromTheta, final double toTheta, final int thetaIntervals,
+                                      final double fromPhi, final double toPhi, final int phiIntervals) {
         // [min, max] in each case
         //if ((toTheta - fromTheta) % thetaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
         //    throw new IllegalArgumentException("One of the steps is not valid for their interval");
-        if (thetaParts < 1|| phiParts < 1)
-            throw new IllegalArgumentException("One of the steps is not valid for their interval");
+        if (thetaIntervals < 1|| phiIntervals < 1)
+            throw new IllegalArgumentException("One of the intervals its not valid");
 
         if (fromTheta < THETA_MIN || toTheta > THETA_MAX)
             throw new IllegalArgumentException("Theta is out of bounds");
@@ -41,10 +41,10 @@ public class Hough {
         if (fromPhi < - Math.sqrt(2) * d || toPhi > Math.sqrt(2) * d)
             throw new IllegalArgumentException("Phi is out of bounds");
   
-        double thetaStep = (toTheta - fromTheta) / thetaParts;
-        double phiStep = (toPhi - fromPhi) / phiParts;
+        double thetaStep = (toTheta - fromTheta) / thetaIntervals;
+        double phiStep = (toPhi - fromPhi) / phiIntervals;
 
-        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(thetaParts + 1, phiParts + 1);
+        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(thetaIntervals + 1, phiIntervals + 1);
         final int storageMatrix[][] = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue()];
         for (int i = 0 ; i < storageMatrixDim.getKey() ; i++) {
             for (int j = 0 ; j < storageMatrixDim.getValue() ; j++)
