@@ -45,7 +45,7 @@ public class Hough {
         double phiStep = (toPhi - fromPhi) / phiIntervals;
 
         final Pair<Integer, Integer> storageMatrixDim = new Pair<>(thetaIntervals + 1, phiIntervals + 1);
-        final int storageMatrix[][] = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue()];
+        final int[][] storageMatrix = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue()];
         for (int i = 0 ; i < storageMatrixDim.getKey() ; i++) {
             for (int j = 0 ; j < storageMatrixDim.getValue() ; j++)
                 calculateStorageMatrix(image, storageMatrix, fromTheta, i, thetaStep, fromPhi, j, phiStep);
