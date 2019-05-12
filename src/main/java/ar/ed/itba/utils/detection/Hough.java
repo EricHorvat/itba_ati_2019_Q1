@@ -9,16 +9,18 @@ import java.util.*;
 
 public class Hough {
     private static final double EPSILON = 0.9;
-    private static final double THETA_MIN = 0;
-    private static final double THETA_MAX = 180;
+    private static final double THETA_MAX = Math.PI / 2;
+    private static final double THETA_MIN = - THETA_MAX;
     private static final Map<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
     private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
 
     public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
-                                 final int fromTheta, final int toTheta, final int thetaStep,
-                                 final int fromPhi, final int toPhi, final int phiStep) {
+                                 final double fromTheta, final double toTheta, final int thetaParts,
+                                 final double fromPhi, final double toPhi, final int phiParts) {
         // [min, max] in each case
-        if ((toTheta - fromTheta) % thetaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
+        //if ((toTheta - fromTheta) % thetaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
+        //    throw new IllegalArgumentException("One of the steps is not valid for their interval");
+        if (thetaParts < 1|| phiParts < 1)
             throw new IllegalArgumentException("One of the steps is not valid for their interval");
 
         if (fromTheta < THETA_MIN || toTheta > THETA_MAX)
@@ -27,8 +29,11 @@ public class Hough {
         final int d = Math.max(image.getWidth(), image.getHeight());
         if (fromPhi < - Math.sqrt(2) * d || toPhi > Math.sqrt(2) * d)
             throw new IllegalArgumentException("Phi is out of bounds");
+  
+        double thetaStep = (toTheta - fromTheta) / thetaParts;
+        double phiStep = (toPhi - fromPhi) / phiParts;
 
-        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(((toTheta - fromTheta) / thetaStep) + 1, ((toPhi - fromPhi) / phiStep) + 1);
+        final Pair<Integer, Integer> storageMatrixDim = new Pair<>(thetaParts + 1, phiParts + 1);
         final int storageMatrix[][] = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue()];
         for (int i = 0 ; i < storageMatrixDim.getKey() ; i++) {
             for (int j = 0 ; j < storageMatrixDim.getValue() ; j++)
@@ -65,8 +70,8 @@ public class Hough {
     }
 
     private static void calculateStorageMatrix(final ATIImage image, final int[][] storageMatrix,
-                                               final int fromTheta, final int storageX, final int thetaStep,
-                                               final int fromPhi, final int storageY, final int phiStep) {
+                                               final double fromTheta, final int storageX, final double thetaStep,
+                                               final double fromPhi, final int storageY, final double phiStep) {
         final int[] imageArray = image.toRGB();
         final Pair<Integer, Integer> storageXY = new Pair<>(storageX, storageY);
         candidatesPoints.put(storageXY, new LinkedList<>());
@@ -84,7 +89,7 @@ public class Hough {
         storageMaxValues.add(storageMatrix[storageX][storageY]);
     }
 
-    private static boolean isSinusoidal(final int currentPixelX, final int currentPixelY, final int currentTheta, final int currentPhi) {
+    private static boolean isSinusoidal(final int currentPixelX, final int currentPixelY, final double currentTheta, final double currentPhi) {
         return Math.abs(currentPhi - currentPixelX * Math.cos(currentTheta) - currentPixelY * Math.sin(currentTheta)) < EPSILON;
     }
 }
