@@ -59,7 +59,7 @@ public class Hough {
                     if (!storageMaxValues.isEmpty() && storageMatrix[i][j] == storageMaxValues.peek()
                             && !sinusoidals.contains(new Pair<>(i, j))) {
                         storageMaxValues.poll();
-                        sinusoidals.add(new Pair(i, j));
+                        sinusoidals.add(new Pair<>(i, j));
                         //search for next sinusoidal
                         j = storageMatrixDim.getValue();
                         i = storageMatrixDim.getKey();
