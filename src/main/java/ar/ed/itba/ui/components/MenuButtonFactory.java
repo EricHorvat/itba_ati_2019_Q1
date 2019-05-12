@@ -127,10 +127,14 @@ public final class MenuButtonFactory {
 	public static JButton generateRayleighMenuButton() {
 		return listeningButton("Rayleigh Noise", new GenerateRayleighMenuButtonListener());
 	}
-	
-	public static JButton generateExponentialMenuButton() {
-		return listeningButton("Exponential Noise", new GenerateExponentialMenuButtonListener());
-	}
+  
+  public static JButton generateExponentialMenuButton() {
+    return listeningButton("Exponential Noise", new GenerateExponentialMenuButtonListener());
+  }
+  
+  public static JButton generateHoughLinesMenuButton() {
+    return listeningButton("Hough lines", new GenerateHoughLinesMenuButtonListener());
+  }
 	
 	/* END GENERATE*/
 	/* FILTER */

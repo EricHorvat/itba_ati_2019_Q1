@@ -6,6 +6,10 @@ import ar.ed.itba.utils.ImageUtils;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static ar.ed.itba.utils.ImageUtils.*;
 
 public class Hough {
     private static final double EPSILON = 0.9;
@@ -13,10 +17,17 @@ public class Hough {
     private static final double THETA_MIN = - THETA_MAX;
     private static final Map<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
     private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
-
+  
     public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
-                                 final double fromTheta, final double toTheta, final int thetaParts,
-                                 final double fromPhi, final double toPhi, final int phiParts) {
+                                   final int thetaParts,
+                                   final int phiParts) {
+      double toPhi = Math.max(image.getWidth(), image.getHeight()) * Math.sqrt(2) * 1;
+      return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaParts, -toPhi, toPhi, phiParts);
+    }
+    
+    public static PpmImage transform( final ATIImage image, final int sinusoidalCount,
+                                      final double fromTheta, final double toTheta, final int thetaParts,
+                                      final double fromPhi, final double toPhi, final int phiParts) {
         // [min, max] in each case
         //if ((toTheta - fromTheta) % thetaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
         //    throw new IllegalArgumentException("One of the steps is not valid for their interval");
@@ -56,18 +67,28 @@ public class Hough {
                 }
             }
         }
+  
+        //IntStream.range(0,sinusoidalCount).map(i -> storageMaxValues.poll()).map(j -> findValue(j))
 
-        final int[] imageArray = new int[image.getHeight() * image.getWidth() * 3];
+        final int[] imageArray = image.toRGB();
         for (final Pair<Integer, Integer> sinusoidal : sinusoidals) {
             final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(sinusoidal.getKey(), sinusoidal.getValue()));
 //            Pair<Integer, Integer> min = points.get(0);
 //            Pair<Integer, Integer> max = points.get(points.size() - 1);
 //            ImageUtils.drawLine(imageArray, image.getWidth(), points.get(0), points.get(points.size() - 1));
-            for (Pair<Integer, Integer> point : points)
-                imageArray[(point.getKey() * image.getWidth() + point.getValue()) * 3] = 255;
+            for (Pair<Integer, Integer> point : points) {
+              imageArray[red(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 255;
+              imageArray[green(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 0;
+              imageArray[blue(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 0;
+            }
         }
         return new PpmImage(imageArray, image.getWidth(), image.getHeight());
     }
+    
+    /*private Pair<Integer, Integer> findValue(int[][] dict, int value){
+      Arrays.stream(dict).map(arr -> new HashMap<>arr, Arrays.stream(arr).max().orElse(0)).collect(Collectors.toList());
+      return new Pair<>(0,0);
+    }*/
 
     private static void calculateStorageMatrix(final ATIImage image, final int[][] storageMatrix,
                                                final double fromTheta, final int storageX, final double thetaStep,
@@ -80,7 +101,7 @@ public class Hough {
                 // image must be binary
                 if (isSinusoidal(j, i, fromTheta + storageX * thetaStep,
                         fromPhi + storageY * phiStep)) {
-                    if (imageArray[(i * image.getWidth() + j) * 3] == 255)
+                    if (imageArray[indexRGB(i,j,image.getWidth())] == 255)
                         storageMatrix[storageX][storageY]++;
                     candidatesPoints.get(storageXY).add(new Pair<>(i, j));
                 }

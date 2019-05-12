@@ -159,10 +159,14 @@ public final class MenuOptionButtonFactory {
 	public static JButton generateRayleighMenuOptionButton(JTextField percentageField, JTextField phiField){
 		return generateButton(new GenerateRayleighButtonListener(percentageField, phiField));
 	}
-	
-	public static JButton generateExponentialMenuOptionButton(JTextField percentageField, JTextField lambdaField){
-		return generateButton(new GenerateExponentialButtonListener(percentageField, lambdaField));
-	}
+  
+  public static JButton generateExponentialMenuOptionButton(JTextField percentageField, JTextField lambdaField){
+    return generateButton(new GenerateExponentialButtonListener(percentageField, lambdaField));
+  }
+  
+  public static JButton generateHoughLinesMenuOptionButton(){
+    return generateButton(new GenerateHoughLinesButtonListener());
+  }
 	
 	/* END GENERATE */
 	/* FILTER */
