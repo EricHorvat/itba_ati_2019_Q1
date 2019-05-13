@@ -1,12 +1,10 @@
 package ar.ed.itba.math;
 
-import ar.ed.itba.utils.Pair;
+import ar.ed.itba.utils.CoordinatePair;
 
-import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static ar.ed.itba.utils.ImageUtils.*;
 
@@ -37,20 +35,20 @@ public class NoiseImageFactory {
 	
 	private static double[] imageGenerator(NoiseGenerator noiseGenerator, int width, int height, double percentage, Map params, int defaultValue){
 		double[] imageRGB = new double[lengthRGB(width,height)];
-		List<Pair> pairs = new ArrayList<>();
+		List<CoordinatePair> coordinatePairs = new ArrayList<>();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				pairs.add(new Pair(i,j));
+				coordinatePairs.add(new CoordinatePair(i,j));
 				int indexRGB = indexRGB(i,j, width);
 				imageRGB[red(indexRGB)] = defaultValue;
 				imageRGB[green(indexRGB)] = defaultValue;
 				imageRGB[blue(indexRGB)] = defaultValue;
 			}
 		}
-		List<Pair> pairList = IntStream.range(0, width * height).mapToObj(pairs::get).collect(Collectors.toList());
-		Collections.shuffle(pairList, random);
+		List<CoordinatePair> coordinatePairList = IntStream.range(0, width * height).mapToObj(coordinatePairs::get).collect(Collectors.toList());
+		Collections.shuffle(coordinatePairList, random);
 		int toBeChosen = (int)(percentage*width*height);
-		pairList.subList(0,toBeChosen).forEach(p -> copyValue(imageRGB, p.getX(), p.getY(), width, noiseGenerator.getNextValue(params)));
+		coordinatePairList.subList(0,toBeChosen).forEach(p -> copyValue(imageRGB, p.getX(), p.getY(), width, noiseGenerator.getNextValue(params)));
 		return imageRGB;
 	}
 	

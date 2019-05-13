@@ -2,15 +2,14 @@ package ar.ed.itba.utils.filters.advanced;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
-import ar.ed.itba.file.pixel.GrayPixel;
 import ar.ed.itba.ui.components.DialogFactory;
-import ar.ed.itba.utils.Pair;
-import ar.ed.itba.utils.filters.Filter;
-import jdk.jshell.spi.ExecutionControl;
+import ar.ed.itba.utils.CoordinatePair;
+import javafx.util.Pair;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static ar.ed.itba.utils.ImageUtils.*;
 
@@ -27,19 +26,19 @@ public class ActiveContourFilter {
   
   private int maxIter;
   private int iter = 0;
-  private int theta0 = 0;
-  private double theta1 = 0.5;
-  private Set<Pair> In = new HashSet<>();
-  private Set<Pair> Lin = new HashSet<>();
-  private Set<Pair> Lout = new HashSet<>();
+  private Color theta0 = new Color(0,0,0);
+  private Color theta1 = new Color(0,0,0);
+  private Set<CoordinatePair> In = new HashSet<>();
+  private Set<CoordinatePair> Lin = new HashSet<>();
+  private Set<CoordinatePair> Lout = new HashSet<>();
   private int[][] fi;
   
   private boolean outerSet = false;
   private boolean innerSet = false;
-  private Pair inPFrom;
-  private Pair inPTo;
-  private Pair outPFrom;
-  private Pair outPTo;
+  private CoordinatePair inPFrom;
+  private CoordinatePair inPTo;
+  private CoordinatePair outPFrom;
+  private CoordinatePair outPTo;
   
   private ATIImage sourceATIImage;
   
@@ -48,23 +47,23 @@ public class ActiveContourFilter {
   public int[] applyRaw(){
     int[] ans = sourceATIImage.toRGB();
     int w = sourceATIImage.getWidth();
-    Iterator<Pair> lOutIt = Lout.iterator();
-    Set<Pair> toAdd = new HashSet<>();
+    Iterator<CoordinatePair> lOutIt = Lout.iterator();
+    Set<CoordinatePair> toAdd = new HashSet<>();
     while (lOutIt.hasNext()){
-      Pair p = lOutIt.next();
-      if(fd(ans[indexRGB(p.getX(),p.getY(),w)]) > 0){
+      CoordinatePair p = lOutIt.next();
+      if(fd(indexRGB(p.getX(),p.getY(),w),ans) > 0){
         Lin.add(p);
         fi[p.getX()][p.getY()] = -1;
         lOutIt.remove();
-        List<Pair> areOuters = neighbours(p).stream().filter(n -> getFi(n) > 1).collect(Collectors.toList());
+        List<CoordinatePair> areOuters = neighbours(p).stream().filter(n -> getFi(n) > 1).collect(Collectors.toList());
         toAdd.addAll(areOuters);
         areOuters.forEach(o -> fi[o.getX()][o.getY()] = 1);
       }
     }
     Lout.addAll(toAdd);
-    Iterator<Pair> lInIt = Lin.iterator();
+    Iterator<CoordinatePair> lInIt = Lin.iterator();
     while (lInIt.hasNext()){
-      Pair p = lInIt.next();
+      CoordinatePair p = lInIt.next();
       long outersNeighbours = neighbours(p).stream().filter(n -> getFi(n) == 1).count();
       if(outersNeighbours == 0){
         lInIt.remove();
@@ -74,12 +73,12 @@ public class ActiveContourFilter {
     toAdd = new HashSet<>();
     lInIt = Lin.iterator();
     while (lInIt.hasNext()){
-      Pair p = lInIt.next();
-      if(fd(ans[indexRGB(p.getX(),p.getY(),w)]) < 0){
+      CoordinatePair p = lInIt.next();
+      if(fd(indexRGB(p.getX(),p.getY(),w),ans) < 0){
         Lout.add(p);
         fi[p.getX()][p.getY()] = 1;
         lInIt.remove();
-        List<Pair> areInners = neighbours(p).stream().filter(n -> getFi(n) < 1).collect(Collectors.toList());
+        List<CoordinatePair> areInners = neighbours(p).stream().filter(n -> getFi(n) < 1).collect(Collectors.toList());
         toAdd.addAll(areInners);
         areInners.forEach(o -> fi[o.getX()][o.getY()] = -1);
       }
@@ -87,7 +86,7 @@ public class ActiveContourFilter {
     Lin.addAll(toAdd);
     lOutIt = Lout.iterator();
     while (lOutIt.hasNext()){
-      Pair p = lOutIt.next();
+      CoordinatePair p = lOutIt.next();
       long innerNeighbours = neighbours(p).stream().filter(n -> getFi(n) == -1).count();
       if(innerNeighbours == 0){
         lOutIt.remove();
@@ -107,12 +106,12 @@ public class ActiveContourFilter {
     return ans;
   }
   
-  public List<Pair> neighbours(Pair p){
-    ArrayList<Pair> ans = new ArrayList<>();
-    ans.add(new Pair(p.getX(),p.getY() + 1));
-    ans.add(new Pair(p.getX(),p.getY() - 1));
-    ans.add(new Pair(p.getX() + 1,p.getY()));
-    ans.add(new Pair(p.getX() - 1,p.getY()));
+  public List<CoordinatePair> neighbours(CoordinatePair p){
+    ArrayList<CoordinatePair> ans = new ArrayList<>();
+    ans.add(new CoordinatePair(p.getX(),p.getY() + 1));
+    ans.add(new CoordinatePair(p.getX(),p.getY() - 1));
+    ans.add(new CoordinatePair(p.getX() + 1,p.getY()));
+    ans.add(new CoordinatePair(p.getX() - 1,p.getY()));
     return ans;
   }
   
@@ -124,19 +123,19 @@ public class ActiveContourFilter {
       DialogFactory.promptError("Regions not set");
     }
     theta0 = sourceAtiImage.averageColor(inPFrom.getX(), inPFrom.getY(),
-      inPTo.getX() - inPFrom.getX(),inPTo.getY() - inPFrom.getY()).getRed();
+      inPTo.getX() - inPFrom.getX(),inPTo.getY() - inPFrom.getY());
     theta1 = sourceAtiImage.averageColor(outPFrom.getX(), outPFrom.getY(),
-      outPTo.getX() - outPFrom.getX(),outPTo.getY() - outPFrom.getY()).getRed() + 0.5;
+      outPTo.getX() - outPFrom.getX(),outPTo.getY() - outPFrom.getY());
     fillFi();
     setLs();
   }
   
   private void setLs(){
     for (int x = inPFrom.getX(); x <= inPTo.getX(); x++) {
-      Lin.add(new Pair(x,inPFrom.getY()));
-      Lin.add(new Pair(x,inPTo.getY()));
-      Lout.add(new Pair(x,inPFrom.getY()-1));
-      Lout.add(new Pair(x,inPTo.getY()+1));
+      Lin.add(new CoordinatePair(x,inPFrom.getY()));
+      Lin.add(new CoordinatePair(x,inPTo.getY()));
+      Lout.add(new CoordinatePair(x,inPFrom.getY()-1));
+      Lout.add(new CoordinatePair(x,inPTo.getY()+1));
       
       fi[x][inPFrom.getY()] = -1;
       fi[x][inPTo.getY()] = -1;
@@ -146,10 +145,10 @@ public class ActiveContourFilter {
     }
     
     for (int y = inPFrom.getY(); y <= inPTo.getY(); y++) {
-      Lin.add(new Pair(inPFrom.getX(),y));
-      Lin.add(new Pair(inPTo.getX(),y));
-      Lout.add(new Pair(inPFrom.getX()-1,y));
-      Lout.add(new Pair(inPTo.getX()+1,y));
+      Lin.add(new CoordinatePair(inPFrom.getX(),y));
+      Lin.add(new CoordinatePair(inPTo.getX(),y));
+      Lout.add(new CoordinatePair(inPFrom.getX()-1,y));
+      Lout.add(new CoordinatePair(inPTo.getX()+1,y));
   
       fi[inPFrom.getX()][y] = -1;
       fi[inPTo.getX()][y] = -1;
@@ -159,7 +158,7 @@ public class ActiveContourFilter {
   
     for (int x = inPFrom.getX() + 1; x < inPTo.getX(); x++) {
       for (int y = inPFrom.getY() + 1; y < inPTo.getY(); y++) {
-        In.add(new Pair(x,y));
+        In.add(new CoordinatePair(x,y));
   
         fi[x][y] = -3;
         fi[x][y] = -3;
@@ -168,23 +167,29 @@ public class ActiveContourFilter {
     
   }
   
-  public void setInPairs(Pair inP1, Pair inP2) {
-    this.inPFrom = new Pair(Math.min(inP1.getX(), inP2.getX()), Math.min(inP1.getY(),inP2.getY()));;
-    this.inPTo = new Pair(Math.max(inP1.getX(), inP2.getX()), Math.max(inP1.getY(),inP2.getY()));;
+  public void setInPairs(CoordinatePair inP1, CoordinatePair inP2) {
+    this.inPFrom = new CoordinatePair(Math.min(inP1.getX(), inP2.getX()), Math.min(inP1.getY(),inP2.getY()));;
+    this.inPTo = new CoordinatePair(Math.max(inP1.getX(), inP2.getX()), Math.max(inP1.getY(),inP2.getY()));;
     this.innerSet = true;
   }
   
-  public void setOutPairs(Pair outP1, Pair outP2) {
-    this.outPFrom = new Pair(Math.min(outP1.getX(), outP2.getX()), Math.min(outP1.getY(),outP2.getY()));;
-    this.outPTo = new Pair(Math.max(outP1.getX(), outP2.getX()), Math.max(outP1.getY(),outP2.getY()));;
+  public void setOutPairs(CoordinatePair outP1, CoordinatePair outP2) {
+    this.outPFrom = new CoordinatePair(Math.min(outP1.getX(), outP2.getX()), Math.min(outP1.getY(),outP2.getY()));;
+    this.outPTo = new CoordinatePair(Math.max(outP1.getX(), outP2.getX()), Math.max(outP1.getY(),outP2.getY()));;
     this.outerSet = true;
   }
   
-  public double fd(int x){
-    return Math.log(Math.abs(theta0 - x)/Math.abs(theta1 - x));
+  public double fd(int indexRGB, int[] image){
+    double dif0 = Math.pow(image[red(indexRGB)] - theta0.getRed(),2) +
+      Math.pow(image[green(indexRGB)] - theta0.getGreen(),2) +
+      Math.pow(image[blue(indexRGB)] - theta0.getBlue(),2);
+    double dif1 = Math.pow(image[red(indexRGB)] - theta1.getRed(),2) +
+      Math.pow(image[green(indexRGB)] - theta1.getGreen(),2) +
+      Math.pow(image[blue(indexRGB)] - theta1.getBlue(),2);
+    return Math.log(Math.abs(dif0)/Math.abs(dif1));
   }
   
-  public int getFi(Pair p) {
+  public int getFi(CoordinatePair p) {
     return getFi(p.getX(), p.getY());
   }
   

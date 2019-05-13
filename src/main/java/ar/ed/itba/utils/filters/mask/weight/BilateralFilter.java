@@ -1,8 +1,7 @@
 package ar.ed.itba.utils.filters.mask.weight;
 
 import ar.ed.itba.file.image.ATIImage;
-import ar.ed.itba.utils.Pair;
-import ar.ed.itba.utils.filters.mask.weight.WeightMaskFilter;
+import ar.ed.itba.utils.CoordinatePair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +22,12 @@ public class BilateralFilter extends WeightMaskFilter {
   protected double[][] generateMask() {
     //sigma = center
     int center = maskSide / 2;
-    Map<Pair,Double> values = new HashMap<>();
+    Map<CoordinatePair,Double> values = new HashMap<>();
     double[][] mask = new double[maskSide][];
     for (int i = -center; i < center+1; i++) {
       double[] column = new double[maskSide];
       for (int j = -center; j < center+1; j++) {
-        Pair p = new Pair(Math.abs(i), Math.abs(j));
+        CoordinatePair p = new CoordinatePair(Math.abs(i), Math.abs(j));
         if (values.containsKey(p)){
           column[j+center] = values.get(p);
         } else {
