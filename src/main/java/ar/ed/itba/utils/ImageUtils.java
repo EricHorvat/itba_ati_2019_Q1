@@ -23,7 +23,7 @@ public final class ImageUtils {
 	
 	public static int negateRGB(int rgb){
 		Color c = new Color(rgb);
-		c = new Color(255-c.getRed(),255-c.getBlue(),255-c.getGreen());
+		c = new Color(255-c.getRed(),255-c.getGreen(),255-c.getBlue());
 		return c.getRGB();
 	}
 	
