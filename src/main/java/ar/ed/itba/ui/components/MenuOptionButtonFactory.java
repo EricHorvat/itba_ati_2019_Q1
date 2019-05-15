@@ -167,6 +167,10 @@ public final class MenuOptionButtonFactory {
   public static JButton generateHoughLinesMenuOptionButton(){
     return generateButton(new GenerateHoughLinesButtonListener());
   }
+  
+  public static JButton generateHoughCirclesMenuOptionButton(){
+    return generateButton(new GenerateHoughCirclesButtonListener());
+  }
 	
 	/* END GENERATE */
 	/* FILTER */

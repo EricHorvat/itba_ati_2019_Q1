@@ -21,6 +21,7 @@ public class GenerateGeneralMenuButtonListener extends ATIMenuButtonListener {
 		options.add(MenuButtonFactory.generateRayleighMenuButton());
     options.add(MenuButtonFactory.generateExponentialMenuButton());
     options.add(MenuButtonFactory.generateHoughLinesMenuButton());
+    options.add(MenuButtonFactory.generateHoughCirclesMenuButton());
 	}
 	
 }
