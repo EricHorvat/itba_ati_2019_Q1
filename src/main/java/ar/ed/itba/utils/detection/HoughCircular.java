@@ -80,9 +80,6 @@ public class HoughCircular {
     final int[] imageArray = image.toRGB();
     for (final Pair<Integer, Pair<Integer,Integer>> sinusoidal : sinusoidals) {
       final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(sinusoidal.getKey(), new Pair<>(sinusoidal.getValue().getKey(),sinusoidal.getValue().getValue())));
-//            Pair<Integer, Integer> min = points.get(0);
-//            Pair<Integer, Integer> max = points.get(points.size() - 1);
-//            ImageUtils.drawLine(imageArray, image.getWidth(), points.get(0), points.get(points.size() - 1));
       for (Pair<Integer, Integer> point : points) {
         imageArray[red(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 255;
         imageArray[green(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 0;

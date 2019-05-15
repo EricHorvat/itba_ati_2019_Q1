@@ -18,16 +18,20 @@ public class HoughLineal {
   public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
                                    final int thetaIntervals,
                                    final int phiIntervals) {
-    double toPhi = Math.max(image.getWidth(), image.getHeight()) * Math.sqrt(2) * 1;
+    int toPhi = (int) (Math.max(image.getWidth(), image.getHeight()) * Math.sqrt(2) * 1);
     return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaIntervals, -toPhi, toPhi, phiIntervals);
   }
+
+  //Consider all possibles phis
+  public static PpmImage transform(final ATIImage image, final int sinusoidalCount, final int thetaIntervals) {
+    int toPhi = (int) (Math.max(image.getWidth(), image.getHeight()) * Math.sqrt(2));
+    return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaIntervals, -toPhi, toPhi, toPhi * 2);
+  }
   
-  public static PpmImage transform( final ATIImage image, final int sinusoidalCount,
-                                    final double fromTheta, final double toTheta, final int thetaIntervals,
-                                    final double fromPhi, final double toPhi, final int phiIntervals) {
-    // [min, max] in each case
-    //if ((toTheta - fromTheta) % thetaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
-    //    throw new IllegalArgumentException("One of the steps is not valid for their interval");
+  private static PpmImage transform(final ATIImage image, final int sinusoidalCount,
+                                   final double fromTheta, final double toTheta, final int thetaIntervals,
+                                   final int fromPhi, final int toPhi, final int phiIntervals) {
+
     if (thetaIntervals < 1|| phiIntervals < 1)
       throw new IllegalArgumentException("One of the intervals its not valid");
     
@@ -39,7 +43,7 @@ public class HoughLineal {
       throw new IllegalArgumentException("Phi is out of bounds");
     
     double thetaStep = (toTheta - fromTheta) / thetaIntervals;
-    double phiStep = (toPhi - fromPhi) / phiIntervals;
+    double phiStep = Math.round((double) (toPhi - fromPhi) / phiIntervals);
     
     final Pair<Integer, Integer> storageMatrixDim = new Pair<>(thetaIntervals + 1, phiIntervals + 1);
     final int[][] storageMatrix = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue()];
@@ -70,9 +74,6 @@ public class HoughLineal {
     final int[] imageArray = image.toRGB();
     for (final Pair<Integer, Integer> sinusoidal : sinusoidals) {
       final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(sinusoidal.getKey(), sinusoidal.getValue()));
-//            Pair<Integer, Integer> min = points.get(0);
-//            Pair<Integer, Integer> max = points.get(points.size() - 1);
-//            ImageUtils.drawLine(imageArray, image.getWidth(), points.get(0), points.get(points.size() - 1));
       for (Pair<Integer, Integer> point : points) {
         imageArray[red(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 255;
         imageArray[green(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 0;
