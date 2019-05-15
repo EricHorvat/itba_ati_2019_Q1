@@ -13,21 +13,25 @@ public class HoughCircular {
   private static final Map<Pair<Integer, Pair<Integer,Integer>> , List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
   private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
   
-  public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
+  public static PpmImage transform(final ATIImage image, final int circumferenceCount,
                                    final int aIntervals,
                                    final int bIntervals) {
     final double diagonal = Math.sqrt(Math.pow(image.getWidth(),2) + Math.pow(image.getHeight(),2));
-    return transform(image, sinusoidalCount, 0, image.getWidth(), aIntervals, 0, image.getHeight(), bIntervals,
+    return transform(image, circumferenceCount, 0, image.getWidth(), aIntervals, 0, image.getHeight(), bIntervals,
       0, (int)diagonal, 1);
   }
+
+  public static PpmImage transform(final ATIImage image, final int circumferenceCount) {
+    final double diagonal = Math.sqrt(Math.pow(image.getWidth(), 2) + Math.pow(image.getHeight(), 2));
+    return transform(image, circumferenceCount, 0, image.getWidth(), image.getWidth() * 2, 0, image.getHeight(), image.getHeight() * 2,
+            0, (int) diagonal, 1);
+  }
   
-  public static PpmImage transform( final ATIImage image, final int sinusoidalCount,
-                                    final double fromA, final double toA, final int aIntervals,
-                                    final double fromB, final double toB, final int bIntervals,
-                                    final int fromR, final int toR, final int rStep) {
-    // [min, max] in each case
-    //if ((toTheta - fromTheta) % thetaStep != 0 || (toPhi - fromPhi) % phiStep != 0)
-    //    throw new IllegalArgumentException("One of the steps is not valid for their interval");
+  public static PpmImage transform(final ATIImage image, final int circumferencialCount,
+                                   final double fromA, final double toA, final int aIntervals,
+                                   final double fromB, final double toB, final int bIntervals,
+                                   final int fromR, final int toR, final int rStep) {
+
     if (aIntervals < 1|| bIntervals < 1 || rStep < 1)
       throw new IllegalArgumentException("One of the intervals its not valid");
   
@@ -41,30 +45,32 @@ public class HoughCircular {
     if (fromR < 0 || toR > diagonal)
       throw new IllegalArgumentException("r is out of bounds");
     
-    double aStep = (toA - fromA) / aIntervals;
-    double bStep = (toB - fromB) / bIntervals;
-    double rIntervals = (toR - fromB) / rStep;
+    double aStep = Math.round((toA - fromA) / aIntervals);
+    double bStep = Math.round((toB - fromB) / bIntervals);
+    double rIntervals = Math.round(toR - fromR) / rStep;
     
     final Pair<Integer, Pair<Integer, Integer>> storageMatrixDim = new Pair<>(aIntervals + 1, new Pair<>(bIntervals + 1, (int)rIntervals + 1));
     final int[][][] storageMatrix = new int[storageMatrixDim.getKey()][storageMatrixDim.getValue().getKey()][storageMatrixDim.getValue().getValue()];
     for (int i = 0 ; i < storageMatrixDim.getKey() ; i++) {
       for (int j = 0 ; j < storageMatrixDim.getValue().getKey() ; j++)
         for (int k = 0 ; k < storageMatrixDim.getValue().getValue() ; k++) {
-          calculateStorageMatrix(image, storageMatrix, fromA, i, aStep, fromB, j, bStep, fromR, k, rStep);
-          System.out.println(i + " " + j + " " + k + " " + storageMatrix[i][j][k]);
+          //check if circle is between bounds
+          if (i + k < image.getWidth() && i - k > 0 && j + k < image.getHeight() && j - k > 0)
+            calculateStorageMatrix(image, storageMatrix, fromA, i, aStep, fromB, j, bStep, fromR, k, rStep);
+          //System.out.println(i + " " + j + " " + k + " " + storageMatrix[i][j][k]);
         }
     }
     
     //take top N storage values
-    final Set<Pair<Integer, Pair<Integer,Integer>>> sinusoidals = new HashSet<>();
-    for (int l = 0 ; l < sinusoidalCount ; l++) {
+    final Set<Pair<Integer, Pair<Integer,Integer>>> circumferences = new HashSet<>();
+    for (int l = 0 ; l < circumferencialCount ; l++) {
       for (int i = 0; i < storageMatrixDim.getKey(); i++) {
         for (int j = 0; j < storageMatrixDim.getValue().getKey(); j++) {
           for (int k = 0; k < storageMatrixDim.getValue().getValue(); k++) {
             if (!storageMaxValues.isEmpty() && storageMatrix[i][j][k] == storageMaxValues.peek()
-              && !sinusoidals.contains(new Pair<>(i, new Pair<>(j,k)))) {
+              && !circumferences.contains(new Pair<>(i, new Pair<>(j,k)))) {
               storageMaxValues.poll();
-              sinusoidals.add(new Pair<>(i, new Pair<>(j,k)));
+              circumferences.add(new Pair<>(i, new Pair<>(j,k)));
               //search for next sinusoidal
               k = storageMatrixDim.getValue().getValue();
               j = storageMatrixDim.getValue().getKey();
@@ -78,8 +84,8 @@ public class HoughCircular {
     //IntStream.range(0,sinusoidalCount).map(i -> storageMaxValues.poll()).map(j -> findValue(j))
     
     final int[] imageArray = image.toRGB();
-    for (final Pair<Integer, Pair<Integer,Integer>> sinusoidal : sinusoidals) {
-      final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(sinusoidal.getKey(), new Pair<>(sinusoidal.getValue().getKey(),sinusoidal.getValue().getValue())));
+    for (final Pair<Integer, Pair<Integer,Integer>> circumference : circumferences) {
+      final List<Pair<Integer, Integer>> points = candidatesPoints.get(new Pair<>(circumference.getKey(), new Pair<>(circumference.getValue().getKey(),circumference.getValue().getValue())));
       for (Pair<Integer, Integer> point : points) {
         imageArray[red(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 255;
         imageArray[green(indexRGB(point.getKey(), point.getValue(), image.getWidth()))] = 0;
@@ -104,7 +110,7 @@ public class HoughCircular {
     for (int i = 0 ; i < image.getHeight() ; i++) {
       for (int j = 0 ; j < image.getWidth() ; j++) {
         // image must be binary
-        if (isSinusoidal(j, i, fromA + storageX * aStep,
+        if (isCircumference(j, i, fromA + storageX * aStep,
             fromB + storageY * bStep, fromR + storageZ * rStep)) {
           if (imageArray[indexRGB(i, j, image.getWidth())] == 255)
             storageMatrix[storageX][storageY][storageZ]++;
@@ -115,9 +121,9 @@ public class HoughCircular {
     storageMaxValues.add(storageMatrix[storageX][storageY][storageZ]);
   }
   
-  private static boolean isSinusoidal(final int currentPixelX, final int currentPixelY, final double currentA, final double currentB, final double currentR) {
+  private static boolean isCircumference(final int currentPixelX, final int currentPixelY, final double currentA, final double currentB, final double currentR) {
     
-    double ans = Math.abs(currentR - Math.pow(currentPixelX - currentA,2) - Math.pow(currentPixelY - currentB,2));
+    double ans = Math.abs(Math.pow(currentR, 2) - Math.pow(currentPixelX - currentA,2) - Math.pow(currentPixelY - currentB,2));
     //System.out.println(ans);
     return ans < EPSILON;
   }

@@ -28,7 +28,7 @@ public class HoughLineal {
     return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaIntervals, -toPhi, toPhi, toPhi * 2);
   }
   
-  private static PpmImage transform(final ATIImage image, final int sinusoidalCount,
+  public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
                                    final double fromTheta, final double toTheta, final int thetaIntervals,
                                    final int fromPhi, final int toPhi, final int phiIntervals) {
 
