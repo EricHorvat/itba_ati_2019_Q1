@@ -164,8 +164,10 @@ public final class MenuOptionButtonFactory {
     return generateButton(new GenerateExponentialButtonListener(percentageField, lambdaField));
   }
   
-  public static JButton generateHoughLinesMenuOptionButton(){
-    return generateButton(new GenerateHoughLinesButtonListener());
+  public static JButton generateHoughLinesMenuOptionButton(JTextField circumferenceCount,
+														   JTextField fromTheta, JTextField toTheta, JTextField thetaIntervals,
+														   JTextField fromPhi, JTextField toPhi, JTextField phiIntervals){
+    return generateButton(new GenerateHoughLinesButtonListener(circumferenceCount, fromTheta, toTheta, thetaIntervals, fromPhi, toPhi, phiIntervals));
   }
   
   public static JButton generateHoughCirclesMenuOptionButton(JTextField circumferenceCount,

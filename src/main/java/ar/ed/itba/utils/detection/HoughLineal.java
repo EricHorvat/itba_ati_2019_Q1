@@ -14,19 +14,7 @@ public class HoughLineal {
   private static final double THETA_MIN = - THETA_MAX;
   private static final Map<Pair<Integer, Integer>, List<Pair<Integer, Integer>>> candidatesPoints = new HashMap<>();
   private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
-  
-  public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
-                                   final int thetaIntervals,
-                                   final int phiIntervals) {
-    int toPhi = (int) (Math.max(image.getWidth(), image.getHeight()) * Math.sqrt(2) * 1);
-    return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaIntervals, -toPhi, toPhi, phiIntervals);
-  }
 
-  //Consider all possibles phis
-  public static PpmImage transform(final ATIImage image, final int sinusoidalCount, final int thetaIntervals) {
-    int toPhi = (int) (Math.max(image.getWidth(), image.getHeight()) * Math.sqrt(2));
-    return transform(image, sinusoidalCount, THETA_MIN, THETA_MAX, thetaIntervals, -toPhi, toPhi, toPhi * 2);
-  }
   
   public static PpmImage transform(final ATIImage image, final int sinusoidalCount,
                                    final double fromTheta, final double toTheta, final int thetaIntervals,
