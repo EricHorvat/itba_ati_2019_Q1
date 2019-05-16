@@ -43,14 +43,19 @@ public class ActiveContourFilter {
   
   private ActiveContourFilter() {}
   
-  public int[] applyRaw(){
-    int[] ans = sourceATIImage.toRGB();
+  public void applyRaw(){
+    int[] rgbArray = sourceATIImage.toRGB();
     int w = sourceATIImage.getWidth();
+    boolean outerBorderCheck = Lout.stream().noneMatch(elem -> fd(indexRGB(elem.getX(),elem.getY(),w),rgbArray) > 0);
+    boolean innerBorderCheck = Lin.stream().noneMatch(elem -> fd(indexRGB(elem.getX(),elem.getY(),w),rgbArray) < 0);
+    if(outerBorderCheck && innerBorderCheck && iter < maxIter)
+      return;
+    iter++;
     Iterator<CoordinatePair> lOutIt = Lout.iterator();
     Set<CoordinatePair> toAdd = new HashSet<>();
     while (lOutIt.hasNext()){
       CoordinatePair p = lOutIt.next();
-      if(fd(indexRGB(p.getX(),p.getY(),w),ans) > 0){
+      if(fd(indexRGB(p.getX(),p.getY(),w),rgbArray) > 0){
         Lin.add(p);
         fi[p.getX()][p.getY()] = -1;
         lOutIt.remove();
@@ -73,7 +78,7 @@ public class ActiveContourFilter {
     lInIt = Lin.iterator();
     while (lInIt.hasNext()){
       CoordinatePair p = lInIt.next();
-      if(fd(indexRGB(p.getX(),p.getY(),w),ans) < 0){
+      if(fd(indexRGB(p.getX(),p.getY(),w),rgbArray) < 0){
         Lout.add(p);
         fi[p.getX()][p.getY()] = 1;
         lInIt.remove();
@@ -92,17 +97,6 @@ public class ActiveContourFilter {
         fi[p.getX()][p.getY()] = 3;
       }
     }
-    for (int i = 0; i < sourceATIImage.getWidth(); i++) {
-      for (int j = 0; j < sourceATIImage.getHeight(); j++) {
-        if (fi[i][j] == -1){
-          int index = indexRGB(i,j,sourceATIImage.getWidth());
-          ans[red(index)] = 255;
-          ans[green(index)] = 0;
-          ans[blue(index)] = 0;
-        }
-      }
-    }
-    return ans;
   }
   
   public List<CoordinatePair> neighbours(CoordinatePair pair){
@@ -213,8 +207,29 @@ public class ActiveContourFilter {
     }
   }
   
-  public ATIImage apply(){
-    return new PpmImage(applyRaw(), sourceATIImage.getWidth(), sourceATIImage.getHeight());
+  public void apply(int n){
+    for (int i = 0; i < n; i++) {
+      applyRaw();
+    }
+  }
+  
+  private int[] arrayWithBorder(){
+    int[] ans = sourceATIImage.toRGB();
+    for (int i = 0; i < sourceATIImage.getWidth(); i++) {
+      for (int j = 0; j < sourceATIImage.getHeight(); j++) {
+        if (fi[i][j] == -1){
+          int index = indexRGB(i,j,sourceATIImage.getWidth());
+          ans[red(index)] = 255;
+          ans[green(index)] = 0;
+          ans[blue(index)] = 0;
+        }
+      }
+    }
+    return ans;
+  }
+  
+  public ATIImage getImage(){
+    return new PpmImage(arrayWithBorder(), sourceATIImage.getWidth(), sourceATIImage.getHeight());
   }
   
 }

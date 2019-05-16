@@ -34,11 +34,9 @@ public class ActiveContourFilterButtonListener implements ActionListener {
 
     int N = Integer.parseInt(nField.getText());
   
-    for (int i = 0; i < N - 1; i++) {
-      ActiveContourFilter.getInstance().apply();
-    }
+    ActiveContourFilter.getInstance().apply(N);
     
-    ATIImage resultImage = ActiveContourFilter.getInstance().apply();
+    ATIImage resultImage = ActiveContourFilter.getInstance().getImage();
     
     FrameFactory.fixedImageFrame(getTitle(), resultImage).buildAndShow();
   }
