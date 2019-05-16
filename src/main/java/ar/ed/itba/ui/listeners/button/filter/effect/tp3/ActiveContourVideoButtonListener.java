@@ -40,8 +40,8 @@ public class ActiveContourVideoButtonListener implements ActionListener {
     List<Long> times = new ArrayList<>();
     
     for (int i = 1; i <= lastFrame; i++) {
-      long millis = System.currentTimeMillis();
       ATIImage image = new ImageOpener().open(fPath + i + ext);
+      long millis = System.currentTimeMillis();
       ActiveContourFilter.getInstance().setImage(image);
       ActiveContourFilter.getInstance().apply();
       times.add(System.currentTimeMillis() - millis);
@@ -50,7 +50,7 @@ public class ActiveContourVideoButtonListener implements ActionListener {
       FrameFactory.fixedImageFrame(getTitle() + i, resultImage).buildAndShow();
     }
   
-    times.forEach((time)-> System.out.println(time + " " +((time * 1000) < (1 / 60.0) )));
+    times.forEach((time)-> System.out.println(time + " " +((time * 1000) < (1 / 30.0) )));
     
     
   }

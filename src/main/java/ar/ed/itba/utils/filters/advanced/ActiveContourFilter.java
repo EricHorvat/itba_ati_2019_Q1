@@ -226,8 +226,6 @@ public class ActiveContourFilter {
   
   public ATIImage getImage() {
     ATIImage atiImage = new PpmImage(sourceATIImage.toRGB(), sourceATIImage.getWidth(), sourceATIImage.getHeight());
-    Color outAvg = sourceATIImage.averageColor(Lout);
-    Color inAvg = sourceATIImage.averageColor(Lin);
     for (int i = 0; i < sourceATIImage.getWidth(); i++) {
       for (int j = 0; j < sourceATIImage.getHeight(); j++) {
         if (fi[i][j] == -1) {

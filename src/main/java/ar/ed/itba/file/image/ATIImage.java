@@ -157,19 +157,6 @@ public abstract class ATIImage {
 		int num = w * h;
 		return new Color((int) (sumG / num), (int) (sumR / num), (int) (sumB / num));
 	}
-  
-  
-  public Color averageColor(Set<CoordinatePair> coordList) {
-    long sumR = 0, sumG = 0, sumB = 0;
-    for (CoordinatePair p : coordList) {
-      Color pixel = new Color(getBufferedImage().getRGB(p.getX(), p.getY()));
-      sumR += pixel.getRed();
-      sumG += pixel.getGreen();
-      sumB += pixel.getBlue();
-    }
-    int num = coordList.size();
-    return new Color((int) (sumR / num), (int) (sumG / num), (int) (sumB / num));
-  }
 	
 	public abstract void save(final String fileName) throws Exception;
 
