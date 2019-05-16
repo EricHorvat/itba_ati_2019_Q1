@@ -18,5 +18,9 @@ public class ActiveContourFilterMenuButtonListener extends ATIMenuOptionsButtonL
     JTextField nField = new JTextField();
     options.add(nField);
     options.add(MenuOptionButtonFactory.activeContourFilterMenuOptionButton(nField));
+    options.add(new JLabel("Video Frames"));
+    JTextField frameField = new JTextField();
+    options.add(frameField);
+    options.add(MenuOptionButtonFactory.activeContourVideoMenuOptionButton(frameField));
   }
 }
