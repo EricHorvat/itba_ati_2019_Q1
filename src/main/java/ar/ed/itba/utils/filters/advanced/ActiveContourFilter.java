@@ -128,10 +128,10 @@ public class ActiveContourFilter {
     if (!outerSet || ! innerSet){
       DialogFactory.promptError("Regions not set");
     }
-    theta0 = sourceAtiImage.averageColor(inPFrom.getX(), inPFrom.getY(),
-      inPTo.getX() - inPFrom.getX(),inPTo.getY() - inPFrom.getY());
-    theta1 = sourceAtiImage.averageColor(outPFrom.getX(), outPFrom.getY(),
-      outPTo.getX() - outPFrom.getX(),outPTo.getY() - outPFrom.getY());
+    theta1 = sourceAtiImage.averageColor(inPFrom.reverse().getX(), inPFrom.reverse().getY(),
+      inPTo.reverse().getX() - inPFrom.reverse().getX(),inPTo.reverse().getY() - inPFrom.reverse().getY());
+    theta0 = sourceAtiImage.averageColor(outPFrom.reverse().getX(), outPFrom.reverse().getY(),
+      outPTo.reverse().getX() - outPFrom.reverse().getX(),outPTo.reverse().getY() - outPFrom.reverse().getY());
     Lin = new HashSet<>();
     Lout = new HashSet<>();
     fillFi();
