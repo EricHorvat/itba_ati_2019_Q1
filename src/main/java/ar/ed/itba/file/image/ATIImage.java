@@ -132,8 +132,8 @@ public abstract class ATIImage {
 			for (int y = y0; y < y1; y++) {
 				Color pixel = new Color(bi.getRGB(x, y));
 				sumr += pixel.getRed();
-				sumg += pixel.getGreen();
-				sumb += pixel.getBlue();
+				sumg += pixel.getBlue();
+				sumb += pixel.getGreen();
 			}
 			sumR += sumr;
 			sumG += sumg;
