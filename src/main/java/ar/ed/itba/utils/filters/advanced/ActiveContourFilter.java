@@ -2,11 +2,14 @@ package ar.ed.itba.utils.filters.advanced;
 
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
+import ar.ed.itba.file.pixel.Pixel;
+import ar.ed.itba.file.pixel.RGBPixel;
 import ar.ed.itba.ui.components.DialogFactory;
 import ar.ed.itba.utils.CoordinatePair;
 import javafx.util.Pair;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -221,23 +224,17 @@ public class ActiveContourFilter {
     apply(maxIter - iter);
   }
   
-  private int[] arrayWithBorder(){
-    int[] ans = sourceATIImage.toRGB();
+  public ATIImage getImage() {
+    ATIImage atiImage = new PpmImage(sourceATIImage.toRGB(), sourceATIImage.getWidth(), sourceATIImage.getHeight());
+    Color outAvg = sourceATIImage.averageColor(Lout);
+    Color inAvg = sourceATIImage.averageColor(Lin);
     for (int i = 0; i < sourceATIImage.getWidth(); i++) {
       for (int j = 0; j < sourceATIImage.getHeight(); j++) {
-        if (fi[i][j] == -1){
-          int index = indexRGB(i,j,sourceATIImage.getWidth());
-          ans[red(index)] = 255;
-          ans[green(index)] = 0;
-          ans[blue(index)] = 0;
+        if (fi[i][j] == -1) {
+          atiImage.setPixel(i, j, RGBPixel.negate((RGBPixel) atiImage.getPixel(i, j)));
         }
       }
     }
-    return ans;
+    return atiImage;
   }
-  
-  public ATIImage getImage(){
-    return new PpmImage(arrayWithBorder(), sourceATIImage.getWidth(), sourceATIImage.getHeight());
-  }
-  
 }

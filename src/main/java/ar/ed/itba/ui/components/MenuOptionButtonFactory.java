@@ -216,6 +216,10 @@ public final class MenuOptionButtonFactory {
   public static JButton activeContourFilterMenuOptionButton(JTextField nField){
     return applyButton(new ActiveContourFilterButtonListener(nField));
   }
+  
+  public static JButton activeContourVideoMenuOptionButton(JTextField frameField){
+    return applyButton(new ActiveContourVideoButtonListener(frameField));
+  }
 
   public static JButton setOuterActiveContourFilterMenuOptionButton(){
     JButton b = generateButton(new SetOuterActiveContourFilterButtonListener());

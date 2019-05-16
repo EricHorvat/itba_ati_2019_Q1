@@ -1,13 +1,17 @@
 package ar.ed.itba.file.image;
 
 import ar.ed.itba.file.pixel.Pixel;
+import ar.ed.itba.utils.CoordinatePair;
 import ar.ed.itba.utils.ImageUtils;
 import ar.ed.itba.utils.Region;
+import javafx.util.Pair;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class ATIImage {
@@ -23,16 +27,20 @@ public abstract class ATIImage {
 	protected final BufferedImage bufferedImage;
 	
 	protected final ImageMode imageMode;
-	
-	/* Constructors */
+  
+  private final String filePath;
+  
+  /* Constructors */
 	public ATIImage(BufferedImage bufferedImage, ImageMode imageMode) {
 		this.bufferedImage = bufferedImage;
 		this.imageMode = imageMode;
+		this.filePath = null;
 	}
-	
+
 	public ATIImage(String filePath, ImageMode imageMode) throws IOException {
 		this.bufferedImage = open(filePath);
 		this.imageMode = imageMode;
+		this.filePath = filePath;
 	}
 	
 	/* Abstract methods */
@@ -102,6 +110,10 @@ public abstract class ATIImage {
 		System.arraycopy(pixels, 0, imgData, 0, pixels.length);
 		return image;
 	}
+	
+	public String getFilePath(){
+	  return filePath;
+  }
 
 	//only for rgb images
 	public static BufferedImage byte2Buffered(int[] pixels, int width, int height, final int imageType) throws IllegalArgumentException {
@@ -145,6 +157,19 @@ public abstract class ATIImage {
 		int num = w * h;
 		return new Color((int) (sumG / num), (int) (sumR / num), (int) (sumB / num));
 	}
+  
+  
+  public Color averageColor(Set<CoordinatePair> coordList) {
+    long sumR = 0, sumG = 0, sumB = 0;
+    for (CoordinatePair p : coordList) {
+      Color pixel = new Color(getBufferedImage().getRGB(p.getX(), p.getY()));
+      sumR += pixel.getRed();
+      sumG += pixel.getGreen();
+      sumB += pixel.getBlue();
+    }
+    int num = coordList.size();
+    return new Color((int) (sumR / num), (int) (sumG / num), (int) (sumB / num));
+  }
 	
 	public abstract void save(final String fileName) throws Exception;
 

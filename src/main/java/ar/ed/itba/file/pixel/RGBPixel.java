@@ -22,4 +22,8 @@ public class RGBPixel extends Pixel {
     public byte getBlue() {
         return blue;
     }
+    
+    public static RGBPixel negate(RGBPixel p){
+      return new RGBPixel((byte)(255 - p.red),(byte) (255 - p.green), (byte)(255 - p.blue));
+    }
 }
