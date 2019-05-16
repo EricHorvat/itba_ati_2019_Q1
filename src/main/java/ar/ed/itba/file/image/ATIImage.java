@@ -60,7 +60,14 @@ public abstract class ATIImage {
 			view.setRGB(ox, y, ImageUtils.negateRGB(view.getRGB(ox, y)));
 			view.setRGB(ox + w, y, ImageUtils.negateRGB(view.getRGB(ox + w, y)));
 		}
-		return view;
+
+		byte[] imageBytes = ((DataBufferByte) view.getRaster().getDataBuffer()).getData();
+		if (this instanceof PpmImage)
+			return new PpmImage(imageBytes, view.getWidth(), view.getHeight()).view();
+		else if (this instanceof PbmImage)
+			return new PbmImage(imageBytes, view.getWidth(), view.getHeight()).view();
+		else
+			return new PgmImage(imageBytes, view.getWidth(), view.getHeight()).view();
 	}
 	
 	public abstract Pixel getPixel(final int i, final int j);
