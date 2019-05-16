@@ -9,7 +9,6 @@ import static ar.ed.itba.utils.ImageUtils.blue;
 public class SusanFilter extends MaskFilter {
   
   private final static int T = 27;
-  private final static boolean absoluteMode = true;
   private final static double N = 37.0;
   private final double epsilon;
   
@@ -57,34 +56,18 @@ public class SusanFilter extends MaskFilter {
             }
           }
           double sumRelative = sum / N;
-          if(absoluteMode) {
-            if (sumRelative < (0.5 - epsilon)) {
-              finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
-              finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
-              finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
-            } else if (sumRelative < (0.75 - epsilon)) {
-              finalRGBArray[red(indexRGB)] = 255;
-              finalRGBArray[green(indexRGB)] = 0;
-              finalRGBArray[blue(indexRGB)] = 0;
-            } else {
-              finalRGBArray[red(indexRGB)] = 0;
-              finalRGBArray[green(indexRGB)] = 255;
-              finalRGBArray[blue(indexRGB)] = 255;
-            }
+          if ((0.5 - epsilon) <= sumRelative && sumRelative <= 0.625) {
+            finalRGBArray[red(indexRGB)] = 255;
+            finalRGBArray[green(indexRGB)] = 0;
+            finalRGBArray[blue(indexRGB)] = 0;
+          } else if (0.625 < sumRelative && sumRelative < (0.75 + epsilon)) {
+            finalRGBArray[red(indexRGB)] = 0;
+            finalRGBArray[green(indexRGB)] = 128;
+            finalRGBArray[blue(indexRGB)] = 255;
           } else {
-            if (sumRelative > (0.5 - epsilon) && sumRelative < (0.5 + epsilon)) {
-              finalRGBArray[red(indexRGB)] = 255;
-              finalRGBArray[green(indexRGB)] = 0;
-              finalRGBArray[blue(indexRGB)] = 0;
-            } else if (sumRelative > (0.75 - epsilon) && sumRelative < (0.75 + epsilon)) {
-              finalRGBArray[red(indexRGB)] = 0;
-              finalRGBArray[green(indexRGB)] = 255;
-              finalRGBArray[blue(indexRGB)] = 255;
-            } else {
-              finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
-              finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
-              finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
-            }
+            finalRGBArray[red(indexRGB)] = sourceRGBArray[red(indexRGB)];
+            finalRGBArray[green(indexRGB)] = sourceRGBArray[green(indexRGB)];
+            finalRGBArray[blue(indexRGB)] = sourceRGBArray[blue(indexRGB)];
           }
         }
       }
