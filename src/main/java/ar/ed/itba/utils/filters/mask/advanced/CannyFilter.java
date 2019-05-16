@@ -3,6 +3,7 @@ package ar.ed.itba.utils.filters.mask.advanced;
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.file.image.PpmImage;
 import ar.ed.itba.ui.frames.FrameFactory;
+import ar.ed.itba.ui.frames.interfaces.FixedImageInterface;
 import ar.ed.itba.utils.filters.mask.MaskFilter;
 import ar.ed.itba.utils.filters.mask.gradient.GradientFilterType;
 import ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation;
@@ -47,7 +48,7 @@ public class CannyFilter extends MaskFilter {
     List<GaussianFilter> gaussianFilters = new ArrayList<>();
     gaussianFilters.add(new GaussianFilter(3)); // sigma = 1 ->  mask side 3
     gaussianFilters.add(new GaussianFilter(7)); // sigma = 3 ->  mask side 7
-    gaussianFilters.add(new GaussianFilter(11));// sigma = 5 ->  mask side 11
+    //gaussianFilters.add(new GaussianFilter(11));// sigma = 5 ->  mask side 11
     
     List<int[]> gaussianResultList =
       gaussianFilters.
@@ -151,9 +152,12 @@ public class CannyFilter extends MaskFilter {
     FrameFactory.fixedImageFrame("X result", new PpmImage(gxArray, imageWidth, imageHeight)).buildAndShow();
     FrameFactory.fixedImageFrame("Y result", new PpmImage(gyArray, imageWidth, imageHeight)).buildAndShow();
     PrefilterOrientation[] angleResult = new PrefilterOrientation[gxArray.length];
-    
+  
     for (int i = 0; i < gxArray.length; i++) {
       double angle = Math.atan2(gyArray[i], gxArray[i]);
+      if (gxArray[i] == 0){
+        angle = Math.PI/2;
+      }
       angleResult[i] = getAngle(angle);
       System.out.println(Math.toDegrees(angle) + " " + angleResult[i].name());
     }
@@ -165,6 +169,7 @@ public class CannyFilter extends MaskFilter {
     int delta1;
     int delta2;
     Boolean[] isBorder = new Boolean[sobelValues.length];
+    int[] analysedImage = new int[sobelValues.length];
     for (int i = 0; i < imageWidth; i++) {
       for (int j = 0; j < imageHeight; j++) {
         int indexRGB = indexRGB(i, j, imageWidth);
@@ -204,11 +209,17 @@ public class CannyFilter extends MaskFilter {
         }
       }
     }
+  
+    for (int i = 0; i < sobelValues.length; i++) {
+      analysedImage[i] = isBorder[i] ? sobelValues[i] : 0;
+    }
+    showInt(List.of(analysedImage),imageWidth, imageHeight, "Pre Histeresis values");
     return isBorder;
   }
   
   private Boolean[] histeresisUmbralization(Boolean[] originalArray, int[] sobelArray, int imageWidth, int imageHeight, int maskCenter) {
     Boolean[] isBorder = new Boolean[originalArray.length];
+    int[] analysedImage = new int[originalArray.length];
   
     for (int i = 0; i < imageWidth; i++) {
       for (int j = 0; j < imageHeight; j++) {
@@ -237,8 +248,9 @@ public class CannyFilter extends MaskFilter {
       }
     }
     for (int i = 0; i < originalArray.length; i++) {
-    
+      analysedImage[i] = isBorder[i] ? sobelArray[i] : 0;
     }
+    showInt(List.of(analysedImage),imageWidth, imageHeight, "Post Histeresis values");
     return isBorder;
   }
   
