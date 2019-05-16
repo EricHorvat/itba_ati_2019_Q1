@@ -159,10 +159,24 @@ public final class MenuOptionButtonFactory {
 	public static JButton generateRayleighMenuOptionButton(JTextField percentageField, JTextField phiField){
 		return generateButton(new GenerateRayleighButtonListener(percentageField, phiField));
 	}
-	
-	public static JButton generateExponentialMenuOptionButton(JTextField percentageField, JTextField lambdaField){
-		return generateButton(new GenerateExponentialButtonListener(percentageField, lambdaField));
-	}
+  
+  public static JButton generateExponentialMenuOptionButton(JTextField percentageField, JTextField lambdaField){
+    return generateButton(new GenerateExponentialButtonListener(percentageField, lambdaField));
+  }
+  
+  public static JButton generateHoughLinesMenuOptionButton(JTextField circumferenceCount,
+														   JTextField fromTheta, JTextField toTheta, JTextField thetaIntervals,
+														   JTextField fromPhi, JTextField toPhi, JTextField phiIntervals){
+    return generateButton(new GenerateHoughLinesButtonListener(circumferenceCount, fromTheta, toTheta, thetaIntervals, fromPhi, toPhi, phiIntervals));
+  }
+  
+  public static JButton generateHoughCirclesMenuOptionButton(JTextField circumferenceCount,
+  															 JTextField fromA, JTextField toA, JTextField aIntervals,
+															 JTextField fromB, JTextField toB, JTextField bIntervals,
+															 JTextField fromR, JTextField toR, JTextField rIntervals) {
+    return generateButton(new GenerateHoughCirclesButtonListener(circumferenceCount, fromA, toA, aIntervals, fromB, toB, bIntervals, fromR,
+			toR, rIntervals));
+  }
 	
 	/* END GENERATE */
 	/* FILTER */
