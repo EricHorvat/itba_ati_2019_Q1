@@ -29,6 +29,6 @@ public class CannyFilterButtonListener extends MaskFilterButtonListener {
 
   @Override
   public String getName() {
-    return "Isotropic Filter";
+    return "Canny Filter";
   }
 }

@@ -33,12 +33,6 @@ public class GaussianFilter extends WeightMaskFilter {
 			}
 			mask[i+center]=column;
 		}
-		// DEBUG SUM IN ONE LINE
-		for (int i = 0; i < maskSide; i++) {
-			for (int j = 0; j < maskSide; j++) {
-				mask[i][j] = mask[i][j] / sum;
-			}
-		}
 		return mask;
 	}
 	
