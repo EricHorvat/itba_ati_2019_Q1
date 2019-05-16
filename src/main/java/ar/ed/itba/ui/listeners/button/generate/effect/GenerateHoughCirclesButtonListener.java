@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 public class GenerateHoughCirclesButtonListener implements ActionListener {
 
+  private final JTextField circumferenceCount;
   private final JTextField fromA;
   private final JTextField toA;
   private final JTextField aIntervals;
@@ -21,9 +22,11 @@ public class GenerateHoughCirclesButtonListener implements ActionListener {
   private final JTextField toR;
   private final JTextField rIntervals;
 
-  public GenerateHoughCirclesButtonListener(JTextField fromA, JTextField toA, JTextField aIntervals,
+  public GenerateHoughCirclesButtonListener(JTextField circumferenceCount,
+                                        JTextField fromA, JTextField toA, JTextField aIntervals,
                                         JTextField fromB, JTextField toB, JTextField bIntervals,
                                         JTextField fromR, JTextField toR, JTextField rIntervals) {
+    this.circumferenceCount = circumferenceCount;
     this.fromA = fromA;
     this.toA = toA;
     this.aIntervals = aIntervals;
@@ -38,7 +41,10 @@ public class GenerateHoughCirclesButtonListener implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent actionEvent) {
     EditableImageFrame inputImageFrame = EditableImageFrame.instance();
-    PpmImage image = HoughCircular.transform(inputImageFrame.getAtiImage(), 10);
+    PpmImage image = HoughCircular.transform(inputImageFrame.getAtiImage(), Integer.parseInt(circumferenceCount.getText()),
+            Integer.parseInt(fromA.getText()), Integer.parseInt(toA.getText()), Integer.parseInt(aIntervals.getText()),
+            Integer.parseInt(fromB.getText()), Integer.parseInt(toB.getText()), Integer.parseInt(bIntervals.getText()),
+            Integer.parseInt(fromR.getText()), Integer.parseInt(toR.getText()), Integer.parseInt(rIntervals.getText()));
   
     FrameFactory.fixedImageFrame("HoughCircular", image).buildAndShow();
   }

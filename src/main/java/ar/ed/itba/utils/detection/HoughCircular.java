@@ -14,22 +14,8 @@ public class HoughCircular {
   private static final PriorityQueue<Integer> storageMaxValues = new PriorityQueue<>(Collections.reverseOrder());
 
   public static PpmImage transform(final ATIImage image, final int circumferenceCount,
-                                   final int aIntervals,
-                                   final int bIntervals) {
-    final double diagonal = Math.sqrt(Math.pow(image.getWidth(),2) + Math.pow(image.getHeight(),2));
-    return transform(image, circumferenceCount, 0, image.getWidth(), aIntervals, 0, image.getHeight(), bIntervals,
-      1, (int)diagonal, 1);
-  }
-
-  public static PpmImage transform(final ATIImage image, final int circumferenceCount) {
-    final double diagonal = Math.sqrt(Math.pow(image.getWidth(), 2) + Math.pow(image.getHeight(), 2));
-    return transform(image, circumferenceCount, 0, image.getWidth(), image.getWidth(), 0, image.getHeight(), image.getHeight(),
-            15, 40, 1);
-  }
-
-  public static PpmImage transform(final ATIImage image, final int circumferenceCount,
-                                   final double fromA, final double toA, final int aIntervals,
-                                   final double fromB, final double toB, final int bIntervals,
+                                   final int fromA, final int toA, final int aIntervals,
+                                   final int fromB, final int toB, final int bIntervals,
                                    final int fromR, final int toR, final int rStep) {
 
     if (aIntervals < 1|| bIntervals < 1 || rStep < 1)
@@ -45,8 +31,8 @@ public class HoughCircular {
     if (fromR < 0 || toR > diagonal)
       throw new IllegalArgumentException("r is out of bounds");
 
-    double aStep = Math.round((toA - fromA) / aIntervals);
-    double bStep = Math.round((toB - fromB) / bIntervals);
+    double aStep = Math.round((double) (toA - fromA) / aIntervals);
+    double bStep = Math.round((double) (toB - fromB) / bIntervals);
     double rIntervals = Math.round(toR - fromR) / rStep;
 
     final Pair<Integer, Pair<Integer, Integer>> storageMatrixDim = new Pair<>(aIntervals + 1, new Pair<>(bIntervals + 1, (int)rIntervals + 1));

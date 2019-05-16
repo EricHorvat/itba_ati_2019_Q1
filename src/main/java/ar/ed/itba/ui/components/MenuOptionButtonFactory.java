@@ -168,8 +168,12 @@ public final class MenuOptionButtonFactory {
     return generateButton(new GenerateHoughLinesButtonListener());
   }
   
-  public static JButton generateHoughCirclesMenuOptionButton(){
-    return generateButton(new GenerateHoughCirclesButtonListener());
+  public static JButton generateHoughCirclesMenuOptionButton(JTextField circumferenceCount,
+  															 JTextField fromA, JTextField toA, JTextField aIntervals,
+															 JTextField fromB, JTextField toB, JTextField bIntervals,
+															 JTextField fromR, JTextField toR, JTextField rIntervals) {
+    return generateButton(new GenerateHoughCirclesButtonListener(circumferenceCount, fromA, toA, aIntervals, fromB, toB, bIntervals, fromR,
+			toR, rIntervals));
   }
 	
 	/* END GENERATE */
