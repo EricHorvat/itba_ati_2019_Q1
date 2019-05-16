@@ -10,7 +10,6 @@ import java.util.List;
 
 import static ar.ed.itba.utils.ImageUtils.*;
 import static ar.ed.itba.utils.ImageUtils.blue;
-import static ar.ed.itba.utils.filters.mask.advanced.CannyHelper.DebugHelper.showInt;
 import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
 
 /*package*/ class CannyHelper {
@@ -22,15 +21,13 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
     private final static double PI5DIV8 = 5 * Math.PI / 8;
     private final static double PI7DIV8 = 7 * Math.PI / 8;
   
-    /*package*/ static PrefilterOrientation[] getGradientAngles(int[] sobelResult, int imageWidth, int imageHeight) {
+    /*package*/ static PrefilterOrientation[] getGradientAngles(int[] valueArray, int imageWidth, int imageHeight) {
     
       SobelFilter xSobelFilter = new SobelFilter(GradientFilterType.HOR);
       SobelFilter ySobelFilter = new SobelFilter(GradientFilterType.VER);
-      int[] gxArray = xSobelFilter.applyFilterRaw(sobelResult, true, imageWidth, imageHeight);
-      int[] gyArray = ySobelFilter.applyFilterRaw(sobelResult, true, imageWidth, imageHeight);
+      int[] gxArray = xSobelFilter.applyFilterRaw(valueArray, false, imageWidth, imageHeight);
+      int[] gyArray = ySobelFilter.applyFilterRaw(valueArray, false, imageWidth, imageHeight);
     
-      FrameFactory.fixedImageFrame("X result", new PpmImage(gxArray, imageWidth, imageHeight)).buildAndShow();
-      FrameFactory.fixedImageFrame("Y result", new PpmImage(gyArray, imageWidth, imageHeight)).buildAndShow();
       PrefilterOrientation[] angleResult = new PrefilterOrientation[gxArray.length];
     
       for (int i = 0; i < gxArray.length; i++) {
@@ -72,11 +69,9 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
     }
     
     /*package*/ static Boolean[] nonMaximumSuppresion(int[] sobelValues, int maskCenter /*sigma*/, int imageWidth, int imageHeight, PrefilterOrientation[] anglesArray) {
-    
       int delta1;
       int delta2;
       Boolean[] isBorder = new Boolean[sobelValues.length];
-      int[] analysedImage = new int[sobelValues.length];
       for (int i = 0; i < imageWidth; i++) {
         for (int j = 0; j < imageHeight; j++) {
           int indexRGB = indexRGB(i, j, imageWidth);
@@ -117,16 +112,11 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
         }
       }
     
-      for (int i = 0; i < sobelValues.length; i++) {
-        analysedImage[i] = isBorder[i] ? sobelValues[i] : 0;
-      }
-      showInt(List.of(analysedImage),imageWidth, imageHeight, "Pre Histeresis values");
       return isBorder;
     }
   
     /*package*/ static Boolean[] hysteresisThreshold (Boolean[] originalArray, int[] sobelArray, int imageWidth, int imageHeight, int maskCenter, int t1, int t2) {
       Boolean[] isBorder = new Boolean[originalArray.length];
-      int[] analysedImage = new int[originalArray.length];
     
       for (int i = 0; i < imageWidth; i++) {
         for (int j = 0; j < imageHeight; j++) {
@@ -154,10 +144,6 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
           }
         }
       }
-      for (int i = 0; i < originalArray.length; i++) {
-        analysedImage[i] = isBorder[i] ? sobelArray[i] : 0;
-      }
-      showInt(List.of(analysedImage),imageWidth, imageHeight, "Post Histeresis values");
       return isBorder;
     }
   }
@@ -197,7 +183,7 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
       return ansArr;
     }
   
-    private static int[] toRGBArray(Boolean[] booleanImage) {
+    /*package*/ static int[] toRGBArray(Boolean[] booleanImage) {
       int[] ansArr = new int[booleanImage.length];
       for (int i = 0; i < booleanImage.length; i++) {
         ansArr[i] = booleanImage[i] ? 255 : 0;

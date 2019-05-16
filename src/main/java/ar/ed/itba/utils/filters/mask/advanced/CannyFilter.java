@@ -36,37 +36,33 @@ public class CannyFilter extends MaskFilter {
     List<GaussianFilter> gaussianFilters = new ArrayList<>();
     gaussianFilters.add(new GaussianFilter(3)); // sigma = 1 ->  mask side 3
     gaussianFilters.add(new GaussianFilter(7)); // sigma = 3 ->  mask side 7
-    //gaussianFilters.add(new GaussianFilter(11));// sigma = 5 ->  mask side 11
+    gaussianFilters.add(new GaussianFilter(11));// sigma = 5 ->  mask side 11
     
     List<int[]> gaussianResultList =
       gaussianFilters.
         stream().
         map(gaussianFilter -> gaussianFilter.applyFilterRaw(sourceRGBArray, true, imageWidth, imageHeight)).
-        collect(Collectors.toList());
-  
-    showInt(gaussianResultList, imageWidth, imageHeight, "Gauss");
+        map(gaussianFilter -> sourceRGBArray)
+        .collect(Collectors.toList());
     
-    List<int[]> sobelResultList =
+    List<int[]> magnitudeResultList =
       gaussianResultList.
         stream().
         map(gaussianResult -> new SobelFilter(MOD, true).applyFilterRaw(gaussianResult, true, imageWidth, imageHeight)).
         collect(Collectors.toList());
 
-    showInt(sobelResultList, imageWidth, imageHeight, "Sobel");
-  
     List<PrefilterOrientation[]> angleResultList =
-      sobelResultList.
+      gaussianResultList.
+      //magnitudeResultList.
         stream().
-        map(sobelResultArray -> getGradientAngles(sobelResultArray, imageWidth, imageHeight)).
+        map(magnitudeResultArray -> getGradientAngles(magnitudeResultArray, imageWidth, imageHeight)).
         collect(Collectors.toList());
 
-    showOri(angleResultList, imageWidth, imageHeight, "Angle");
-    
     List<Boolean[]> isBorderAList =
       angleResultList.
         stream().
         map(elem -> nonMaximumSuppresion(
-          sobelResultList.get(angleResultList.indexOf(elem)),
+          magnitudeResultList.get(angleResultList.indexOf(elem)),
           2 * angleResultList.indexOf(elem) + 1, // 0 -> 1; 1 -> 3; 2 -> 5
           imageWidth,
           imageHeight,
@@ -74,14 +70,12 @@ public class CannyFilter extends MaskFilter {
         )
         .collect(Collectors.toList());
   
-    showBoolean(isBorderAList, imageWidth, imageHeight, "BorderA");
-  
     List<Boolean[]> isBorderBList =
       isBorderAList.
         stream().
         map(elem -> hysteresisThreshold(
           elem,
-          sobelResultList.get(isBorderAList.indexOf(elem)),
+          magnitudeResultList.get(isBorderAList.indexOf(elem)),
           imageWidth,
           imageHeight,
           2 * isBorderAList.indexOf(elem) + 1, // 0 -> 1; 1 -> 3; 2 -> 5
@@ -90,8 +84,6 @@ public class CannyFilter extends MaskFilter {
         )).
         collect(Collectors.toList());
   
-    showBoolean(isBorderBList, imageWidth, imageHeight, "BorderB");
-    
     Boolean[] booleans = isBorderBList.stream().reduce((elem1, elem2) -> {
       for (int i = 0; i < elem1.length; i++) {
         elem1[i] &= elem2[i];
@@ -100,12 +92,7 @@ public class CannyFilter extends MaskFilter {
     })
       .orElse(new Boolean[0]);
   
-    int[] finalRGBArray = new int[booleans.length];
-  
-    for (int i = 0; i < booleans.length; i++) {
-      finalRGBArray[i] = booleans[i] ? 255 : 0;
-    }
-    return finalRGBArray;
+    return toRGBArray(booleans);
   }
   
 }
