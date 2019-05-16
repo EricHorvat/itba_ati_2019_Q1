@@ -114,10 +114,14 @@ public class ActiveContourFilter {
     return ans;
   }
   
-  public void set(ATIImage sourceAtiImage, int N){
+  public void setImage(ATIImage sourceATIImage){
     this.iter = 0;
+    this.sourceATIImage = sourceATIImage;
+  }
+  
+  public void set(ATIImage sourceAtiImage, int N){
     this.maxIter = N;
-    this.sourceATIImage = sourceAtiImage;
+    setImage(sourceAtiImage);
     if (!outerSet || ! innerSet){
       DialogFactory.promptError("Regions not set");
     }
