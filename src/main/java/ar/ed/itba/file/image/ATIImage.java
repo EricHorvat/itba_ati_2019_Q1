@@ -131,9 +131,9 @@ public abstract class ATIImage {
 		for (int x = x0; x < x1; x++) {
 			for (int y = y0; y < y1; y++) {
 				Color pixel = new Color(bi.getRGB(x, y));
-				sumr += pixel.getRed();
+				sumr += pixel.getGreen();
 				sumg += pixel.getBlue();
-				sumb += pixel.getGreen();
+				sumb += pixel.getRed();
 			}
 			sumR += sumr;
 			sumG += sumg;
@@ -143,7 +143,7 @@ public abstract class ATIImage {
 			sumb = 0;
 		}
 		int num = w * h;
-		return new Color((int) (sumR / num), (int) (sumG / num), (int) (sumB / num));
+		return new Color((int) (sumG / num), (int) (sumR / num), (int) (sumB / num));
 	}
 	
 	public abstract void save(final String fileName) throws Exception;
