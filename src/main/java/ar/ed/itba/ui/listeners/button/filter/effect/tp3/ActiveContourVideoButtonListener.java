@@ -9,9 +9,11 @@ import ar.ed.itba.utils.filters.advanced.ActiveContourFilter;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.*;
 
@@ -35,21 +37,21 @@ public class ActiveContourVideoButtonListener implements ActionListener {
     String ext = fPath.substring(fPath.length() - 4);
     fPath = fPath.substring(0,fPath.length() - 5);
     int lastFrame = Integer.parseInt(framesField.getText());
-    long[] times = new long[lastFrame];
+    List<Long> times = new ArrayList<>();
     
-    for (int i = 4; i <= lastFrame; i++) {
+    for (int i = 1; i <= lastFrame; i++) {
       long millis = System.currentTimeMillis();
       ATIImage image = new ImageOpener().open(fPath + i + ext);
       ActiveContourFilter.getInstance().setImage(image);
       ActiveContourFilter.getInstance().apply();
-      times[i] = System.currentTimeMillis() - millis;
+      times.add(System.currentTimeMillis() - millis);
       ATIImage resultImage = ActiveContourFilter.getInstance().getImage();
   
       FrameFactory.fixedImageFrame(getTitle() + i, resultImage).buildAndShow();
     }
   
-    //List<Boolean> aaa = stream(times).map((time)->  (time * 1000) < (1 / 60.0) ).collect(Collections.toList());
-
+    times.forEach((time)-> System.out.println(time + " " +((time * 1000) < (1 / 60.0) )));
+    
     
   }
 }
