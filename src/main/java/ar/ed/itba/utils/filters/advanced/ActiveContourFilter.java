@@ -28,7 +28,6 @@ public class ActiveContourFilter {
   private int iter = 0;
   private Color theta0 = new Color(0,0,0);
   private Color theta1 = new Color(0,0,0);
-  private Set<CoordinatePair> In = new HashSet<>();
   private Set<CoordinatePair> Lin = new HashSet<>();
   private Set<CoordinatePair> Lout = new HashSet<>();
   private int[][] fi;
@@ -106,12 +105,18 @@ public class ActiveContourFilter {
     return ans;
   }
   
-  public List<CoordinatePair> neighbours(CoordinatePair p){
+  public List<CoordinatePair> neighbours(CoordinatePair pair){
     ArrayList<CoordinatePair> ans = new ArrayList<>();
-    ans.add(new CoordinatePair(p.getX(),p.getY() + 1));
-    ans.add(new CoordinatePair(p.getX(),p.getY() - 1));
-    ans.add(new CoordinatePair(p.getX() + 1,p.getY()));
-    ans.add(new CoordinatePair(p.getX() - 1,p.getY()));
+    ans.add(new CoordinatePair(pair.getX(),pair.getY() + 1));
+    ans.add(new CoordinatePair(pair.getX(),pair.getY() - 1));
+    ans.add(new CoordinatePair(pair.getX() + 1,pair.getY()));
+    ans.add(new CoordinatePair(pair.getX() - 1,pair.getY()));
+    ans = (ArrayList<CoordinatePair>) ans.stream().filter(
+      p ->
+        p.getX() >= 0 && p.getX() < sourceATIImage.getWidth()
+          && p.getY() >= 0 && p.getY() < sourceATIImage.getWidth())
+      .collect(Collectors.toList());
+    
     return ans;
   }
   
@@ -126,6 +131,8 @@ public class ActiveContourFilter {
       inPTo.getX() - inPFrom.getX(),inPTo.getY() - inPFrom.getY());
     theta1 = sourceAtiImage.averageColor(outPFrom.getX(), outPFrom.getY(),
       outPTo.getX() - outPFrom.getX(),outPTo.getY() - outPFrom.getY());
+    Lin = new HashSet<>();
+    Lout = new HashSet<>();
     fillFi();
     setLs();
   }
@@ -158,7 +165,7 @@ public class ActiveContourFilter {
   
     for (int x = inPFrom.getX() + 1; x < inPTo.getX(); x++) {
       for (int y = inPFrom.getY() + 1; y < inPTo.getY(); y++) {
-        In.add(new CoordinatePair(x,y));
+        //In.add(new CoordinatePair(x,y));
   
         fi[x][y] = -3;
         fi[x][y] = -3;
