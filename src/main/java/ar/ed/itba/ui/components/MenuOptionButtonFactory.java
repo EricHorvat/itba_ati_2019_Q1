@@ -223,10 +223,16 @@ public final class MenuOptionButtonFactory {
     return b;
     
   }
-
+  
   public static JButton setInnerActiveContourFilterMenuOptionButton(){
     JButton b = generateButton(new SetInnerActiveContourFilterButtonListener());
     b.setText("Set Inner");
+    return b;
+  }
+  
+  public static JButton setParamsActiveContourFilterMenuOptionButton(JTextField nMax){
+    JButton b = generateButton(new SetActiveContourFilterButtonListener(nMax));
+    b.setText("Set Max Iterations");
     return b;
   }
   

@@ -32,9 +32,12 @@ public class ActiveContourFilterButtonListener implements ActionListener {
     
     ActiveContourFilter.getInstance();
 
-    int N = Integer.parseInt(nField.getText());
-  
-    ActiveContourFilter.getInstance().apply(N);
+    if (!nField.getText().equals("")) {
+      int N = Integer.parseInt(nField.getText());
+      ActiveContourFilter.getInstance().apply(N);
+    } else {
+      ActiveContourFilter.getInstance().apply();
+    }
     
     ATIImage resultImage = ActiveContourFilter.getInstance().getImage();
     

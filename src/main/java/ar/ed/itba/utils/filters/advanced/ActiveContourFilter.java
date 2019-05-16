@@ -213,6 +213,10 @@ public class ActiveContourFilter {
     }
   }
   
+  public void apply(){
+    apply(maxIter - iter);
+  }
+  
   private int[] arrayWithBorder(){
     int[] ans = sourceATIImage.toRGB();
     for (int i = 0; i < sourceATIImage.getWidth(); i++) {
