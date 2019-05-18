@@ -13,12 +13,12 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.TP2P5AFilterBut
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LaplacianFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp3.*;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp4.HarrisButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 import static ar.ed.itba.utils.filters.mask.gradient.GradientFilterType.*;
@@ -252,6 +252,10 @@ public final class MenuOptionButtonFactory {
     JButton b = generateButton(new SetActiveContourFilterButtonListener(nMax));
     b.setText("Set Max Iterations");
     return b;
+  }
+  
+  public static JButton harrisMenuOptionButton(JTextField thresholdField){
+    return generateButton(new HarrisButtonListener(thresholdField));
   }
   
   public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
