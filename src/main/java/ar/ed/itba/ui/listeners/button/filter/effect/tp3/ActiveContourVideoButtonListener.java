@@ -4,6 +4,7 @@ import ar.ed.itba.file.ImageOpener;
 import ar.ed.itba.file.image.ATIImage;
 import ar.ed.itba.ui.frames.EditableImageFrame;
 import ar.ed.itba.ui.frames.FrameFactory;
+import ar.ed.itba.ui.frames.VideoImageFrame;
 import ar.ed.itba.utils.filters.advanced.ActiveContourFilter;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class ActiveContourVideoButtonListener implements ActionListener {
   }
   
   public String getTitle() {
-    return "Active Contour";
+    return "Active Contour Video";
   }
   
   @Override
@@ -38,6 +39,9 @@ public class ActiveContourVideoButtonListener implements ActionListener {
     fPath = fPath.substring(0,fPath.length() - 5);
     int lastFrame = Integer.parseInt(framesField.getText());
     List<Long> times = new ArrayList<>();
+    VideoImageFrame.instance().setTitle(getTitle());
+    VideoImageFrame.instance().setAtiImage(EditableImageFrame.instance().getAtiImage());
+    VideoImageFrame.instance().buildAndShow();
     
     for (int i = 1; i <= lastFrame; i++) {
       ATIImage image = new ImageOpener().open(fPath + i + ext);
@@ -47,7 +51,8 @@ public class ActiveContourVideoButtonListener implements ActionListener {
       times.add(System.currentTimeMillis() - millis);
       ATIImage resultImage = ActiveContourFilter.getInstance().getImage();
   
-      FrameFactory.fixedImageFrame(getTitle() + i, resultImage).buildAndShow();
+      VideoImageFrame.instance().setAtiImage(resultImage);
+      //VideoImageFrame.instance().makeShow();
     }
   
     times.forEach((time)-> System.out.println(time + " " +((time * 1000) < (1 / 30.0) )));

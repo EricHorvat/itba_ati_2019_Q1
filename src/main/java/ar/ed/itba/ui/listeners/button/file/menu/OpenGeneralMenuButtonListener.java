@@ -16,7 +16,8 @@ public class OpenGeneralMenuButtonListener extends ATIMenuOptionsButtonListener 
 		options.add(filePathField);
 		options.add(MenuOptionButtonFactory.openFileMenuOptionButton(filePathField));
 		options.add(MenuOptionButtonFactory.openTESTFileMenuOptionButton());
-		options.add(MenuOptionButtonFactory.openLenaFileMenuOptionButton());
+    options.add(MenuOptionButtonFactory.openLenaFileMenuOptionButton());
+    options.add(MenuOptionButtonFactory.openSynteticVideoFileMenuOptionButton());
 	}
 	
 }
