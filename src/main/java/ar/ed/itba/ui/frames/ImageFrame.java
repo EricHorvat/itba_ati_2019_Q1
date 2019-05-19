@@ -7,7 +7,6 @@ import ar.ed.itba.utils.Region;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Time;
 
 public abstract class ImageFrame extends ATIFrame {
 	
@@ -51,8 +50,6 @@ public abstract class ImageFrame extends ATIFrame {
 	
 	public void updateImage(){
 		anInterface.getImageLabel().setIcon(new ImageIcon(isRegionated()?atiImage.regionatedView(getRegion()):atiImage.view()));
-		JLabel jLabel = anInterface.getImageLabel();
-    jLabel.paintImmediately(jLabel.getVisibleRect());
 	}
 	
 	@Override
