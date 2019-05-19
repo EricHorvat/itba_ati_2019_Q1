@@ -29,11 +29,9 @@ public class FrameFactory {
 			return false;
 		}
 			
-			/*TODO MOVE TO UTILS FINAL STATIC*/ private final Region empty = new Region(0,0,0,0);
-			
 			@Override
 			public Region getRegion() {
-			return empty;
+			return Region.empty();
 		}
 	}
 	
