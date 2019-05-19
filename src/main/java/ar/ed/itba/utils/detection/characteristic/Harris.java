@@ -22,6 +22,7 @@ public class Harris  {
     int[] Iy = getIy(sourceRGBArray, imageWidth, imageHeight);
     
     GaussianFilter g = new GaussianFilter(7);
+    g.setSigma(2);
   
     int[] Ix2 = ImageUtils.pow(Ix,2,imageWidth,imageHeight,false);
     int[] Iy2 = ImageUtils.pow(Iy,2,imageWidth,imageHeight,false);
