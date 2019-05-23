@@ -25,4 +25,8 @@ public class Region {
 	public int getH() {
 		return h;
 	}
+	
+	public static Region empty(){
+	  return new Region(0,0,0,0);
+  }
 }

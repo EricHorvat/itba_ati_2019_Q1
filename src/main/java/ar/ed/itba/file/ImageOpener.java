@@ -33,6 +33,13 @@ public /*abstract*/ class ImageOpener {
 				case ".ppm":
 					image = new PpmImage(filePath);
 					break;
+        case "jpeg":
+          if (filePath.charAt(filePath.length()-5) != '.')
+            return null;
+        case ".jpg":
+        case ".png":
+          image = new GeneralImage(filePath);
+          break;
 				default:
 					DialogFactory.promptError("Incompatible file extension" + filePath);
 					return null;

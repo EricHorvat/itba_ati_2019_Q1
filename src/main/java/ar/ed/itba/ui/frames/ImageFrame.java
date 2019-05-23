@@ -5,6 +5,8 @@ import ar.ed.itba.ui.frames.interfaces.ImageInterface;
 import ar.ed.itba.utils.Region;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public abstract class ImageFrame extends ATIFrame {
 	
@@ -28,7 +30,9 @@ public abstract class ImageFrame extends ATIFrame {
 	public void build(){
 		if (atiImage != null) {
 			super.build();
-			updateImage();
+      Timer t = new Timer(1/30000, new UpdateImage());
+      t.start();
+      updateImage();
 		} else {
 			/*TODO THROW EXCEPTION*/
 			throw new RuntimeException("ATI IMAGE IS NULL");
@@ -50,11 +54,17 @@ public abstract class ImageFrame extends ATIFrame {
 	
 	@Override
 	public void pack() {
-		updateImage();
 		super.pack();
 	}
 	
 	public abstract boolean isRegionated();
 	
 	public abstract Region getRegion();
+	
+	private class UpdateImage implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+      updateImage();
+    }
+  }
 }

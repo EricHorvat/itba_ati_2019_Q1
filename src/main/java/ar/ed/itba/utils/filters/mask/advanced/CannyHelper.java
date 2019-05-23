@@ -91,12 +91,12 @@ import static ar.ed.itba.utils.filters.mask.gradient.PrefilterOrientation.*;
                 delta2 = indexRGB(-1, 1, imageWidth);
                 break;
               case X:
-                delta1 = indexRGB(-1, 0, imageWidth);
-                delta2 = indexRGB(1, 0, imageWidth);
-                break;
-              case Y:
                 delta1 = indexRGB(0, -1, imageWidth);
                 delta2 = indexRGB(0, 1, imageWidth);
+                break;
+              case Y:
+                delta1 = indexRGB(-1, 0, imageWidth);
+                delta2 = indexRGB(1, 0, imageWidth);
                 break;
               default:
                 isBorder[red(indexRGB)] = false;

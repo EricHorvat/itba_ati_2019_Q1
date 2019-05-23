@@ -74,8 +74,10 @@ public abstract class ATIImage {
 			return new PpmImage(imageBytes, view.getWidth(), view.getHeight()).view();
 		else if (this instanceof PbmImage)
 			return new PbmImage(imageBytes, view.getWidth(), view.getHeight()).view();
-		else
+		else if (this instanceof PgmImage)
 			return new PgmImage(imageBytes, view.getWidth(), view.getHeight()).view();
+		else
+		  return new GeneralImage(imageBytes, view.getWidth(), view.getHeight()).view();
 	}
 	
 	public abstract Pixel getPixel(final int i, final int j);

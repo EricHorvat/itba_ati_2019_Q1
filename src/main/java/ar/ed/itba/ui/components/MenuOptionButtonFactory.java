@@ -42,12 +42,18 @@ public final class MenuOptionButtonFactory {
 		button.setText("Reset file");
 		return button;
 	}
-	
-	public static JButton openTESTFileMenuOptionButton(){
-		JButton button = applyButton(new OpenFixedFileButtonListener("./res/TEST.PGM"));
-		button.setText("Open Test file");
-		return button;
-	}
+  
+  public static JButton openSynteticVideoFileMenuOptionButton(){
+    JButton button = applyButton(new OpenFixedFileButtonListener("./res/video/a1.ppm"));
+    button.setText("Open Video file");
+    return button;
+  }
+  
+  public static JButton openTESTFileMenuOptionButton(){
+    JButton button = applyButton(new OpenFixedFileButtonListener("./res/TEST.PGM"));
+    button.setText("Open Test file");
+    return button;
+  }
 	
 	public static JButton openLenaFileMenuOptionButton(){
 		JButton button = applyButton(new OpenFixedFileButtonListener("./res/LENA.RAW"));
