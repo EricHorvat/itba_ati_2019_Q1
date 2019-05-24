@@ -8,13 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
 
 import static ar.ed.itba.utils.ImageUtils.*;
-import static java.lang.Character.isDigit;
-import static java.lang.Character.isWhitespace;
 
 public class GeneralImage extends ATIImage {
   
@@ -28,12 +23,26 @@ public class GeneralImage extends ATIImage {
   
   @Override
   protected BufferedImage open(String filePath) throws IOException {
-    return ImageIO.read(new File(filePath));
+    BufferedImage bufferedImage = ImageIO.read(new File(filePath));
+    return new GeneralImage(swapRB(((DataBufferByte) bufferedImage.getRaster().getDataBuffer()).getData()), bufferedImage.getWidth(),
+            bufferedImage.getHeight()).getBufferedImage();
   }
-  
+
+  private byte[] swapRB(final byte[] image) {
+    //swap red coordinate with blue
+    final byte[] aux = new byte[image.length];
+    for (int i = 0, j = 2 ; j < image.length ; i += 3, j = i + 2) {
+      byte aux2 = image[i];
+      aux[i] = image[j];
+      aux[i+1] = image[i+1];
+      aux[j] = aux2;
+    }
+    return aux;
+  }
+
   @Override
   public BufferedImage view() {
-    return bufferedImage;
+    return new GeneralImage(swapRB(getImage()), getWidth(), getHeight()).getBufferedImage();
   }
   
   @Override
