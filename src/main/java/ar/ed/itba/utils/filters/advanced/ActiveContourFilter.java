@@ -110,8 +110,8 @@ public class ActiveContourFilter {
     ans.add(new CoordinatePair(pair.getX() - 1,pair.getY()));
     ans = (ArrayList<CoordinatePair>) ans.stream().filter(
       p ->
-        p.getX() >= 0 && p.getX() < sourceATIImage.getWidth()
-          && p.getY() >= 0 && p.getY() < sourceATIImage.getHeight())
+        p.getX() >= 0 && p.getX() < sourceATIImage.getHeight()
+          && p.getY() >= 0 && p.getY() < sourceATIImage.getWidth())
       .collect(Collectors.toList());
     
     return ans;
@@ -206,9 +206,9 @@ public class ActiveContourFilter {
   }
   
   private void fillFi() {
-    fi = new int[sourceATIImage.getWidth()][sourceATIImage.getHeight()];
-    for (int x = 0; x < sourceATIImage.getWidth(); x++) {
-      for (int y = 0; y < sourceATIImage.getHeight(); y++) {
+    fi = new int[sourceATIImage.getHeight()][sourceATIImage.getWidth()];
+    for (int x = 0; x < sourceATIImage.getHeight(); x++) {
+      for (int y = 0; y < sourceATIImage.getWidth(); y++) {
         fi[x][y] = 3;
       }
     }
@@ -226,8 +226,8 @@ public class ActiveContourFilter {
   
   public ATIImage getImage() {
     ATIImage atiImage = new PpmImage(sourceATIImage.toRGB(), sourceATIImage.getWidth(), sourceATIImage.getHeight());
-    for (int i = 0; i < sourceATIImage.getWidth(); i++) {
-      for (int j = 0; j < sourceATIImage.getHeight(); j++) {
+    for (int i = 0; i < sourceATIImage.getHeight(); i++) {
+      for (int j = 0; j < sourceATIImage.getWidth(); j++) {
         if (fi[i][j] == -1) {
           atiImage.setPixel(i, j, RGBPixel.negate((RGBPixel) atiImage.getPixel(i, j)));
         }
