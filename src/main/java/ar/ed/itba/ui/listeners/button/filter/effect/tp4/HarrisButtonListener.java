@@ -15,10 +15,10 @@ import java.awt.event.ActionListener;
 
 public class HarrisButtonListener implements ActionListener {
   
-  private final JTextField thresholdField;
+  private final JTextField toleranceField;
   
-  public HarrisButtonListener(JTextField thresholdField) {
-    this.thresholdField = thresholdField;
+  public HarrisButtonListener(JTextField toleranceField) {
+    this.toleranceField = toleranceField;
   }
   
   public String getTitle() {
@@ -28,15 +28,15 @@ public class HarrisButtonListener implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent actionEvent) {
   
-    int threshold = 0 ;
-    if (!thresholdField.getText().equals("")) {
-      threshold = Integer.parseInt(thresholdField.getText());
+    double tolerance = 0 ;
+    if (!toleranceField.getText().equals("")) {
+      tolerance = Double.parseDouble(toleranceField.getText());
     } else {
-      threshold = 150;
+      tolerance = 0.5;
     }
   
   
-    ATIImage resultImage = new Harris().applyFilter(EditableImageFrame.instance().getAtiImage(),false, threshold);
+    ATIImage resultImage = new Harris().applyFilter(EditableImageFrame.instance().getAtiImage(),false, tolerance);
   
     FrameFactory.fixedImageFrame(getTitle(), resultImage).buildAndShow();
     

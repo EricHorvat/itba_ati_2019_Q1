@@ -8,9 +8,9 @@ import javax.swing.*;
 public class HarrisMenuButtonListener extends ATIMenuOptionsButtonListener {
   
   public HarrisMenuButtonListener() {
-    options.add(new JLabel("Threshold"));
-    JTextField thresholdField = new JTextField();
-    options.add(thresholdField);
-    options.add(MenuOptionButtonFactory.harrisMenuOptionButton(thresholdField));
+    options.add(new JLabel("Tolerance"));
+    JTextField toleranceField = new JTextField();
+    options.add(toleranceField);
+    options.add(MenuOptionButtonFactory.harrisMenuOptionButton(toleranceField));
   }
 }

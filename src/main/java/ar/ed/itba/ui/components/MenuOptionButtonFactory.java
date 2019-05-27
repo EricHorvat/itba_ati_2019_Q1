@@ -260,8 +260,8 @@ public final class MenuOptionButtonFactory {
     return b;
   }
   
-  public static JButton harrisMenuOptionButton(JTextField thresholdField){
-    return generateButton(new HarrisButtonListener(thresholdField));
+  public static JButton harrisMenuOptionButton(JTextField toleranceField){
+    return generateButton(new HarrisButtonListener(toleranceField));
   }
   
   public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){
