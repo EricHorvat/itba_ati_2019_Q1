@@ -111,7 +111,7 @@ public class ActiveContourFilter {
     ans = (ArrayList<CoordinatePair>) ans.stream().filter(
       p ->
         p.getX() >= 0 && p.getX() < sourceATIImage.getWidth()
-          && p.getY() >= 0 && p.getY() < sourceATIImage.getWidth())
+          && p.getY() >= 0 && p.getY() < sourceATIImage.getHeight())
       .collect(Collectors.toList());
     
     return ans;
