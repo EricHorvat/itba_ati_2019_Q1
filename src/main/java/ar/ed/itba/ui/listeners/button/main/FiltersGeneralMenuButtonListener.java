@@ -24,6 +24,7 @@ public class FiltersGeneralMenuButtonListener extends ATIMenuButtonListener {
     options.add(MenuButtonFactory.cannyFilterMenuButton());
     options.add(MenuButtonFactory.susanFilterMenuButton());
     options.add(MenuButtonFactory.activecontourFilterMenuButton());
+    options.add(MenuButtonFactory.SIFTFilterMenuButton());
 	}
 	
 }

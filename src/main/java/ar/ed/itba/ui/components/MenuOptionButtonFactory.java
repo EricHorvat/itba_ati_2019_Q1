@@ -13,6 +13,8 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp2.gradient.TP2P5AFilterBut
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LaplacianFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp3.*;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp4.SIFTFilterButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp4.SIFTOpenerListener;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
@@ -245,7 +247,6 @@ public final class MenuOptionButtonFactory {
     JButton b = generateButton(new SetOuterActiveContourFilterButtonListener());
     b.setText("Set Outer");
     return b;
-    
   }
   
   public static JButton setInnerActiveContourFilterMenuOptionButton(){
@@ -258,6 +259,14 @@ public final class MenuOptionButtonFactory {
     JButton b = generateButton(new SetActiveContourFilterButtonListener(nMax));
     b.setText("Set Max Iterations");
     return b;
+  }
+  
+  public static JButton SIFTMenuOptionButton(JTextField matchingDistanceField, JTextField matchingPercentageField){
+    return applyButton(new SIFTFilterButtonListener(matchingDistanceField, matchingPercentageField));
+  }
+  
+  public static JButton setImageSIFTFilterMenuOptionButton(int index, JTextField filePathField){
+	  return applyButton(new SIFTOpenerListener(index, filePathField));
   }
   
   public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){

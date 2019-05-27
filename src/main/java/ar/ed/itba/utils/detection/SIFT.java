@@ -7,10 +7,15 @@ package ar.ed.itba.utils.detection;
  *     - a pointer to the actual matrix.
  */
 
+import ar.ed.itba.file.ImageOpener;
+import ar.ed.itba.file.image.ATIImage;
+import ar.ed.itba.ui.frames.FrameFactory;
+import ar.ed.itba.ui.frames.interfaces.FixedImageInterface;
 import org.opencv.core.*;
 import org.opencv.features2d.*;
 import org.opencv.highgui.Highgui;
 
+import javax.imageio.ImageIO;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -26,24 +31,27 @@ public class SIFT {
     return instance;
   }
   
+  private ATIImage[] images = new ATIImage[2];
+  
   private SIFT() {
     nu.pattern.OpenCV.loadLocally();
   }
   
   // Parameter to read color images (as gray can be taken as colored use the same parameter)
   private static final int COLOR = Highgui.CV_LOAD_IMAGE_COLOR;
-  
+  static{
+    nu.pattern.OpenCV.loadLocally();
+  }
   private static final FeatureDetector KEYPOINT_DETECTOR = FeatureDetector.create(FeatureDetector.SIFT);
   private static final DescriptorExtractor DESCRIPTOR_EXTRACTOR = DescriptorExtractor.create(DescriptorExtractor.SIFT);
   private static final DescriptorMatcher DESCRIPTOR_MATCHER = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
   
   
-  private void applyWith(final String imageFileA, final String imageFileB,
-                         final int matchingDistance, final double matchingPercentage){
+  public void apply(final int matchingDistance, final double matchingPercentage){
     // Saving files! TODO VISUALIZATION OF PHOTOS!
     
-    final Mat imageA = Highgui.imread(imageFileA, COLOR);
-    final Mat imageB = Highgui.imread(imageFileB, COLOR);
+    final Mat imageA = Highgui.imread(images[0].getFilePath(), COLOR);
+    final Mat imageB = Highgui.imread(images[1].getFilePath(), COLOR);
     
     // Calculate keypoints
     MatOfKeyPoint keyPointsImageA = new MatOfKeyPoint();
@@ -81,6 +89,11 @@ public class SIFT {
     String resultB = saveKeyPoints(imageB, keyPointsImageB, "B");
     String matching = saveMatches(imageA, keyPointsImageA, imageB, keyPointsImageB, matchesList);
   
+    ImageOpener imageOpener = new ImageOpener();
+    FrameFactory.fixedImageFrame("A", imageOpener.open(resultA)).buildAndShow();
+    FrameFactory.fixedImageFrame("B", imageOpener.open(resultB)).buildAndShow();
+    FrameFactory.fixedImageFrame("mat", imageOpener.open(matching)).buildAndShow();
+  
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);
@@ -111,4 +124,8 @@ public class SIFT {
     return outputFileName;
   }
   
+  
+  public void setImage(int index, ATIImage image) {
+    this.images[index] = image;
+  }
 }

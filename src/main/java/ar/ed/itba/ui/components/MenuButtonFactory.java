@@ -15,6 +15,7 @@ import ar.ed.itba.ui.listeners.button.filter.menu.tp2.laplacian.LoGFilterMenuBut
 import ar.ed.itba.ui.listeners.button.filter.menu.tp3.ActiveContourFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp3.CannyFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp3.SusanFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp4.SIFTFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;
 
@@ -182,6 +183,10 @@ public final class MenuButtonFactory {
   
   public static JButton activecontourFilterMenuButton() {
     return listeningButton("Active Contour Filter", new ActiveContourFilterMenuButtonListener());
+  }
+  
+  public static JButton SIFTFilterMenuButton() {
+    return listeningButton("SIFT Filter", new SIFTFilterMenuButtonListener());
   }
 	
 	public static JButton highlightBorderFilterMenuButton() {
