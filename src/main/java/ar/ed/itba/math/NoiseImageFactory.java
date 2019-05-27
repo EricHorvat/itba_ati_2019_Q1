@@ -36,8 +36,8 @@ public class NoiseImageFactory {
 	private static double[] imageGenerator(NoiseGenerator noiseGenerator, int width, int height, double percentage, Map params, int defaultValue){
 		double[] imageRGB = new double[lengthRGB(width,height)];
 		List<CoordinatePair> coordinatePairs = new ArrayList<>();
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
 				coordinatePairs.add(new CoordinatePair(i,j));
 				int indexRGB = indexRGB(i,j, width);
 				imageRGB[red(indexRGB)] = defaultValue;

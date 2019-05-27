@@ -57,7 +57,7 @@ public final class ImageUtils {
 		if (lengthRGB(image.getWidth(), image.getHeight()) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		final int[] pixels = image.toRGB();
-		return new PpmImage(sum(pixels,modifier,image.getWidth(),image.getWidth()), image.getWidth(), image.getHeight());
+		return new PpmImage(sum(pixels,modifier,image.getWidth(), image.getHeight()), image.getWidth(), image.getHeight());
 	}
   
   public static int[] sum(final int[] image, final int[] modifier, int width, int height){
@@ -66,8 +66,8 @@ public final class ImageUtils {
   
     final int[] pixels = new int[lengthRGB(width, height)];
     
-    for (int i = 0 ; i < width ; i++) {
-      for (int j = 0 ; j < height ; j++) {
+    for (int i = 0 ; i < height ; i++) {
+      for (int j = 0 ; j < width ; j++) {
         int indexRGB = indexRGB(i,j,width) ;
         pixels[red(indexRGB)] = image[red(indexRGB)] + modifier[red(indexRGB)];
         pixels[green(indexRGB)] =  image[green(indexRGB)] + modifier[green(indexRGB)];
@@ -263,15 +263,15 @@ public final class ImageUtils {
     int minValue = pixels[0];
     int maxValue = pixels[0];
     int height = pixels.length / width / 3;
-    for (int i = borderWidth ; i < width - borderWidth - 1 ; i++) {
-      for (int j = borderWidth ; j < height - borderWidth -1 ; j++) {
+    for (int i = borderWidth ; i < height - borderWidth - 1 ; i++) {
+      for (int j = borderWidth ; j < width - borderWidth -1 ; j++) {
         minValue = Math.min(pixels[indexRGB(i, j, width)], minValue);
         maxValue = Math.max(pixels[indexRGB(i, j, width)], maxValue);
       }
     }
     System.out.println("Normalizing between " + minValue + " and " +maxValue);
-    for (int i = borderWidth ; i < width - borderWidth - 1 ; i++) {
-      for (int j = borderWidth ; j < height - borderWidth -1 ; j++) {
+    for (int i = borderWidth ; i < height - borderWidth - 1 ; i++) {
+      for (int j = borderWidth ; j < width - borderWidth -1 ; j++) {
         pixels[red(indexRGB(i,j,width))] = normalize(pixels[red(indexRGB(i,j,width))], minValue, maxValue);
         pixels[green(indexRGB(i,j,width))] = normalize(pixels[green(indexRGB(i,j,width))], minValue, maxValue);
         pixels[blue(indexRGB(i,j,width))] = normalize(pixels[blue(indexRGB(i,j,width))], minValue, maxValue);
