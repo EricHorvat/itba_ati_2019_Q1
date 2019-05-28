@@ -229,7 +229,7 @@ public class ActiveContourFilter {
     for (int i = 0; i < sourceATIImage.getHeight(); i++) {
       for (int j = 0; j < sourceATIImage.getWidth(); j++) {
         if (fi[i][j] == -1) {
-          atiImage.setPixel(i, j, RGBPixel.negate((RGBPixel) atiImage.getPixel(i, j)));
+          atiImage.setPixel(i, j, new RGBPixel((byte) 204,(byte) 96,(byte)255));
         }
       }
     }
