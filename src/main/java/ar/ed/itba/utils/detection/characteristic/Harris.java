@@ -21,13 +21,13 @@ public class Harris  {
   
     int[] Ix = getIx(sourceRGBArray, imageWidth, imageHeight);
     int[] Iy = getIy(sourceRGBArray, imageWidth, imageHeight);
-    
-    GaussianFilter g = new GaussianFilter(7);
-    g.setSigma(2);
   
     int[] Ix2 = ImageUtils.pow(Ix,2,imageWidth,imageHeight,false);
     int[] Iy2 = ImageUtils.pow(Iy,2,imageWidth,imageHeight,false);
-  
+    
+    GaussianFilter g = new GaussianFilter(7);
+    g.setSigma(2);
+    
     int[] Ix2G = g.applyFilterRaw(Ix2,true,imageWidth,imageHeight);
     int[] Iy2G = g.applyFilterRaw(Iy2,true,imageWidth,imageHeight);
   
