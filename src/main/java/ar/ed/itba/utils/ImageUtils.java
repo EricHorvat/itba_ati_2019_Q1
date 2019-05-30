@@ -44,7 +44,7 @@ public final class ImageUtils {
 		return sumRGB(a, -255);
 	}
 	
-	public static PpmImage sum(final ATIImage image1, final ATIImage image2) {
+	public static ATIImage sum(final ATIImage image1, final ATIImage image2) {
 		if (image1.getWidth() < image2.getWidth() || image1.getHeight() < image2.getHeight())
 			throw new IllegalArgumentException("Image 2 must be contained in image 1");
 		
@@ -53,11 +53,11 @@ public final class ImageUtils {
 		return sum(image1,pixels2);
 	}
 	
-	public static PpmImage sum(final ATIImage image, final int[] modifier){
+	public static ATIImage sum(final ATIImage image, final int[] modifier){
 		if (lengthRGB(image.getWidth(), image.getHeight()) != modifier.length)
 			throw new IllegalArgumentException("modifier must have width*height*3 length");
 		final int[] pixels = image.toRGB();
-		return new PpmImage(sum(pixels,modifier,image.getWidth(), image.getHeight()), image.getWidth(), image.getHeight());
+		return image.from(sum(pixels,modifier,image.getWidth(), image.getHeight()), image.getWidth(), image.getHeight());
 	}
   
   public static int[] sum(final int[] image, final int[] modifier, int width, int height){

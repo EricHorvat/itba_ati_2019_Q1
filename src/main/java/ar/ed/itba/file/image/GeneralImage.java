@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.*;
+import java.util.Arrays;
 
 import static ar.ed.itba.utils.ImageUtils.*;
 
@@ -18,6 +19,10 @@ public class GeneralImage extends ATIImage {
   }
   
   public GeneralImage(byte[] image, int width, int height) {
+    super(byte2Buffered(image, width, height, BufferedImage.TYPE_3BYTE_BGR), ImageMode.COLOR);
+  }
+  
+  public GeneralImage(int[] image, int width, int height) {
     super(byte2Buffered(image, width, height, BufferedImage.TYPE_3BYTE_BGR), ImageMode.COLOR);
   }
   
@@ -76,6 +81,7 @@ public class GeneralImage extends ATIImage {
   
   @Override
   public void save(String fileName) throws Exception {
+    ImageIO.write(view(),"jpg",new File(fileName));
   }
   
   @Override
@@ -102,5 +108,10 @@ public class GeneralImage extends ATIImage {
   @Override
   public ATIImage deepCopy() {
     return new GeneralImage(getImage().clone(), getWidth(), getHeight());
+  }
+  
+  @Override
+  public ATIImage from(int[] array, int width, int height) {
+    return new GeneralImage(array, width, height);
   }
 }

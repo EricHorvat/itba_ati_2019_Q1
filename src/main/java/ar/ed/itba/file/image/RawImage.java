@@ -98,4 +98,9 @@ public class RawImage extends ATIImage {
 		return new PgmImage(getImage().clone(), getWidth(), getHeight());
 		/*TODO HEADER, OUTPUT & bytecount*/
 	}
+  
+  @Override
+  public ATIImage from(int[] array, int width, int height) {
+    return new PpmImage(array,width,height);
+  }
 }

@@ -24,7 +24,7 @@ public abstract class ATIImage {
 	
 	/* Variables */
 	
-	protected final BufferedImage bufferedImage;
+	protected BufferedImage bufferedImage;
 	
 	protected final ImageMode imageMode;
   
@@ -165,8 +165,10 @@ public abstract class ATIImage {
 	public abstract int[] toRGB();
 
 	public abstract void negative();
-	
-	public abstract ATIImage deepCopy();
+  
+  public abstract ATIImage deepCopy();
+  
+  public abstract ATIImage from(int[] array, int width, int height);
 }
 
 
