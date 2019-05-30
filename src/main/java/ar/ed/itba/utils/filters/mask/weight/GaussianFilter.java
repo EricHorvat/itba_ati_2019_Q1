@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GaussianFilter extends WeightMaskFilter {
-	
-	public GaussianFilter(int maskSide) {
+  
+  int sigma;
+  
+  public GaussianFilter(int maskSide) {
 		super(maskSide);
+    sigma = maskSide / 2;
 	}
 	
 	@Override
@@ -25,7 +28,7 @@ public class GaussianFilter extends WeightMaskFilter {
 				if (values.containsKey(p)){
 					column[j+center] = values.get(p);
 				} else {
-					double value = getGaussianValue(i,j,center);
+					double value = getGaussianValue(i,j,sigma);
 					values.put(p, value);
 					column[j+center] = value;
 				}
@@ -44,4 +47,8 @@ public class GaussianFilter extends WeightMaskFilter {
 	private double getGaussianValue(double i, double j, double sigma){
 		return (1/(2*Math.PI*sigma*sigma)) * Math.pow(Math.E,(i*i+j*j)/(-sigma*sigma));
 	}
+  
+  public void setSigma(int sigma) {
+    this.sigma = sigma;
+  }
 }
