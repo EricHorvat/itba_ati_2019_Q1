@@ -15,12 +15,12 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp2.laplacian.LoGFilterButto
 import ar.ed.itba.ui.listeners.button.filter.effect.tp3.*;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp4.SIFTFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp4.SIFTOpenerListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp4.HarrisButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 import static ar.ed.itba.utils.filters.mask.gradient.GradientFilterType.*;
@@ -265,8 +265,12 @@ public final class MenuOptionButtonFactory {
     return applyButton(new SIFTFilterButtonListener(matchingDistanceField, matchingPercentageField));
   }
   
-  public static JButton setImageSIFTFilterMenuOptionButton(int index, JTextField filePathField){
-	  return applyButton(new SIFTOpenerListener(index, filePathField));
+  public static JButton setImageSIFTFilterMenuOptionButton(int index, JTextField filePathField) {
+    return applyButton(new SIFTOpenerListener(index, filePathField));
+  }
+
+  public static JButton harrisMenuOptionButton(JTextField toleranceField){
+    return generateButton(new HarrisButtonListener(toleranceField));
   }
   
   public static JButton highlightBorderFilterMenuOptionButton(JTextField maskSideField){

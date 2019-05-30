@@ -400,12 +400,75 @@ public final class ImageUtils {
 		if(image.getWidth()*image.getHeight() * 3 != noiseImage.length ){
 			throw new IllegalArgumentException("Noise image must have the same dimension as source image");
 		}
-		for (int i = 0 ; i < noiseImage.length ; i++){
-			pixels[i] = (int) (pixels[i] * noiseImage[i]);
-		}
-		normalize(pixels, image.getWidth());
-		return new PpmImage(pixels, image.getWidth(), image.getHeight());
+		return new PpmImage(multiply(pixels, noiseImage, image.getWidth(), image.getHeight()), image.getWidth(), image.getHeight());
 	}
+  
+  public static int[] multiply(final int[] image, final int[] modifier, int width, int height ) {
+    return multiply(image, modifier, width, height, true);
+  }
+  
+  public static int[] multiply(final int[] image, final double[] modifier, int width, int height ) {
+    return multiply(image, modifier, width, height, true);
+  }
+  
+  public static int[] multiply(final int[] image, final int[] modifier, int width, int height, boolean normalize){
+    if (lengthRGB(width,height)!= modifier.length)
+      throw new IllegalArgumentException("modifier must have width*height*3 length");
+    
+    int pixels[] = new int[lengthRGB(width,height)];
+    
+    for (int i = 0 ; i < width ; i++) {
+      for (int j = 0 ; j < height; j++) {
+        int indexRGB = indexRGB(i,j,width);
+        pixels[red(indexRGB)] = image[red(indexRGB)] * modifier[red(indexRGB)];
+        pixels[green(indexRGB)] = image[green(indexRGB)] * modifier[green(indexRGB)];
+        pixels[blue(indexRGB)] = image[blue(indexRGB)] * modifier[blue(indexRGB)];
+      }
+    }
+    if (normalize){
+      return normalize(pixels,width);
+    }
+    return pixels;
+  }
+  
+  public static int[] multiply(final int[] image, final double[] modifier, int width, int height, boolean normalize){
+    if (lengthRGB(width,height)!= modifier.length)
+      throw new IllegalArgumentException("modifier must have width*height*3 length");
+    
+    int pixels[] = new int[lengthRGB(width,height)];
+    
+    for (int i = 0 ; i < width ; i++) {
+      for (int j = 0 ; j < height; j++) {
+        int indexRGB = indexRGB(i,j,width);
+        pixels[red(indexRGB)] = (int) (image[red(indexRGB)] * modifier[red(indexRGB)]);
+        pixels[green(indexRGB)] = (int) (image[green(indexRGB)] * modifier[green(indexRGB)]);
+        pixels[blue(indexRGB)] = (int) (image[blue(indexRGB)] * modifier[blue(indexRGB)]);
+      }
+    }
+    if (normalize){
+      return normalize(pixels,width);
+    }
+    return pixels;
+  }
+	
+  public static int[] pow(final int[] image, final double modifier, int width, int height, boolean normalize){
+    
+    final int[] pixels = new int[lengthRGB(width, height)];
+    
+    for (int i = 0 ; i < width ; i++) {
+      for (int j = 0 ; j < height ; j++) {
+        int indexRGB = indexRGB(i,j,width);
+        pixels[red(indexRGB)] = (int) Math.pow(image[red(indexRGB)], modifier);
+        pixels[green(indexRGB)] = (int) Math.pow(image[green(indexRGB)], modifier);
+        pixels[blue(indexRGB)] = (int) Math.pow(image[blue(indexRGB)], modifier);
+      }
+    }
+    if(normalize){
+      return normalize(pixels, width);
+    } else {
+      return pixels;
+    }
+  }
 
 	public static void gammaPower(final ATIImage image, final double gamma) {
 		if (gamma <= 0 || gamma > 2 || gamma == 1)

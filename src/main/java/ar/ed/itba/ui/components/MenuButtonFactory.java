@@ -2,6 +2,7 @@ package ar.ed.itba.ui.components;
 
 import ar.ed.itba.ui.listeners.button.edit.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.SaveGeneralMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.effect.tp4.HarrisButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp1.*;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.AnisotropicFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp2.BilateralFilterMenuButtonListener;
@@ -16,6 +17,7 @@ import ar.ed.itba.ui.listeners.button.filter.menu.tp3.ActiveContourFilterMenuBut
 import ar.ed.itba.ui.listeners.button.filter.menu.tp3.CannyFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp3.SusanFilterMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp4.SIFTFilterMenuButtonListener;
+import ar.ed.itba.ui.listeners.button.filter.menu.tp4.HarrisMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.menu.*;
 import ar.ed.itba.ui.listeners.button.file.menu.OpenGeneralMenuButtonListener;
 
@@ -175,6 +177,10 @@ public final class MenuButtonFactory {
   
   public static JButton cannyFilterMenuButton() {
     return listeningButton("Canny Filter", new CannyFilterMenuButtonListener());
+  }
+  
+  public static JButton harrisFilterMenuButton() {
+    return listeningButton("Harris Filter", new HarrisMenuButtonListener());
   }
   
   public static JButton susanFilterMenuButton() {
