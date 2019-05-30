@@ -261,4 +261,9 @@ public class PpmImage extends PortableImage {
 		return new PpmImage(getImage().clone(), getWidth(), getHeight());
 		/*TODO HEADER, OUTPUT & bytecount*/
 	}
+  
+  @Override
+  public ATIImage from(int[] array, int width, int height) {
+    return new PpmImage(array,width,height);
+  }
 }
