@@ -31,7 +31,7 @@ public class Harris  {
     int[] Ix2G = g.applyFilterRaw(Ix2,true,imageWidth,imageHeight);
     int[] Iy2G = g.applyFilterRaw(Iy2,true,imageWidth,imageHeight);
   
-    int[] Ixy = ImageUtils.multiply(Ix, Iy, imageWidth, imageHeight);
+    int[] Ixy = ImageUtils.multiply(Ix, Iy, imageWidth, imageHeight,false);
     int[] IxyG = g.applyFilterRaw(Ixy,true,imageWidth,imageHeight);
     
     int[] ans2 = HarrisHelper.getCim(Ix2G,Iy2G,IxyG,imageWidth,imageHeight, tolerance);
