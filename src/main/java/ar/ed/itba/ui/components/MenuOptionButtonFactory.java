@@ -261,8 +261,9 @@ public final class MenuOptionButtonFactory {
     return b;
   }
   
-  public static JButton SIFTMenuOptionButton(JTextField matchingDistanceField, JTextField matchingPercentageField){
-    return applyButton(new SIFTFilterButtonListener(matchingDistanceField, matchingPercentageField));
+  public static JButton SIFTMenuOptionButton(JTextField matchingDistanceField, JTextField matchingPercentageField,
+                                             JCheckBox statusCheckBox){
+    return applyButton(new SIFTFilterButtonListener(matchingDistanceField, matchingPercentageField, statusCheckBox));
   }
   
   public static JButton setImageSIFTFilterMenuOptionButton(int index, JTextField filePathField) {

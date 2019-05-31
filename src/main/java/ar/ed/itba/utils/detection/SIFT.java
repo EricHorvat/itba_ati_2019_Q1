@@ -47,7 +47,7 @@ public class SIFT {
   private static final DescriptorMatcher DESCRIPTOR_MATCHER = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
   
   
-  public void apply(final int matchingDistance, final double matchingPercentage){
+  public void apply(final int matchingDistance, final double matchingPercentage, final boolean showResults){
     // Saving files! TODO VISUALIZATION OF PHOTOS!
     
     final Mat imageA = Highgui.imread(images[0].getFilePath(), COLOR);
@@ -90,10 +90,11 @@ public class SIFT {
     String matching = saveMatches(imageA, keyPointsImageA, imageB, keyPointsImageB, matchesList);
   
     ImageOpener imageOpener = new ImageOpener();
-    FrameFactory.fixedImageFrame("A", imageOpener.open(resultA)).buildAndShow();
-    FrameFactory.fixedImageFrame("B", imageOpener.open(resultB)).buildAndShow();
-    FrameFactory.fixedImageFrame("mat", imageOpener.open(matching)).buildAndShow();
-  
+    if (showResults) {
+      FrameFactory.fixedImageFrame("A", imageOpener.open(resultA)).buildAndShow();
+      FrameFactory.fixedImageFrame("B", imageOpener.open(resultB)).buildAndShow();
+      FrameFactory.fixedImageFrame("mat", imageOpener.open(matching)).buildAndShow();
+    }
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);

@@ -22,14 +22,8 @@ public class SIFTFilterMenuButtonListener extends ATIMenuOptionsButtonListener {
     options.add(new JLabel("Matching Percentage"));
     JTextField matchingPercentageField = new JTextField();
     options.add(matchingPercentageField);
-    /*options.add(MenuOptionButtonFactory.setParamsActiveContourFilterMenuOptionButton(nMaxField));
-    options.add(new JLabel("Iterations"));
-    JTextField nField = new JTextField();
-    options.add(nField);
-    options.add(MenuOptionButtonFactory.activeContourFilterMenuOptionButton(nField));
-    options.add(new JLabel("Video Frames"));
-    JTextField frameField = new JTextField();
-    options.add(frameField);*/
-    options.add(MenuOptionButtonFactory.SIFTMenuOptionButton(matchingDistanceField, matchingPercentageField));
+    JCheckBox statusCheckBox = new JCheckBox("Show result");
+    options.add(statusCheckBox);
+    options.add(MenuOptionButtonFactory.SIFTMenuOptionButton(matchingDistanceField, matchingPercentageField, statusCheckBox));
   }
 }

@@ -13,10 +13,13 @@ public class SIFTFilterButtonListener implements ActionListener {
   
   private final JTextField matchingDistanceField;
   private final JTextField matchingPercentageField;
+  private final JCheckBox statusCheckBox;
   
-  public SIFTFilterButtonListener(JTextField matchingDistanceField, JTextField matchingPercentageField) {
+  public SIFTFilterButtonListener(JTextField matchingDistanceField, JTextField matchingPercentageField,
+                                  JCheckBox statusCheckBox) {
     this.matchingDistanceField = matchingDistanceField;
     this.matchingPercentageField = matchingPercentageField;
+    this.statusCheckBox = statusCheckBox;
   }
   
   public String getTitle() {
@@ -35,7 +38,7 @@ public class SIFTFilterButtonListener implements ActionListener {
       matchingPercentage = Double.parseDouble(matchingPercentageField.getText());
     }
   
-    SIFT.getInstance().apply(matchingDistance,matchingPercentage);
+    SIFT.getInstance().apply(matchingDistance,matchingPercentage, statusCheckBox.isSelected());
   
   }
 }
