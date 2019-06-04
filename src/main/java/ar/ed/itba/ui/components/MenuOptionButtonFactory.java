@@ -16,6 +16,7 @@ import ar.ed.itba.ui.listeners.button.filter.effect.tp3.*;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp4.SIFTFilterButtonListener;
 import ar.ed.itba.ui.listeners.button.filter.menu.tp4.SIFTOpenerListener;
 import ar.ed.itba.ui.listeners.button.filter.effect.tp4.HarrisButtonListener;
+import ar.ed.itba.ui.listeners.button.finall.effect.FinalButtonListener;
 import ar.ed.itba.ui.listeners.button.generate.effect.*;
 import ar.ed.itba.ui.listeners.button.file.effect.OpenFileButtonListener;
 import ar.ed.itba.ui.listeners.button.file.effect.SaveFileButtonListener;
@@ -487,6 +488,11 @@ public final class MenuOptionButtonFactory {
 	}
 	
 	/* END FILTER */
+  /* FINAL */
+  public static JButton finalMenuOptionButton(){
+    return generateButton(new FinalButtonListener());
+  }
+  /* END FINAL */
 	/*Utils*/
 	
 	private static JButton applyButton(ActionListener listener){

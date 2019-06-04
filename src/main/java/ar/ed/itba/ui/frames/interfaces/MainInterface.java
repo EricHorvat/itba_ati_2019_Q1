@@ -1,5 +1,6 @@
 package ar.ed.itba.ui.frames.interfaces;
 
+import ar.ed.itba.ui.listeners.button.finall.menu.FinalMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.main.EditGeneralMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.main.FileGeneralMenuButtonListener;
 import ar.ed.itba.ui.listeners.button.main.FiltersGeneralMenuButtonListener;
@@ -18,8 +19,9 @@ public class MainInterface {
 	private JLabel paramTitle;
 	private JPanel mainPanel;
 	private JButton editButton;
-	
-	public JPanel getMainPanel(){
+  private JButton finalButton;
+  
+  public JPanel getMainPanel(){
 		return mainPanel;
 	}
 	
@@ -32,7 +34,8 @@ public class MainInterface {
 		fileButton.addActionListener(new FileGeneralMenuButtonListener());
 		editButton.addActionListener(new EditGeneralMenuButtonListener());
 		generateOptionsButton.addActionListener(new GenerateGeneralMenuButtonListener());
-		filterButton.addActionListener(new FiltersGeneralMenuButtonListener());
+    filterButton.addActionListener(new FiltersGeneralMenuButtonListener());
+    finalButton.addActionListener(new FinalMenuButtonListener());
 	}
 	
 	public JPanel getMenuPanel() {

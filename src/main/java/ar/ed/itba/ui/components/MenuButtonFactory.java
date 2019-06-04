@@ -224,6 +224,12 @@ public final class MenuButtonFactory {
 	}
 	
 	/* END FILTER */
+  /* FINAL */
+  
+  public static JButton finalMenuButton() {
+    return listeningButton("Final", new LoGFilterMenuButtonListener());
+  }
+  /* END FINAL */
 	
 	/* UTILS */
 	
