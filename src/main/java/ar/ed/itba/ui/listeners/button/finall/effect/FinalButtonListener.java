@@ -2,12 +2,22 @@ package ar.ed.itba.ui.listeners.button.finall.effect;
 
 import ar.ed.itba.utils.detection.SIFT;
 import ar.ed.itba.utils.finall.*;
+import org.opencv.core.*;
+import org.opencv.core.Point;
+import org.opencv.features2d.Features2d;
+import org.opencv.features2d.KeyPoint;
+import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
+
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class FinalButtonListener implements ActionListener {
   
@@ -37,7 +47,21 @@ public class FinalButtonListener implements ActionListener {
     l.add(new BRISKDetector());
     l.add(new MSERDetector());
     l.add(new HarrisDetector());
-    l.forEach(finalDetector -> finalDetector.detect("./res/a.jpg"));
+    String filename = "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001";
+    String imageFilename = filename + ".jpg";
+    String configFilename = filename + ".txt";
+    Map<String, String> params = CSVReader.read(configFilename, "\t");
+    String shortFilename = params.get(CSVReader.Column.FILENAME.name());
+    l.forEach(
+      finalDetector -> finalDetector.detect(
+        imageFilename,
+        Integer.parseInt(params.get(CSVReader.Column.W.name())),
+        Integer.parseInt(params.get(CSVReader.Column.H.name())),
+        shortFilename.substring(0,shortFilename.length()-4)
+      )
+    );
+    
+    
     /*int matchingDistance = 0;
     double matchingPercentage = 0.0;
     if (!matchingDistanceField.getText().equals("")) {
