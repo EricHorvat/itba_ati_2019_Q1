@@ -8,7 +8,9 @@ import javax.swing.*;
 public class FinalMenuButtonListener extends ATIMenuOptionsButtonListener {
 	
 	public FinalMenuButtonListener() {
-    options.add(MenuOptionButtonFactory.finalMenuOptionButton());
+	  JCheckBox runAllCheckBox = new JCheckBox("Run all");
+	  options.add(runAllCheckBox);
+    options.add(MenuOptionButtonFactory.finalMenuOptionButton(runAllCheckBox));
 	}
 	
 }

@@ -15,32 +15,25 @@ public abstract class FinalDetector {
   protected String PREFIX = "NOTPREFIX";
   
   private static final int COLOR = Highgui.CV_LOAD_IMAGE_COLOR;
-  static{
-    nu.pattern.OpenCV.loadLocally();
-  }
   
-  public MatOfKeyPoint detect(String imageFilePath, int w, int h, String filename){
+  public MatOfKeyPoint detect(String imageFilePath, int width, int height, String filename){
     System.out.println("Running " + PREFIX + "detect");
     final Mat imageMat = Highgui.imread(imageFilePath, COLOR);
   
     // Calculate keypoints
     MatOfKeyPoint keyPointsImage = new MatOfKeyPoint();
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
-    /*
-    // Extract descriptors
-    final MatOfKeyPoint descriptorsImageA = new MatOfKeyPoint();
-    DESCRIPTOR_EXTRACTOR.compute(imageA, keyPointsImageA, descriptorsImageA);
-    */
-    String resultA = saveKeyPoints(imageMat, keyPointsImage, filename, w, h);
+    
+    String resultA = saveKeyPoints(imageMat, keyPointsImage, filename, width, height);
     return keyPointsImage;
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);
   
-  private String saveKeyPoints(final Mat image, final MatOfKeyPoint keyPoints, final String fileName, int w, int h) {
-    for (int i = 0; i < h/2; i++) {
+  private String saveKeyPoints(final Mat image, final MatOfKeyPoint keyPoints, final String fileName, int width, int height) {
+    for (int i = 0; i < height/2; i++) {
       Mat outputImage = new Mat(image.rows(), image.cols(), COLOR);
-      MatOfKeyPoint matOfKeyPoint = tryToMatch(keyPoints, w, h, i);
+      MatOfKeyPoint matOfKeyPoint = tryToMatch(keyPoints, width, height, i);
       Features2d.drawKeypoints(image, matOfKeyPoint, outputImage, KEYPOINT_COLOR, 0);
       String outputFileName = "./output/" + PREFIX + "_" + fileName + "_" + i +".png";
       Highgui.imwrite(outputFileName, outputImage);
@@ -49,27 +42,27 @@ public abstract class FinalDetector {
     return "outputFileName";
   }
   
-  private MatOfKeyPoint tryToMatch(MatOfKeyPoint kMat, int w, int h, double d){
+  private MatOfKeyPoint tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta){
     List<KeyPoint> kList = kMat.toList();
     int count = 0;
     Map<KeyPoint, KeyPoint> map = new HashMap<>();
     for (KeyPoint k : kList
          ) {
-      if (mapContainsSomeNeighbour(k, map, d)){
+      if (mapContainsSomeNeighbour(k, map, delta)){
         continue;
       }
     
-      List<KeyPoint> urList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x + w, k.pt.y, d)).collect(Collectors.toList());
+      List<KeyPoint> urList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y, delta)).collect(Collectors.toList());
       Set<KeyPoint> urSet = new TreeSet<>(KeyPointComparator.URComparator());
       urSet.addAll(urList);
       urList = new ArrayList<>(urSet);
   
-      List<KeyPoint> dlList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x, k.pt.y + h, d)).collect(Collectors.toList());
+      List<KeyPoint> dlList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x, k.pt.y + height, delta)).collect(Collectors.toList());
       Set<KeyPoint> dlSet = new TreeSet<>(KeyPointComparator.DLComparator());
       dlSet.addAll(dlList);
       dlList = new ArrayList<>(dlSet);
   
-      List<KeyPoint> drList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x + w, k.pt.y + h, d)).collect(Collectors.toList());
+      List<KeyPoint> drList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y + height, delta)).collect(Collectors.toList());
       Set<KeyPoint> drSet = new TreeSet<>(KeyPointComparator.DRComparator());
       drSet.addAll(drList);
       drList = new ArrayList<>(drSet);
@@ -97,18 +90,18 @@ public abstract class FinalDetector {
     return mmmasd;
   }
   
-  private boolean tryToMatch(KeyPoint kp, double x, double y, double d){
+  private boolean tryToMatch(KeyPoint kp, double x, double y, double delta){
     double distance = Math.sqrt(Math.pow(x - kp.pt.x,2) + Math.pow(y - kp.pt.y,2));
-    return distance < d;
+    return distance < delta;
   }
   
   //WITH THIS, IF ACTIVE, IGNORE THE NEIGHBOURS, BUT WITH BIG d, IT IS A MESS
   // IF DEACTIVE SCAN TWO CLOSER KEYPOINTS AND PROBABLY THERE ARE (OR NOT) ALREADY THE LICENSE
-  private static boolean ACTIVE = true;
+  private static boolean ACTIVE = false;
   
-  private boolean mapContainsSomeNeighbour(KeyPoint k, Map<KeyPoint,KeyPoint> map, double d){
+  private boolean mapContainsSomeNeighbour(KeyPoint k, Map<KeyPoint,KeyPoint> map, double delta){
     return ACTIVE && map.keySet().stream().anyMatch(keyPoint -> Math.sqrt(Math.pow(keyPoint.pt.x - k.pt.x,2) +
-      Math.pow(keyPoint.pt.y - k.pt.y,2)) < d);
+      Math.pow(keyPoint.pt.y - k.pt.y,2)) < delta);
   }
   
   

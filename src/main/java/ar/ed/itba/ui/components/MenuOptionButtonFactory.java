@@ -489,8 +489,8 @@ public final class MenuOptionButtonFactory {
 	
 	/* END FILTER */
   /* FINAL */
-  public static JButton finalMenuOptionButton(){
-    return generateButton(new FinalButtonListener());
+  public static JButton finalMenuOptionButton(JCheckBox runAllCheckBox){
+    return generateButton(new FinalButtonListener(runAllCheckBox));
   }
   /* END FINAL */
 	/*Utils*/

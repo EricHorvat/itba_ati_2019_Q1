@@ -15,44 +15,56 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class FinalButtonListener implements ActionListener {
   
-  //private final JTextField matchingDistanceField;
-  //private final JTextField matchingPercentageField;
-  //private final JCheckBox statusCheckBox;
+  private final JCheckBox runAllCheckBox;
+  private static List<FinalDetector> detectorList;
+  private static String[] testCase;
   
-  public FinalButtonListener(){
-    /*JTextField matchingDistanceField, JTextField matchingPercentageField,
-                             JCheckBox statusCheckBox) {*/
-    //this.matchingDistanceField = matchingDistanceField;
-    //this.matchingPercentageField = matchingPercentageField;
-    //this.statusCheckBox = statusCheckBox;
+  static {
+    nu.pattern.OpenCV.loadLocally();
+    detectorList = new ArrayList<>();
+    detectorList.add(new SIFTDetector());
+    detectorList.add(new SURFDetector());
+    detectorList.add(new FASTDetector());
+    detectorList.add(new BRISKDetector());
+    detectorList.add(new MSERDetector());
+    detectorList.add(new HarrisDetector());
+    testCase = new String[] {
+      "test_001",
+      "test_002",
+      "test_003",
+      "test_004",
+      "test_005"
+    };
   }
   
-  public String getTitle() {
-    return "Active Contour";
+  public FinalButtonListener(JCheckBox runAllCheckBox){
+    this.runAllCheckBox = runAllCheckBox;
   }
   
   @Override
   public void actionPerformed(ActionEvent actionEvent) {
-    List<FinalDetector> l = new ArrayList<>();
-    
-    l.add(new SIFTDetector());
-    l.add(new SURFDetector());
-    l.add(new FASTDetector());
-    l.add(new BRISKDetector());
-    l.add(new MSERDetector());
-    l.add(new HarrisDetector());
-    String filename = "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001";
+    if(!runAllCheckBox.isSelected()){
+      singleRun("/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001");
+    } else {
+      for(String s : testCase){
+        singleRun("/home/eric/aati_final_database/benchmarks/endtoend/eu/" + s);
+      }
+    }
+  }
+  
+  private void singleRun(String filename){
+    /*File process*/
     String imageFilename = filename + ".jpg";
     String configFilename = filename + ".txt";
     Map<String, String> params = CSVReader.read(configFilename, "\t");
     String shortFilename = params.get(CSVReader.Column.FILENAME.name());
-    l.forEach(
+    /*Run the Match detector*/
+    detectorList.forEach(
       finalDetector -> finalDetector.detect(
         imageFilename,
         Integer.parseInt(params.get(CSVReader.Column.W.name())),
@@ -60,18 +72,5 @@ public class FinalButtonListener implements ActionListener {
         shortFilename.substring(0,shortFilename.length()-4)
       )
     );
-    
-    
-    /*int matchingDistance = 0;
-    double matchingPercentage = 0.0;
-    if (!matchingDistanceField.getText().equals("")) {
-      matchingDistance = Integer.parseInt(matchingDistanceField.getText());
-    }
-    if (!matchingPercentageField.getText().equals("")) {
-      matchingPercentage = Double.parseDouble(matchingPercentageField.getText());
-    }
-  
-    SIFT.getInstance().apply(matchingDistance,matchingPercentage, statusCheckBox.isSelected());*/
-  
   }
 }
