@@ -58,7 +58,7 @@ public class FinalButtonListener implements ActionListener {
         ignoreNeighboursCheckBox.isSelected()
       );
     } else {
-      HashMap<String, Map<String, Boolean>> resultAccum = new HashMap<>();
+      HashMap<String, Map<String, Integer>> resultAccum = new HashMap<>();
       for(String s : testCase){
         resultAccum.put(
           s,
@@ -72,12 +72,12 @@ public class FinalButtonListener implements ActionListener {
     }
   }
   
-  private Map<String, Boolean> singleRun(String filename, boolean ignoreNeighbours){
+  private Map<String, Integer> singleRun(String filename, boolean ignoreNeighbours){
     /*File process*/
     String imageFilename = filename + ".jpg";
     String configFilename = filename + ".txt";
     Map<String, String> params = CSVReader.read(configFilename, "\t");
-    Map<String, Boolean> results = new HashMap<>();
+    Map<String, Integer> results = new HashMap<>();
     String shortFilename = params.get(CSVReader.Column.FILENAME.name());
     /*Run the Match detector*/
     detectorList.forEach(

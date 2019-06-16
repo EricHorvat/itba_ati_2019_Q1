@@ -16,7 +16,7 @@ public abstract class FinalDetector {
   
   private static final int COLOR = Highgui.CV_LOAD_IMAGE_COLOR;
   
-  public Boolean detect(
+  public Integer detect(
     boolean ignoreNeighbours,
     String imageFilePath,
     String filename,
@@ -34,10 +34,14 @@ public abstract class FinalDetector {
   
     for (int i = 0; i < height/2; i++) {
       MatOfKeyPoint matOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, license);
-      saveKeyPoints(imageMat, matOfKeyPoint, filename, i+"");
+      if(matOfKeyPoint != null) {
+        saveKeyPoints(imageMat, matOfKeyPoint, filename, i + "");
+        //TODO return i;
+      }
     }
   
-    return false;
+    //TODO return -1
+    return 1;
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);
@@ -85,7 +89,7 @@ public abstract class FinalDetector {
       count++;
     }
     System.out.println("FOUND " + count);
-    MatOfKeyPoint mmmasd = new MatOfKeyPoint();
+    MatOfKeyPoint ansKeyPointMat = new MatOfKeyPoint();
     List<KeyPoint> ans = new ArrayList<>();
     for (KeyPoint key: map.keySet()) {
       ans.add(key);
@@ -94,8 +98,8 @@ public abstract class FinalDetector {
       ans.add(new KeyPoint((float)key.pt.x, (float)value.pt.y,1));
       ans.add(new KeyPoint((float)value.pt.x, (float)key.pt.y,1));
     }
-    mmmasd.fromList(ans);
-    return licenseMatch(license)?mmmasd:null;
+    ansKeyPointMat.fromList(ans);
+    return licenseMatch(license)?ansKeyPointMat:null;
     
   }
   

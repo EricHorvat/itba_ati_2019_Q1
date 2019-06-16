@@ -48,7 +48,6 @@ public class SIFT {
   
   
   public void apply(final int matchingDistance, final double matchingPercentage, final boolean showResults){
-    // Saving files! TODO VISUALIZATION OF PHOTOS!
     
     final Mat imageA = Highgui.imread(images[0].getFilePath(), COLOR);
     final Mat imageB = Highgui.imread(images[1].getFilePath(), COLOR);
@@ -84,7 +83,7 @@ public class SIFT {
       System.out.println("The images don't match");
     }
   
-    // Saving files! TODO Open them and show!
+    // Saving files!
     String resultA = saveKeyPoints(imageA, keyPointsImageA, "A");
     String resultB = saveKeyPoints(imageB, keyPointsImageB, "B");
     String matching = saveMatches(imageA, keyPointsImageA, imageB, keyPointsImageB, matchesList);

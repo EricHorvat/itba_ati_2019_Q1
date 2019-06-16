@@ -34,7 +34,6 @@ public abstract class ImageFrame extends ATIFrame {
       t.start();
       updateImage();
 		} else {
-			/*TODO THROW EXCEPTION*/
 			throw new RuntimeException("ATI IMAGE IS NULL");
 		}
 	}

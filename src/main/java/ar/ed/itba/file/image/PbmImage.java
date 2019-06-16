@@ -230,7 +230,6 @@ public class PbmImage extends PortableImage {
 	@Override
 	public ATIImage deepCopy() {
 		return new PbmImage(getImage().clone(), getWidth(), getHeight());
-		/*TODO HEADER, OUTPUT & bytecount*/
 	}
   
   @Override

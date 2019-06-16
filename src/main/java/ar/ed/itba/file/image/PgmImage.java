@@ -161,7 +161,6 @@ public class PgmImage extends PortableImage {
 	@Override
 	public ATIImage deepCopy() {
 		return new PgmImage(getImage().clone(), getWidth(), getHeight());
-		/*TODO HEADER, OUTPUT & bytecount*/
 	}
   
   @Override

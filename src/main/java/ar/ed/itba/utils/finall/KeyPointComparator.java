@@ -8,26 +8,30 @@ import java.util.Objects;
 public class KeyPointComparator implements Comparator<KeyPoint> {
   private boolean moreRight;
   private boolean moreDown;
+  private static final KeyPointComparator ULComparator = new KeyPointComparator (false,false);;
+  private static final KeyPointComparator URComparator = new KeyPointComparator (false,true);;
+  private static final KeyPointComparator DLComparator = new KeyPointComparator (true,false);;
+  private static final KeyPointComparator DRComparator = new KeyPointComparator (true,true);;
   
-  private KeyPointComparator(boolean moreRight, boolean moreDown) {
+  private KeyPointComparator(boolean moreDown, boolean moreRight) {
     this.moreRight = moreRight;
     this.moreDown = moreDown;
   }
   
   public static KeyPointComparator ULComparator(){
-    return new KeyPointComparator (false,false);
+    return ULComparator;
   }
   
   public static KeyPointComparator DLComparator(){
-    return new KeyPointComparator (false,true);
+    return DLComparator;
   }
   
   public static KeyPointComparator URComparator(){
-    return new KeyPointComparator (true,false);
+    return URComparator;
   }
   
   public static KeyPointComparator DRComparator(){
-    return new KeyPointComparator (true,true);
+    return DRComparator;
   }
   
   

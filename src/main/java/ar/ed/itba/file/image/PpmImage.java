@@ -259,7 +259,6 @@ public class PpmImage extends PortableImage {
 	@Override
 	public ATIImage deepCopy() {
 		return new PpmImage(getImage().clone(), getWidth(), getHeight());
-		/*TODO HEADER, OUTPUT & bytecount*/
 	}
   
   @Override
