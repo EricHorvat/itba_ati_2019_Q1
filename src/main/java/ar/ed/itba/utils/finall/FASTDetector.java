@@ -6,7 +6,7 @@ public class FASTDetector extends FinalDetector{
   
   public FASTDetector() {
     KEYPOINT_DETECTOR = FeatureDetector.create(FeatureDetector.FAST);
-    PREFIX = "FAST";
+    NAME = "FAST";
   
   }
   

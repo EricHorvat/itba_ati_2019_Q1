@@ -6,7 +6,7 @@ public class HarrisDetector extends FinalDetector{
   
   public HarrisDetector() {
     KEYPOINT_DETECTOR = FeatureDetector.create(FeatureDetector.HARRIS);
-    PREFIX = "Harris";
+    NAME = "Harris";
   
   }
   

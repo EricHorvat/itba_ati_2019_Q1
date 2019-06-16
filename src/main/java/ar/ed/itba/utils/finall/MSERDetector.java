@@ -6,7 +6,7 @@ public class MSERDetector extends FinalDetector{
   
   public MSERDetector() {
     KEYPOINT_DETECTOR = FeatureDetector.create(FeatureDetector.MSER);
-    PREFIX = "MSER";
+    NAME = "MSER";
   
   }
   

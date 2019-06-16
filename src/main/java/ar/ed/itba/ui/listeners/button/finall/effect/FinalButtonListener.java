@@ -15,12 +15,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FinalButtonListener implements ActionListener {
   
   private final JCheckBox runAllCheckBox;
+  private final JCheckBox ignoreNeighboursCheckBox;
   private static List<FinalDetector> detectorList;
   private static String[] testCase;
   
@@ -42,35 +45,52 @@ public class FinalButtonListener implements ActionListener {
     };
   }
   
-  public FinalButtonListener(JCheckBox runAllCheckBox){
+  public FinalButtonListener(JCheckBox runAllCheckBox, JCheckBox ignoreNeighboursCheckBox){
     this.runAllCheckBox = runAllCheckBox;
+    this.ignoreNeighboursCheckBox = ignoreNeighboursCheckBox;
   }
   
   @Override
   public void actionPerformed(ActionEvent actionEvent) {
     if(!runAllCheckBox.isSelected()){
-      singleRun("/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001");
+      singleRun(
+        "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001",
+        ignoreNeighboursCheckBox.isSelected()
+      );
     } else {
+      HashMap<String, Map<String, Boolean>> resultAccum = new HashMap<>();
       for(String s : testCase){
-        singleRun("/home/eric/aati_final_database/benchmarks/endtoend/eu/" + s);
+        resultAccum.put(
+          s,
+          singleRun(
+            "/home/eric/aati_final_database/benchmarks/endtoend/eu/" + s,
+            ignoreNeighboursCheckBox.isSelected()
+          )
+        );
       }
+      /*TODO GET RESULTS FOR THE TOTAL PROCESS*/
     }
   }
   
-  private void singleRun(String filename){
+  private Map<String, Boolean> singleRun(String filename, boolean ignoreNeighbours){
     /*File process*/
     String imageFilename = filename + ".jpg";
     String configFilename = filename + ".txt";
     Map<String, String> params = CSVReader.read(configFilename, "\t");
+    Map<String, Boolean> results = new HashMap<>();
     String shortFilename = params.get(CSVReader.Column.FILENAME.name());
     /*Run the Match detector*/
     detectorList.forEach(
-      finalDetector -> finalDetector.detect(
+      finalDetector -> results.put(finalDetector.getName(), finalDetector.detect(
+        ignoreNeighbours,
         imageFilename,
+        shortFilename.substring(0,shortFilename.length()-4),
+        params.get(CSVReader.Column.LICENSE.name()),
         Integer.parseInt(params.get(CSVReader.Column.W.name())),
-        Integer.parseInt(params.get(CSVReader.Column.H.name())),
-        shortFilename.substring(0,shortFilename.length()-4)
+        Integer.parseInt(params.get(CSVReader.Column.H.name()))
+        )
       )
     );
+    return results;
   }
 }

@@ -12,42 +12,50 @@ import java.util.stream.Collectors;
 public abstract class FinalDetector {
   
   protected FeatureDetector KEYPOINT_DETECTOR;
-  protected String PREFIX = "NOTPREFIX";
+  protected String NAME = "NOT_NAME";
   
   private static final int COLOR = Highgui.CV_LOAD_IMAGE_COLOR;
   
-  public MatOfKeyPoint detect(String imageFilePath, int width, int height, String filename){
-    System.out.println("Running " + PREFIX + "detect");
+  public Boolean detect(
+    boolean ignoreNeighbours,
+    String imageFilePath,
+    String filename,
+    String license,
+    int width,
+    int height
+  ){
+    System.out.println("Running " + NAME + "detect");
+    this.ignoreNeighbours = ignoreNeighbours;
     final Mat imageMat = Highgui.imread(imageFilePath, COLOR);
   
     // Calculate keypoints
     MatOfKeyPoint keyPointsImage = new MatOfKeyPoint();
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
-    
-    String resultA = saveKeyPoints(imageMat, keyPointsImage, filename, width, height);
-    return keyPointsImage;
+  
+    for (int i = 0; i < height/2; i++) {
+      MatOfKeyPoint matOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, license);
+      saveKeyPoints(imageMat, matOfKeyPoint, filename, i+"");
+    }
+  
+    return false;
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);
   
-  private String saveKeyPoints(final Mat image, final MatOfKeyPoint keyPoints, final String fileName, int width, int height) {
-    for (int i = 0; i < height/2; i++) {
-      Mat outputImage = new Mat(image.rows(), image.cols(), COLOR);
-      MatOfKeyPoint matOfKeyPoint = tryToMatch(keyPoints, width, height, i);
-      Features2d.drawKeypoints(image, matOfKeyPoint, outputImage, KEYPOINT_COLOR, 0);
-      String outputFileName = "./output/" + PREFIX + "_" + fileName + "_" + i +".png";
-      Highgui.imwrite(outputFileName, outputImage);
-      
-    }
-    return "outputFileName";
+  private void saveKeyPoints(final Mat image, final MatOfKeyPoint keyPoints, final String fileName, String... strings) {
+    Mat outputImage = new Mat(image.rows(), image.cols(), COLOR);
+    Features2d.drawKeypoints(image, keyPoints, outputImage, KEYPOINT_COLOR, 0);
+    String extra = Arrays.stream(strings).reduce("",(accum, elem) -> accum + "_" + elem);
+    String outputFileName = "./output/" + NAME + "_" + fileName + extra +".png";
+    Highgui.imwrite(outputFileName, outputImage);
+  
   }
   
-  private MatOfKeyPoint tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta){
+  private MatOfKeyPoint tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta, String license){
     List<KeyPoint> kList = kMat.toList();
     int count = 0;
     Map<KeyPoint, KeyPoint> map = new HashMap<>();
-    for (KeyPoint k : kList
-         ) {
+    for (KeyPoint k : kList) {
       if (mapContainsSomeNeighbour(k, map, delta)){
         continue;
       }
@@ -87,7 +95,8 @@ public abstract class FinalDetector {
       ans.add(new KeyPoint((float)value.pt.x, (float)key.pt.y,1));
     }
     mmmasd.fromList(ans);
-    return mmmasd;
+    return licenseMatch(license)?mmmasd:null;
+    
   }
   
   private boolean tryToMatch(KeyPoint kp, double x, double y, double delta){
@@ -95,14 +104,21 @@ public abstract class FinalDetector {
     return distance < delta;
   }
   
+  private boolean licenseMatch(String license){
+    return true; //TODO GET RECTANGLES AND ORIGINAL DATA AND DEFINE IF ANY MATCH
+  }
+  
   //WITH THIS, IF ACTIVE, IGNORE THE NEIGHBOURS, BUT WITH BIG d, IT IS A MESS
   // IF DEACTIVE SCAN TWO CLOSER KEYPOINTS AND PROBABLY THERE ARE (OR NOT) ALREADY THE LICENSE
-  private static boolean ACTIVE = false;
+  private boolean ignoreNeighbours = false;
   
   private boolean mapContainsSomeNeighbour(KeyPoint k, Map<KeyPoint,KeyPoint> map, double delta){
-    return ACTIVE && map.keySet().stream().anyMatch(keyPoint -> Math.sqrt(Math.pow(keyPoint.pt.x - k.pt.x,2) +
+    return ignoreNeighbours && map.keySet().stream().anyMatch(keyPoint -> Math.sqrt(Math.pow(keyPoint.pt.x - k.pt.x,2) +
       Math.pow(keyPoint.pt.y - k.pt.y,2)) < delta);
   }
   
+  public String getName(){
+    return NAME;
+  }
   
 }

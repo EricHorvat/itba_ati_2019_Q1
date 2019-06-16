@@ -6,7 +6,7 @@ public class BRISKDetector extends FinalDetector{
   
   public BRISKDetector() {
     KEYPOINT_DETECTOR = FeatureDetector.create(FeatureDetector.BRISK);
-    PREFIX = "BRISK";
+    NAME = "BRISK";
   }
   
 }

@@ -6,7 +6,7 @@ public class EIGENDetector extends FinalDetector{
   
   public EIGENDetector() {
     KEYPOINT_DETECTOR = FeatureDetector.create(FeatureDetector.HARRIS);
-    PREFIX = "EIGEN";
+    NAME = "EIGEN";
   }
   
 }

@@ -6,7 +6,7 @@ public class SURFDetector extends FinalDetector{
   
   public SURFDetector() {
     KEYPOINT_DETECTOR = FeatureDetector.create(FeatureDetector.SURF);
-    PREFIX = "SURF";
+    NAME = "SURF";
   
   }
   
