@@ -33,29 +33,30 @@ public abstract class FinalDetector {
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
   
     for (int i = 0; i < height/2; i++) {
-      MatOfKeyPoint matOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, license);
-      if(matOfKeyPoint != null) {
-        saveKeyPoints(imageMat, matOfKeyPoint, filename, i + "");
+      MatOfKeyPoint[] matsOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, license);
+      if(matsOfKeyPoint.length > 0) {
+        saveKeyPoints(imageMat, matsOfKeyPoint, filename, i + "");
         //TODO return i;
       }
     }
   
-    //TODO return -1
-    return 1;
+    return -1;
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);
+  private static final Scalar MATCH_KEYPOINT_COLOR = new Scalar(0, 0, 255);
   
-  private void saveKeyPoints(final Mat image, final MatOfKeyPoint keyPoints, final String fileName, String... strings) {
+  private void saveKeyPoints(final Mat image, final MatOfKeyPoint[] matsOfKeyPoints, final String fileName, String... strings) {
     Mat outputImage = new Mat(image.rows(), image.cols(), COLOR);
-    Features2d.drawKeypoints(image, keyPoints, outputImage, KEYPOINT_COLOR, 0);
+    Features2d.drawKeypoints(image, matsOfKeyPoints[0], outputImage, KEYPOINT_COLOR, 0);
+    //TODO ACTIVATE THIS Features2d.drawKeypoints(image, matsOfKeyPoints[1], outputImage, MATCH_KEYPOINT_COLOR, 0);
     String extra = Arrays.stream(strings).reduce("",(accum, elem) -> accum + "_" + elem);
     String outputFileName = "./output/" + NAME + "_" + fileName + extra +".png";
     Highgui.imwrite(outputFileName, outputImage);
   
   }
   
-  private MatOfKeyPoint tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta, String license){
+  private MatOfKeyPoint[] tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta, String license){
     List<KeyPoint> kList = kMat.toList();
     int count = 0;
     Map<KeyPoint, KeyPoint> map = new HashMap<>();
@@ -88,7 +89,7 @@ public abstract class FinalDetector {
       map.put(k,drList.get(0));
       count++;
     }
-    System.out.println("FOUND " + count);
+    System.out.println("FOUND " + count + "possible matches with " + delta + " delta");
     MatOfKeyPoint ansKeyPointMat = new MatOfKeyPoint();
     List<KeyPoint> ans = new ArrayList<>();
     for (KeyPoint key: map.keySet()) {
@@ -99,7 +100,7 @@ public abstract class FinalDetector {
       ans.add(new KeyPoint((float)value.pt.x, (float)key.pt.y,1));
     }
     ansKeyPointMat.fromList(ans);
-    return licenseMatch(license)?ansKeyPointMat:null;
+    return licenseMatch(license, ansKeyPointMat);
     
   }
   
@@ -108,8 +109,11 @@ public abstract class FinalDetector {
     return distance < delta;
   }
   
-  private boolean licenseMatch(String license){
-    return true; //TODO GET RECTANGLES AND ORIGINAL DATA AND DEFINE IF ANY MATCH
+  private MatOfKeyPoint[] licenseMatch(String license, MatOfKeyPoint matOfKeyPoint){
+    MatOfKeyPoint[] matsOfKeyPoint = new MatOfKeyPoint[2];
+    matsOfKeyPoint[0] = matOfKeyPoint;
+    //TODO GET RECTANGLES AND ORIGINAL DATA AND DEFINE IF ANY MATCH THEN RETURN MAT OF KETPOINTS & MAT OF MATCH KEYPOINTS
+    return matsOfKeyPoint;
   }
   
   //WITH THIS, IF ACTIVE, IGNORE THE NEIGHBOURS, BUT WITH BIG d, IT IS A MESS
