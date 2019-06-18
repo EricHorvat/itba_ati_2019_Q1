@@ -1,24 +1,18 @@
 package ar.ed.itba.ui.listeners.button.finall.effect;
 
-import ar.ed.itba.utils.detection.SIFT;
 import ar.ed.itba.utils.finall.*;
-import org.opencv.core.*;
-import org.opencv.core.Point;
-import org.opencv.features2d.Features2d;
-import org.opencv.features2d.KeyPoint;
-import org.opencv.highgui.Highgui;
-import org.opencv.imgproc.Imgproc;
-
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class FinalButtonListener implements ActionListener {
   
@@ -30,12 +24,12 @@ public class FinalButtonListener implements ActionListener {
   static {
     nu.pattern.OpenCV.loadLocally();
     detectorList = new ArrayList<>();
+    detectorList.add(new HarrisDetector());
+    detectorList.add(new BRISKDetector());
     detectorList.add(new SIFTDetector());
     detectorList.add(new SURFDetector());
     detectorList.add(new FASTDetector());
-    detectorList.add(new BRISKDetector());
     detectorList.add(new MSERDetector());
-    detectorList.add(new HarrisDetector());
     testCase = new String[] {
       "test_001",
       "test_002",
@@ -54,7 +48,7 @@ public class FinalButtonListener implements ActionListener {
   public void actionPerformed(ActionEvent actionEvent) {
     if(!runAllCheckBox.isSelected()){
       singleRun(
-        "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001",
+        "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_010",
         ignoreNeighboursCheckBox.isSelected()
       );
     } else {

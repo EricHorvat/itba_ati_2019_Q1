@@ -6,7 +6,10 @@ import org.opencv.features2d.Features2d;
 import org.opencv.features2d.KeyPoint;
 import org.opencv.highgui.Highgui;
 
+import java.awt.*;
+import java.io.File;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class FinalDetector {
@@ -33,7 +36,7 @@ public abstract class FinalDetector {
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
   
     for (int i = 0; i < height/2; i++) {
-      MatOfKeyPoint[] matsOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, license);
+      MatOfKeyPoint[] matsOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, imageFilePath, license);
       if(matsOfKeyPoint.length > 0) {
         saveKeyPoints(imageMat, matsOfKeyPoint, filename, i + "");
         //TODO return i;
@@ -49,14 +52,14 @@ public abstract class FinalDetector {
   private void saveKeyPoints(final Mat image, final MatOfKeyPoint[] matsOfKeyPoints, final String fileName, String... strings) {
     Mat outputImage = new Mat(image.rows(), image.cols(), COLOR);
     Features2d.drawKeypoints(image, matsOfKeyPoints[0], outputImage, KEYPOINT_COLOR, 0);
-    //TODO ACTIVATE THIS Features2d.drawKeypoints(image, matsOfKeyPoints[1], outputImage, MATCH_KEYPOINT_COLOR, 0);
+    Features2d.drawKeypoints(outputImage, matsOfKeyPoints[1], outputImage, MATCH_KEYPOINT_COLOR, 0);
     String extra = Arrays.stream(strings).reduce("",(accum, elem) -> accum + "_" + elem);
     String outputFileName = "./output/" + NAME + "_" + fileName + extra +".png";
     Highgui.imwrite(outputFileName, outputImage);
   
   }
   
-  private MatOfKeyPoint[] tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta, String license){
+  private MatOfKeyPoint[] tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta, String fullFilename, String license){
     List<KeyPoint> kList = kMat.toList();
     int count = 0;
     Map<KeyPoint, KeyPoint> map = new HashMap<>();
@@ -89,18 +92,8 @@ public abstract class FinalDetector {
       map.put(k,drList.get(0));
       count++;
     }
-    System.out.println("FOUND " + count + "possible matches with " + delta + " delta");
-    MatOfKeyPoint ansKeyPointMat = new MatOfKeyPoint();
-    List<KeyPoint> ans = new ArrayList<>();
-    for (KeyPoint key: map.keySet()) {
-      ans.add(key);
-      KeyPoint value = map.get(key);
-      ans.add(value);
-      ans.add(new KeyPoint((float)key.pt.x, (float)value.pt.y,1));
-      ans.add(new KeyPoint((float)value.pt.x, (float)key.pt.y,1));
-    }
-    ansKeyPointMat.fromList(ans);
-    return licenseMatch(license, ansKeyPointMat);
+    System.out.println("FOUND " + count + " possible matches with " + (int) delta + " delta");
+    return licenseMatch(fullFilename, license, map);
     
   }
   
@@ -109,10 +102,35 @@ public abstract class FinalDetector {
     return distance < delta;
   }
   
-  private MatOfKeyPoint[] licenseMatch(String license, MatOfKeyPoint matOfKeyPoint){
+  private MatOfKeyPoint[] licenseMatch(String fileName, String license, Map<KeyPoint, KeyPoint> map){
     MatOfKeyPoint[] matsOfKeyPoint = new MatOfKeyPoint[2];
-    matsOfKeyPoint[0] = matOfKeyPoint;
-    //TODO GET RECTANGLES AND ORIGINAL DATA AND DEFINE IF ANY MATCH THEN RETURN MAT OF KETPOINTS & MAT OF MATCH KEYPOINTS
+    List<KeyPoint> matchKeyPointList = new ArrayList<>();
+    List<KeyPoint> nonMatchKeyPointList = new ArrayList<>();
+    File file = new File(fileName);
+    for (KeyPoint key: map.keySet()) {
+      KeyPoint value = map.get(key);
+      List<KeyPoint> list = OCREngine
+                            .getInstance()
+                            .match( file,
+                              new Rectangle(
+                                (int) key.pt.x,
+                                (int) key.pt.y,
+                                (int) (value.pt.x - key.pt.x),
+                                (int) (value.pt.y - key.pt.y)),
+                              license) ?
+        matchKeyPointList :
+        nonMatchKeyPointList;
+      list.add(key);
+      list.add(value);
+      list.add(new KeyPoint((float)key.pt.x, (float)value.pt.y,1));
+      list.add(new KeyPoint((float)value.pt.x, (float)key.pt.y,1));
+    }
+    MatOfKeyPoint keyPointMat = new MatOfKeyPoint();
+    keyPointMat.fromList(nonMatchKeyPointList);
+    matsOfKeyPoint[0] = keyPointMat;
+    MatOfKeyPoint matchKeyPointMat = new MatOfKeyPoint();
+    matchKeyPointMat.fromList(matchKeyPointList);
+    matsOfKeyPoint[1] = matchKeyPointMat;
     return matsOfKeyPoint;
   }
   
