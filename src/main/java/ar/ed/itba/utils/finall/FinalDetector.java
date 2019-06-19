@@ -17,9 +17,12 @@ public abstract class FinalDetector {
   protected FeatureDetector KEYPOINT_DETECTOR;
   protected String NAME = "NOT_NAME";
   
+  public static final String TIME = "TIME";
+  public static final String ITERATIONS = "IT";
+  
   private static final int COLOR = Highgui.CV_LOAD_IMAGE_COLOR;
   
-  public Integer detect(
+  public Map<String,Long> detect(
     boolean ignoreNeighbours,
     String imageFilePath,
     String filename,
@@ -27,23 +30,28 @@ public abstract class FinalDetector {
     int width,
     int height
   ){
-    System.out.println("Running " + NAME + "detect");
+    HashMap<String, Long> map = new HashMap<>();
+    System.out.println("Running " + NAME + " detector");
     this.ignoreNeighbours = ignoreNeighbours;
     final Mat imageMat = Highgui.imread(imageFilePath, COLOR);
   
     // Calculate keypoints
+    long initTime = System.currentTimeMillis();
     MatOfKeyPoint keyPointsImage = new MatOfKeyPoint();
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
   
     for (int i = 0; i < height/2; i++) {
       MatOfKeyPoint[] matsOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, imageFilePath, license);
-      if(matsOfKeyPoint.length > 0) {
-        saveKeyPoints(imageMat, matsOfKeyPoint, filename, i + "");
-        //TODO return i;
+      saveKeyPoints(imageMat, matsOfKeyPoint, filename, i + "");
+      if(matsOfKeyPoint[1].toList().size() > 0) {
+        map.put(TIME, System.currentTimeMillis() - initTime);
+        map.put(ITERATIONS, (long)i);
+        return map;
       }
     }
-  
-    return -1;
+    map.put(TIME, System.currentTimeMillis() - initTime);
+    map.put(ITERATIONS, -1L);
+    return map;
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);

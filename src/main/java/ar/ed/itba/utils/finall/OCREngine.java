@@ -6,11 +6,9 @@ import net.sourceforge.tess4j.TesseractException;
 
 import java.awt.Rectangle;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class OCREngine {
   
@@ -69,14 +67,21 @@ public class OCREngine {
     for (int i = 0; i < original.length(); i++) {
       Character character = original.charAt(i);
       if(replacements.keySet().contains(character)){
-        List<String> strings = replacements
+        int finalI = i;
+        List<String> strings = (replacements
                                 .get(character)
                                 .stream()
-                                .map(replaceCharcater -> original.replace(character,replaceCharcater))// TODO ITERATE REPLACEMENT
+                                .map(replaceCharacter -> stringList.stream().map(s -> {
+                                  char[] arr = s.toCharArray();
+                                  arr[finalI] = replaceCharacter;
+                                  return new String(arr);
+                                })))
+                                .flatMap(stringStream -> stringStream)
                                 .collect(Collectors.toList());
         stringList.addAll(strings);
       }
     }
+    
     return stringList;
   }
   
