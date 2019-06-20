@@ -25,6 +25,7 @@ public class OCREngine {
   
   private OCREngine() {
     tesseract = new Tesseract();
+    tesseract.setOcrEngineMode(3);
     tesseract.setDatapath(System.getenv("TESSDATA_PREFIX"));
   }
   

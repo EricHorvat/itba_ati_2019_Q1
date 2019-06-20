@@ -57,9 +57,10 @@ public class KeyPointComparator implements Comparator<KeyPoint> {
    *      These example is UL, so the above equation is
    *      Double.compare((t1.pt.y - keyPoint.pt.y), (t1.pt.x - keyPoint.pt.x));
    *      So its moving origin to keyPoint, and see if t1 is above x = y (x <= y)
+   *      More over: UL above x = y (x <= y)
    *      More over: UR above -x = y (-x <= y)
-   *      More over: DL below x = y (x <= -y)
-   *      More over: DR below -x = y (-x <= -y ==> x >= y)
+   *      More over: DR below x = y (-x <= -y ==> x >= y)
+   *      More over: DL below -x = y (x <= -y ==> -x >= y)
    *
    *                               .;;.                     ':llc.               .l0Ol.
    *                              .kMMx.                   'xXWMMN:              .kMMx.           .:xx;

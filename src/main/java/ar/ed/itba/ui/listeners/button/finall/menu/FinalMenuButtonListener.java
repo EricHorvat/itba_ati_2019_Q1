@@ -12,7 +12,9 @@ public class FinalMenuButtonListener extends ATIMenuOptionsButtonListener {
     options.add(runAllCheckBox);
     JCheckBox ignoreNeighbours = new JCheckBox("Ignore Neighbours");
     options.add(ignoreNeighbours);
-    options.add(MenuOptionButtonFactory.finalMenuOptionButton(runAllCheckBox, ignoreNeighbours));
+    JCheckBox withDelta = new JCheckBox("With Delta",true);
+    options.add(withDelta);
+    options.add(MenuOptionButtonFactory.finalMenuOptionButton(runAllCheckBox, ignoreNeighbours, withDelta));
 	}
 	
 }

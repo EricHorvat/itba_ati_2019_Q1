@@ -19,11 +19,13 @@ public abstract class FinalDetector {
   
   public static final String TIME = "TIME";
   public static final String ITERATIONS = "IT";
+  public static final String FOUND = "FOUND";
   
   private static final int COLOR = Highgui.CV_LOAD_IMAGE_COLOR;
   
   public Map<String,Long> detect(
     boolean ignoreNeighbours,
+    boolean withDelta,
     String imageFilePath,
     String filename,
     String license,
@@ -40,18 +42,25 @@ public abstract class FinalDetector {
     MatOfKeyPoint keyPointsImage = new MatOfKeyPoint();
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
   
-    for (int i = 0; i < height/2; i++) {
+    long i = 0;
+    for (; i < deltaMax(withDelta,height); i++) {
       MatOfKeyPoint[] matsOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, imageFilePath, license);
       saveKeyPoints(imageMat, matsOfKeyPoint, filename, i + "");
       if(matsOfKeyPoint[1].toList().size() > 0) {
         map.put(TIME, System.currentTimeMillis() - initTime);
-        map.put(ITERATIONS, (long)i);
+        map.put(ITERATIONS, i+1);
+        map.put(FOUND, 1L);
         return map;
       }
     }
     map.put(TIME, System.currentTimeMillis() - initTime);
-    map.put(ITERATIONS, -1L);
+    map.put(ITERATIONS, i);
+    map.put(FOUND, -1L);
     return map;
+  }
+  
+  private double deltaMax(boolean active, int height){
+    return active?height:1.0;
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);
@@ -76,17 +85,30 @@ public abstract class FinalDetector {
         continue;
       }
     
-      List<KeyPoint> urList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y, delta)).collect(Collectors.toList());
+      List<KeyPoint> urList = kList
+                              .stream()
+                              .filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y, delta))
+                              .filter(kp -> kp.pt.x - k.pt.x > width)
+                              .collect(Collectors.toList());
       Set<KeyPoint> urSet = new TreeSet<>(KeyPointComparator.URComparator());
       urSet.addAll(urList);
       urList = new ArrayList<>(urSet);
   
-      List<KeyPoint> dlList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x, k.pt.y + height, delta)).collect(Collectors.toList());
+      List<KeyPoint> dlList = kList
+                              .stream()
+                              .filter(kp -> this.tryToMatch(kp, k.pt.x, k.pt.y + height, delta))
+                              .filter(kp -> kp.pt.y - k.pt.y > height)
+                              .collect(Collectors.toList());
       Set<KeyPoint> dlSet = new TreeSet<>(KeyPointComparator.DLComparator());
       dlSet.addAll(dlList);
       dlList = new ArrayList<>(dlSet);
   
-      List<KeyPoint> drList = kList.stream().filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y + height, delta)).collect(Collectors.toList());
+      List<KeyPoint> drList = kList
+                              .stream()
+                              .filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y + height, delta))
+                              .filter(kp -> kp.pt.x - k.pt.x > width)
+                              .filter(kp -> kp.pt.y - k.pt.y > height)
+                              .collect(Collectors.toList());
       Set<KeyPoint> drSet = new TreeSet<>(KeyPointComparator.DRComparator());
       drSet.addAll(drList);
       drList = new ArrayList<>(drSet);

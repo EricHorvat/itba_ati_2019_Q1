@@ -21,8 +21,10 @@ public class FinalButtonListener implements ActionListener {
   
   private final JCheckBox runAllCheckBox;
   private final JCheckBox ignoreNeighboursCheckBox;
+  private final JCheckBox withDeltaCheckBox;
   private static List<FinalDetector> detectorList;
-  private static String[] testCase;
+  //private static String[] testCase;
+  private static List<String> testCase = new ArrayList<>();
   
   static {
     nu.pattern.OpenCV.loadLocally();
@@ -31,20 +33,17 @@ public class FinalButtonListener implements ActionListener {
     detectorList.add(new BRISKDetector());
     detectorList.add(new SIFTDetector());
     detectorList.add(new SURFDetector());
-    detectorList.add(new FASTDetector());
     detectorList.add(new MSERDetector());
-    testCase = new String[] {
-      "test_001",
-      "test_002",
-      "test_003",
-      "test_004",
-      "test_005"
-    };
+    detectorList.add(new FASTDetector());
+    for (int i = 1; i <= 20; i++) {
+      testCase.add(String.format("test_0%02d",i));
+    }
   }
   
-  public FinalButtonListener(JCheckBox runAllCheckBox, JCheckBox ignoreNeighboursCheckBox){
+  public FinalButtonListener(JCheckBox runAllCheckBox, JCheckBox ignoreNeighboursCheckBox, JCheckBox withDeltaCheckBox){
     this.runAllCheckBox = runAllCheckBox;
     this.ignoreNeighboursCheckBox = ignoreNeighboursCheckBox;
+    this.withDeltaCheckBox = withDeltaCheckBox;
   }
   
   @Override
@@ -53,8 +52,9 @@ public class FinalButtonListener implements ActionListener {
     if(!runAllCheckBox.isSelected()){
       resultAccum.put("",
         singleRun(
-        "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_010",
-                ignoreNeighboursCheckBox.isSelected()
+        "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001",
+          ignoreNeighboursCheckBox.isSelected(),
+          withDeltaCheckBox.isSelected()
         )
       );
     } else {
@@ -63,7 +63,8 @@ public class FinalButtonListener implements ActionListener {
           s,
           singleRun(
             "/home/eric/aati_final_database/benchmarks/endtoend/eu/" + s,
-            ignoreNeighboursCheckBox.isSelected()
+            ignoreNeighboursCheckBox.isSelected(),
+            withDeltaCheckBox.isSelected()
           )
         );
       }
@@ -71,7 +72,7 @@ public class FinalButtonListener implements ActionListener {
     printResults(resultAccum);
   }
   
-  private Map<String, Map<String,Long>> singleRun(String filename, boolean ignoreNeighbours){
+  private Map<String, Map<String,Long>> singleRun(String filename, boolean ignoreNeighbours, boolean withDelta){
     /*File process*/
     String imageFilename = filename + ".jpg";
     String configFilename = filename + ".txt";
@@ -82,6 +83,7 @@ public class FinalButtonListener implements ActionListener {
     detectorList.forEach(
       finalDetector -> results.put(finalDetector.getName(), finalDetector.detect(
         ignoreNeighbours,
+        withDelta,
         imageFilename,
         shortFilename.substring(0,shortFilename.length()-4),
         params.get(CSVReader.Column.LICENSE.name()),
@@ -107,18 +109,23 @@ public class FinalButtonListener implements ActionListener {
     for (String detector : ansMap.keySet()) {
       List<Long> timeList = ansMap.get(detector).stream().map(stringLongMap -> stringLongMap.get(FinalDetector.TIME)).collect(Collectors.toList());
       List<Long> iterList = ansMap.get(detector).stream().map(stringLongMap -> stringLongMap.get(FinalDetector.ITERATIONS)).collect(Collectors.toList());
-      int originalSize = iterList.size();
-      iterList = iterList.stream().filter(i -> i > 0).collect(Collectors.toList());
-      Double averageTime = timeList.stream().mapToLong(Long::longValue).average().orElse(0);
-      double stdTime = Math.sqrt(timeList.stream().mapToDouble(i -> Math.pow(i - averageTime,2)).sum()/(timeList.size() - 1));
-      Double averageIt = iterList.stream().mapToLong(Long::longValue).average().orElse(0);
-      double stdIt = Math.sqrt(iterList.stream().mapToDouble(i -> Math.pow(i - averageIt,2)).sum()/(iterList.size() - 1));
+      List<Long> foundList = ansMap.get(detector).stream()
+        .filter(stringLongMap -> stringLongMap.get(FinalDetector.FOUND) > 0)
+        .map(stringLongMap -> stringLongMap.get(FinalDetector.ITERATIONS))
+        .collect(Collectors.toList());
+      long found = foundList.size();
       System.out.println(detector);
-      System.out.println("Found " + iterList.size() + "/" + originalSize + "(" + iterList.size()/originalSize + ")");
-      System.out.println("Average " + averageIt);
-      System.out.println("Std" + stdIt);
-      System.out.println("Average time " + averageTime);
-      System.out.println("Std time" + stdTime);
+      System.out.println("Found " + found + "/" + iterList.size() + "(" + 1.0*found/iterList.size() + ")");
+      printList("Full iter", iterList);
+      printList("Found iter", foundList);
+      printList("Time", timeList);
     }
+  }
+  
+  private void printList(String prefix, List<?> list){
+    System.out.print(prefix);
+    System.out.print(" [");
+    list.forEach(e -> System.out.print(e.toString()+","));
+    System.out.println("]");
   }
 }
