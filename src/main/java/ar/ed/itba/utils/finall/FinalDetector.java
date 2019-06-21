@@ -1,5 +1,6 @@
 package ar.ed.itba.utils.finall;
 
+import javafx.util.Pair;
 import org.opencv.core.*;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.features2d.Features2d;
@@ -20,6 +21,7 @@ public abstract class FinalDetector {
   public static final String TIME = "TIME";
   public static final String ITERATIONS = "IT";
   public static final String FOUND = "FOUND";
+  public static final String RECTANGLE_TRIES = "R_TRIES";
   
   private static final int COLOR = Highgui.CV_LOAD_IMAGE_COLOR;
   
@@ -41,21 +43,26 @@ public abstract class FinalDetector {
     long initTime = System.currentTimeMillis();
     MatOfKeyPoint keyPointsImage = new MatOfKeyPoint();
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
+    Integer rectangleTries = 0;
   
     long i = 0;
     for (; i < deltaMax(withDelta,height); i++) {
-      MatOfKeyPoint[] matsOfKeyPoint = tryToMatch(keyPointsImage, width, height, i, imageFilePath, license);
+      Pair<Integer,MatOfKeyPoint[]> pair = tryToMatch(keyPointsImage, width, height, i, imageFilePath, license);
+      rectangleTries += pair.getKey();
+      MatOfKeyPoint[] matsOfKeyPoint = pair.getValue();
       saveKeyPoints(imageMat, matsOfKeyPoint, filename, i + "");
       if(matsOfKeyPoint[1].toList().size() > 0) {
         map.put(TIME, System.currentTimeMillis() - initTime);
         map.put(ITERATIONS, i+1);
         map.put(FOUND, 1L);
+        map.put(RECTANGLE_TRIES, rectangleTries.longValue());
         return map;
       }
     }
     map.put(TIME, System.currentTimeMillis() - initTime);
     map.put(ITERATIONS, i);
     map.put(FOUND, -1L);
+    map.put(RECTANGLE_TRIES, rectangleTries.longValue());
     return map;
   }
   
@@ -76,7 +83,7 @@ public abstract class FinalDetector {
   
   }
   
-  private MatOfKeyPoint[] tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta, String fullFilename, String license){
+  private Pair<Integer,MatOfKeyPoint[]> tryToMatch(MatOfKeyPoint kMat, int width, int height, double delta, String fullFilename, String license){
     List<KeyPoint> kList = kMat.toList();
     int count = 0;
     Map<KeyPoint, KeyPoint> map = new HashMap<>();
@@ -84,11 +91,11 @@ public abstract class FinalDetector {
       if (mapContainsSomeNeighbour(k, map, delta)){
         continue;
       }
-    
+      double factor = 0.6;
       List<KeyPoint> urList = kList
                               .stream()
                               .filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y, delta))
-                              .filter(kp -> kp.pt.x - k.pt.x > width)
+                              .filter(kp -> kp.pt.x - k.pt.x > width * factor)
                               .collect(Collectors.toList());
       Set<KeyPoint> urSet = new TreeSet<>(KeyPointComparator.URComparator());
       urSet.addAll(urList);
@@ -97,7 +104,7 @@ public abstract class FinalDetector {
       List<KeyPoint> dlList = kList
                               .stream()
                               .filter(kp -> this.tryToMatch(kp, k.pt.x, k.pt.y + height, delta))
-                              .filter(kp -> kp.pt.y - k.pt.y > height)
+                              .filter(kp -> kp.pt.y - k.pt.y > height * factor)
                               .collect(Collectors.toList());
       Set<KeyPoint> dlSet = new TreeSet<>(KeyPointComparator.DLComparator());
       dlSet.addAll(dlList);
@@ -106,8 +113,8 @@ public abstract class FinalDetector {
       List<KeyPoint> drList = kList
                               .stream()
                               .filter(kp -> this.tryToMatch(kp, k.pt.x + width, k.pt.y + height, delta))
-                              .filter(kp -> kp.pt.x - k.pt.x > width)
-                              .filter(kp -> kp.pt.y - k.pt.y > height)
+                              .filter(kp -> kp.pt.x - k.pt.x > width * factor)
+                              .filter(kp -> kp.pt.y - k.pt.y > height * factor)
                               .collect(Collectors.toList());
       Set<KeyPoint> drSet = new TreeSet<>(KeyPointComparator.DRComparator());
       drSet.addAll(drList);
@@ -123,7 +130,7 @@ public abstract class FinalDetector {
       count++;
     }
     System.out.println("FOUND " + count + " possible matches with " + (int) delta + " delta");
-    return licenseMatch(fullFilename, license, map);
+    return new Pair<>(count,licenseMatch(fullFilename, license, map));
     
   }
   
@@ -170,7 +177,7 @@ public abstract class FinalDetector {
   
   private boolean mapContainsSomeNeighbour(KeyPoint k, Map<KeyPoint,KeyPoint> map, double delta){
     return ignoreNeighbours && map.keySet().stream().anyMatch(keyPoint -> Math.sqrt(Math.pow(keyPoint.pt.x - k.pt.x,2) +
-      Math.pow(keyPoint.pt.y - k.pt.y,2)) < delta);
+      Math.pow(keyPoint.pt.y - k.pt.y,2)) < delta / 4);
   }
   
   public String getName(){

@@ -35,7 +35,8 @@ public class FinalButtonListener implements ActionListener {
     detectorList.add(new SURFDetector());
     detectorList.add(new MSERDetector());
     detectorList.add(new FASTDetector());
-    for (int i = 1; i <= 20; i++) {
+    int test_size = 5;
+    for (int i = 1; i <= test_size; i++) {
       testCase.add(String.format("test_0%02d",i));
     }
   }
@@ -109,6 +110,7 @@ public class FinalButtonListener implements ActionListener {
     for (String detector : ansMap.keySet()) {
       List<Long> timeList = ansMap.get(detector).stream().map(stringLongMap -> stringLongMap.get(FinalDetector.TIME)).collect(Collectors.toList());
       List<Long> iterList = ansMap.get(detector).stream().map(stringLongMap -> stringLongMap.get(FinalDetector.ITERATIONS)).collect(Collectors.toList());
+      List<Long> triesList = ansMap.get(detector).stream().map(stringLongMap -> stringLongMap.get(FinalDetector.RECTANGLE_TRIES)).collect(Collectors.toList());
       List<Long> foundList = ansMap.get(detector).stream()
         .filter(stringLongMap -> stringLongMap.get(FinalDetector.FOUND) > 0)
         .map(stringLongMap -> stringLongMap.get(FinalDetector.ITERATIONS))
@@ -119,6 +121,7 @@ public class FinalButtonListener implements ActionListener {
       printList("Full iter", iterList);
       printList("Found iter", foundList);
       printList("Time", timeList);
+      printList("Rectangle tries", triesList);
     }
   }
   
