@@ -9,22 +9,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class FinalButtonListener implements ActionListener {
   
-  private final JCheckBox runAllCheckBox;
   private final JCheckBox ignoreNeighboursCheckBox;
-  private final JCheckBox withDeltaCheckBox;
+  private final JCheckBox useOnlyHarrisCheckBox;
+  private final JTextField fromTextField;
+  private final JTextField toTextField;
+  private final JTextField fromDTextField;
+  private final JTextField toDTextField;
   private static List<FinalDetector> detectorList;
-  //private static String[] testCase;
-  private static List<String> testCase = new ArrayList<>();
   
   static {
     nu.pattern.OpenCV.loadLocally();
@@ -35,45 +34,52 @@ public class FinalButtonListener implements ActionListener {
     detectorList.add(new SURFDetector());
     detectorList.add(new MSERDetector());
     detectorList.add(new FASTDetector());
-    int test_size = 5;
-    for (int i = 1; i <= test_size; i++) {
-      testCase.add(String.format("test_0%02d",i));
-    }
   }
   
-  public FinalButtonListener(JCheckBox runAllCheckBox, JCheckBox ignoreNeighboursCheckBox, JCheckBox withDeltaCheckBox){
-    this.runAllCheckBox = runAllCheckBox;
+  public FinalButtonListener(JCheckBox ignoreNeighboursCheckBox,
+                             JCheckBox useOnlyHarrisCheckBox,
+                             JTextField fromTextField,
+                             JTextField toTextField,
+                             JTextField fromDTextField,
+                             JTextField toDTextField){
     this.ignoreNeighboursCheckBox = ignoreNeighboursCheckBox;
-    this.withDeltaCheckBox = withDeltaCheckBox;
+    this.useOnlyHarrisCheckBox = useOnlyHarrisCheckBox;
+    this.fromTextField = fromTextField;
+    this.toTextField = toTextField;
+    this.fromDTextField = fromDTextField;
+    this.toDTextField = toDTextField;
   }
   
   @Override
   public void actionPerformed(ActionEvent actionEvent) {
     HashMap<String, Map<String, Map<String, Long>>> resultAccum = new HashMap<>();
-    if(!runAllCheckBox.isSelected()){
-      resultAccum.put("",
+  
+    int test_from = fromTextField.getText().length()==0?1:Integer.parseInt(fromTextField.getText());
+    int test_to = toTextField.getText().length()==0?5:Integer.parseInt(toTextField.getText());
+    int test_from_D = fromDTextField.getText().length()==0?0:Integer.parseInt(fromDTextField.getText());
+    int test_to_D = toDTextField.getText().length()==0?-1:Integer.parseInt(toDTextField.getText());
+  
+    for (int i = test_from; i <= test_to; i++) {
+      String s = String.format("test_%03d",i);
+      resultAccum.put(
+        s,
         singleRun(
-        "/home/eric/aati_final_database/benchmarks/endtoend/eu/test_001",
+          "/home/eric/aati_final_database/benchmarks/endtoend/eu/" + s,
           ignoreNeighboursCheckBox.isSelected(),
-          withDeltaCheckBox.isSelected()
+          useOnlyHarrisCheckBox.isSelected(),
+          test_from_D,
+          test_to_D
         )
       );
-    } else {
-      for(String s : testCase){
-        resultAccum.put(
-          s,
-          singleRun(
-            "/home/eric/aati_final_database/benchmarks/endtoend/eu/" + s,
-            ignoreNeighboursCheckBox.isSelected(),
-            withDeltaCheckBox.isSelected()
-          )
-        );
-      }
     }
     printResults(resultAccum);
   }
   
-  private Map<String, Map<String,Long>> singleRun(String filename, boolean ignoreNeighbours, boolean withDelta){
+  private Map<String, Map<String,Long>> singleRun(String filename,
+                                                  boolean ignoreNeighbours,
+                                                  boolean useHarrisOnly,
+                                                  int test_from_D,
+                                                  int test_to_D){
     /*File process*/
     String imageFilename = filename + ".jpg";
     String configFilename = filename + ".txt";
@@ -81,15 +87,19 @@ public class FinalButtonListener implements ActionListener {
     Map<String, Map<String,Long>> results = new HashMap<>();
     String shortFilename = params.get(CSVReader.Column.FILENAME.name());
     /*Run the Match detector*/
-    detectorList.forEach(
+    detectorList.
+      stream().
+      filter(finalDetector -> useHarrisOnly && finalDetector.getName().equals("Harris")).
+      forEach(
       finalDetector -> results.put(finalDetector.getName(), finalDetector.detect(
         ignoreNeighbours,
-        withDelta,
         imageFilename,
         shortFilename.substring(0,shortFilename.length()-4),
         params.get(CSVReader.Column.LICENSE.name()),
         Integer.parseInt(params.get(CSVReader.Column.W.name())),
-        Integer.parseInt(params.get(CSVReader.Column.H.name()))
+        Integer.parseInt(params.get(CSVReader.Column.H.name())),
+        test_from_D,
+        test_to_D
         )
       )
     );

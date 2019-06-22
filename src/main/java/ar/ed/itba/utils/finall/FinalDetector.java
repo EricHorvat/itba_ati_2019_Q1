@@ -27,12 +27,13 @@ public abstract class FinalDetector {
   
   public Map<String,Long> detect(
     boolean ignoreNeighbours,
-    boolean withDelta,
     String imageFilePath,
     String filename,
     String license,
     int width,
-    int height
+    int height,
+    int test_from_D,
+    int test_to_D
   ){
     HashMap<String, Long> map = new HashMap<>();
     System.out.println("Running " + NAME + " detector");
@@ -45,29 +46,30 @@ public abstract class FinalDetector {
     KEYPOINT_DETECTOR.detect(imageMat, keyPointsImage);
     Integer rectangleTries = 0;
   
-    long i = 0;
-    for (; i < deltaMax(withDelta,height); i++) {
+    long count = 0;
+    for (long i = test_from_D; i < deltaMax(test_to_D,height); i++) {
       Pair<Integer,MatOfKeyPoint[]> pair = tryToMatch(keyPointsImage, width, height, i, imageFilePath, license);
       rectangleTries += pair.getKey();
       MatOfKeyPoint[] matsOfKeyPoint = pair.getValue();
       saveKeyPoints(imageMat, matsOfKeyPoint, filename, i + "");
+      count++;
       if(matsOfKeyPoint[1].toList().size() > 0) {
         map.put(TIME, System.currentTimeMillis() - initTime);
-        map.put(ITERATIONS, i+1);
+        map.put(ITERATIONS, count);
         map.put(FOUND, 1L);
         map.put(RECTANGLE_TRIES, rectangleTries.longValue());
         return map;
       }
     }
     map.put(TIME, System.currentTimeMillis() - initTime);
-    map.put(ITERATIONS, i);
+    map.put(ITERATIONS, count);
     map.put(FOUND, -1L);
     map.put(RECTANGLE_TRIES, rectangleTries.longValue());
     return map;
   }
   
-  private double deltaMax(boolean active, int height){
-    return active?height:1.0;
+  private double deltaMax(int test_to_D, int height){
+    return test_to_D<=-1?height:test_to_D;
   }
   
   private static final Scalar KEYPOINT_COLOR = new Scalar(0, 255);

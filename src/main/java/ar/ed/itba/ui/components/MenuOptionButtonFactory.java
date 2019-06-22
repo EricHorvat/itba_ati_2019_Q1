@@ -489,10 +489,22 @@ public final class MenuOptionButtonFactory {
 	
 	/* END FILTER */
   /* FINAL */
-  public static JButton finalMenuOptionButton(JCheckBox runAllCheckBox,
-                                              JCheckBox ignoreNeighbourCheckBox,
-                                              JCheckBox withDeltaCheckBox){
-    return generateButton(new FinalButtonListener(runAllCheckBox, ignoreNeighbourCheckBox, withDeltaCheckBox));
+  public static JButton finalMenuOptionButton(JCheckBox ignoreNeighbourCheckBox,
+                                              JCheckBox useOnlyHarrisCheckBox,
+                                              JTextField fromTextField,
+                                              JTextField toTextField,
+                                              JTextField fromDTextField,
+                                              JTextField toDTextField){
+    return generateButton(
+      new FinalButtonListener(
+        ignoreNeighbourCheckBox,
+        useOnlyHarrisCheckBox,
+        fromTextField,
+        toTextField,
+        fromDTextField,
+        toDTextField
+      )
+    );
   }
   /* END FINAL */
 	/*Utils*/
